@@ -1,0 +1,10 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "Set-Content": true,
+        "npx next": true,
+        "/^node --env-file=\\.env scripts/test-stock-deduction\\.mjs; echo \"Exit code: \\$LASTEXITCODE\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

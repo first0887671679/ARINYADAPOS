@@ -1,0 +1,24 @@
+{
+  "name": "ระบบ POS ร้านแบตเตอรี่",
+  "short_name": "ARINYADA POS",
+  "description": "ระบบบริหารงานขายร้านแบตเตอรี่รถยนต์",
+  "start_url": "/pos",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/api/pwa-icon?size=192&v=3",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/api/pwa-icon?size=512&v=3",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

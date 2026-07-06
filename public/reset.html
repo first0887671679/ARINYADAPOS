@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Clearing cache...</title></head>
+<body>
+<h2 style="text-align:center;margin-top:40vh;font-family:sans-serif;color:#666">
+กำลังล้าง cache กรุณารอสักครู่...
+</h2>
+<script>
+(async function() {
+  // 1. Unregister ALL service workers
+  if ('serviceWorker' in navigator) {
+    var regs = await navigator.serviceWorker.getRegistrations();
+    for (var r of regs) { await r.unregister(); }
+    console.log('SW unregistered:', regs.length);
+  }
+  // 2. Delete ALL caches
+  if ('caches' in window) {
+    var keys = await caches.keys();
+    for (var k of keys) { await caches.delete(k); }
+    console.log('Caches deleted:', keys.length);
+  }
+  // 3. Clear storage
+  try { localStorage.clear(); } catch(e) {}
+  try { sessionStorage.clear(); } catch(e) {}
+  // 4. Redirect to /pos with cache-bust
+  console.log('All cleared! Redirecting...');
+  window.location.replace('/pos?_cleared=' + Date.now());
+})();
+</script>
+</body>
+</html>
