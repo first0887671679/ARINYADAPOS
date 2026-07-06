@@ -19,7 +19,6 @@ export default function LineSettings({ initialSettings }: { initialSettings: any
   const [showSales, setShowSales] = useState(initialSettings?.lineReportSales ?? true);
   const [showQuantity, setShowQuantity] = useState(initialSettings?.lineReportQuantity ?? true);
   const [showProducts, setShowProducts] = useState(initialSettings?.lineReportProducts ?? true);
-  const [showModel, setShowModel] = useState(initialSettings?.lineReportModel ?? true);
   const [reportTimes, setReportTimes] = useState<string[]>(() => {
     const raw = initialSettings?.lineReportTime || "18:00";
     return raw.split(",").map((t: string) => t.trim()).filter(Boolean);
@@ -60,7 +59,6 @@ export default function LineSettings({ initialSettings }: { initialSettings: any
       lineReportSales: showSales,
       lineReportQuantity: showQuantity,
       lineReportProducts: showProducts,
-      lineReportModel: showModel,
       lineReportTime: reportTimes.join(","),
       lineReportEnabled: autoSend,
     });
@@ -229,14 +227,6 @@ export default function LineSettings({ initialSettings }: { initialSettings: any
                 className="border-green-400 data-[state=checked]:bg-green-500"
               />
               <span>ชื่อสินค้า</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer text-sm">
-              <Checkbox
-                checked={showModel}
-                onCheckedChange={(v: boolean | "indeterminate") => setShowModel(!!v)}
-                className="border-green-400 data-[state=checked]:bg-green-500"
-              />
-              <span>ชื่อรุ่น</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer text-sm">
               <Checkbox

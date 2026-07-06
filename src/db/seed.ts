@@ -25,36 +25,37 @@ async function seed() {
   ]).onConflictDoNothing();
   console.log("✅ Employees seeded");
 
-  // 2. Seed categories
+  // 2. Seed categories (หมวดบริการทำการตลาด)
   await db.insert(categories).values([
-    { name: "แบตเตอรี่รถยนต์", description: "แบตเตอรี่สำหรับรถยนต์ทั่วไป" },
-    { name: "แบตเตอรี่รถกระบะ", description: "แบตเตอรี่สำหรับรถกระบะ" },
-    { name: "แบตเตอรี่รถบรรทุก", description: "แบตเตอรี่สำหรับรถบรรทุก" },
-    { name: "แบตเตอรี่มอเตอร์ไซค์", description: "แบตเตอรี่สำหรับมอเตอร์ไซค์" },
-    { name: "อุปกรณ์เสริม", description: "อุปกรณ์เสริมสำหรับแบตเตอรี่" },
+    { name: "Social Media Marketing", description: "การตลาดผ่านโซเชียลมีเดีย" },
+    { name: "SEO", description: "การปรับแต่งเว็บไซต์ให้ติดอันดับ Google" },
+    { name: "Content Creation", description: "การสร้างคอนเทนต์" },
+    { name: "Graphic Design", description: "ออกแบบกราฟิก" },
+    { name: "Ads Management", description: "จัดการโฆษณาออนไลน์" },
   ]).onConflictDoNothing();
   console.log("✅ Categories seeded");
 
-  // 3. Seed products
+  // 3. Seed products (แพ็กเกจบริการ)
   await db.insert(products).values([
-    { name: "FB Gold 60Ah", brand: "FB", model: "Gold", size: "60Ah", costPrice: "2200.00", sellPrice: "2800.00", stock: 15, categoryId: 1, warranty: "18 เดือน" },
-    { name: "FB Gold 75Ah", brand: "FB", model: "Gold", size: "75Ah", costPrice: "2800.00", sellPrice: "3500.00", stock: 10, categoryId: 1, warranty: "18 เดือน" },
-    { name: "FB Premium Gold 80Ah", brand: "FB", model: "Premium Gold", size: "80Ah", costPrice: "3500.00", sellPrice: "4200.00", stock: 8, categoryId: 2, warranty: "24 เดือน" },
-    { name: "3K Silver 60Ah", brand: "3K", model: "Silver", size: "60Ah", costPrice: "1800.00", sellPrice: "2400.00", stock: 20, categoryId: 1, warranty: "12 เดือน" },
-    { name: "3K Silver 75Ah", brand: "3K", model: "Silver", size: "75Ah", costPrice: "2300.00", sellPrice: "2900.00", stock: 12, categoryId: 1, warranty: "12 เดือน" },
-    { name: "GS Maintenance Free 80Ah", brand: "GS", model: "MF", size: "80Ah", costPrice: "2600.00", sellPrice: "3200.00", stock: 5, categoryId: 2, warranty: "15 เดือน" },
-    { name: "Panasonic Caos 100D26L", brand: "Panasonic", model: "Caos", size: "100D26L", costPrice: "3800.00", sellPrice: "4800.00", stock: 3, categoryId: 2, warranty: "24 เดือน" },
-    { name: "Yuasa YTX5L-BS", brand: "Yuasa", model: "YTX5L-BS", size: "5Ah", costPrice: "450.00", sellPrice: "650.00", stock: 25, categoryId: 4, warranty: "6 เดือน" },
-    { name: "FB N150", brand: "FB", model: "N150", size: "150Ah", costPrice: "4500.00", sellPrice: "5500.00", stock: 4, categoryId: 3, warranty: "12 เดือน" },
-    { name: "สายพ่วงแบตเตอรี่ 500A", brand: "No Brand", model: "500A", size: null, costPrice: "250.00", sellPrice: "450.00", stock: 30, categoryId: 5, warranty: null },
+    { name: "Facebook Ads Management", costPrice: "5000.00", sellPrice: "15000.00", categoryId: 5, serviceDuration: "30 วัน" },
+    { name: "SEO 3 เดือน", costPrice: "8000.00", sellPrice: "25000.00", categoryId: 2, serviceDuration: "90 วัน" },
+    { name: "Content Writing 10 บทความ", costPrice: "3000.00", sellPrice: "8000.00", categoryId: 3, serviceDuration: "30 วัน" },
+    { name: "Logo Design", costPrice: "500.00", sellPrice: "3500.00", categoryId: 4, serviceDuration: "7 วัน" },
+    { name: "Social Media Management รายเดือน", costPrice: "4000.00", sellPrice: "12000.00", categoryId: 1, serviceDuration: "30 วัน" },
+    { name: "Google Ads Management", costPrice: "5000.00", sellPrice: "14000.00", categoryId: 5, serviceDuration: "30 วัน" },
+    { name: "Line OA Marketing", costPrice: "3000.00", sellPrice: "9000.00", categoryId: 1, serviceDuration: "30 วัน" },
+    { name: "Landing Page Design", costPrice: "2000.00", sellPrice: "6500.00", categoryId: 4, serviceDuration: "14 วัน" },
+    { name: "Video Editing คลิปสั้น 10 คลิป", costPrice: "2500.00", sellPrice: "7000.00", categoryId: 3, serviceDuration: "30 วัน" },
+    { name: "Influencer Marketing จัดการ 1 ครั้ง", costPrice: "5000.00", sellPrice: "18000.00", categoryId: 1, serviceDuration: "14 วัน" },
   ]).onConflictDoNothing();
   console.log("✅ Products seeded");
 
-  // 4. Seed customers
+  // 4. Seed customers (บริษัท)
   await db.insert(customers).values([
     { name: "ลูกค้าทั่วไป", phone: null, address: null },
-    { name: "อู่ช่างมิตร", phone: "081-234-5678", address: "123 ถ.สุขุมวิท" },
-    { name: "บริษัท ขนส่ง ABC จำกัด", phone: "02-123-4567", address: "456 ถ.พระราม 9" },
+    { name: "บริษัท ABC จำกัด", phone: "02-123-4567", companyName: "บริษัท ABC จำกัด", industry: "ร้านอาหาร", contactPerson: "คุณสมชาย", address: "123 ถ.สุขุมวิท" },
+    { name: "ร้านกาแฟ XYZ", phone: "081-234-5678", companyName: "ร้านกาแฟ XYZ", industry: "ร้านกาแฟ", contactPerson: "คุณสมหญิง", address: "456 ถ.พระราม 9" },
+    { name: "บริษัท ขนส่ง มิตร จำกัด", phone: "02-987-6543", companyName: "บริษัท ขนส่ง มิตร จำกัด", industry: "ขนส่ง", contactPerson: "คุณวิชัย", address: "789 ถ.ลาดพร้าว" },
   ]).onConflictDoNothing();
   console.log("✅ Customers seeded");
 

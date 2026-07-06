@@ -50,7 +50,7 @@ export default function LoginPage() {
           <h1 className="text-3xl font-bold tracking-tight text-foreground">
             ARINYADA <span className="text-blue-500">POS</span>
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">ระบบจัดการร้านแบตเตอรี่</p>
+          <p className="text-sm text-muted-foreground mt-1">ระบบจัดการบริษัทรับจ้างทำการตลาด</p>
         </div>
 
         {/* Login Card */}

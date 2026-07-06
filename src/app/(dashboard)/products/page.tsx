@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { getProducts, getCategories, createProduct, updateProduct, deleteProduct, duplicateProduct, swapProductOrder, getStoreSettings, bulkDeleteProducts, bulkUpdateProductCategory } from "@/app/actions";
 import { formatCurrency } from "@/lib/utils";
 import { uploadToCloudinary, type CloudinaryUploadResult, type UploadProgress } from "@/lib/cloudinary";
-import { Plus, Pencil, Trash2, X, Package, Image as ImageIcon, Upload, Star, Loader2, AlertTriangle, Filter, Download, CheckSquare, Square, Copy, ChevronUp, ChevronDown } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Package, Image as ImageIcon, Upload, Star, Loader2, Filter, Download, CheckSquare, Square, Copy, ChevronUp, ChevronDown } from "lucide-react";
 const loadExportExcel = () => import("@/lib/export-excel");
 
 interface ProductImage {
@@ -22,17 +22,13 @@ interface ProductImage {
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
-  const lowStockFilter = searchParams.get("lowStock") === "true";
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
-  const [filterLowStock, setFilterLowStock] = useState(lowStockFilter);
-  const [lowStockThreshold, setLowStockThreshold] = useState(1);
-  const [lowStockAlertEnabled, setLowStockAlertEnabled] = useState(true);
   const [form, setForm] = useState({
-    name: "", categoryId: "", brand: "", model: "", size: "", batteryTerminal: "", weight: "",
-    sellPrice: "", costPrice: "", stock: "0", warranty: "",
+    name: "", categoryId: "", serviceDuration: "",
+    sellPrice: "", costPrice: "",
   });
   const [images, setImages] = useState<ProductImage[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -44,24 +40,17 @@ export default function ProductsPage() {
   const [bulkCategoryId, setBulkCategoryId] = useState<string>("");
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const [bulkUpdating, setBulkUpdating] = useState(false);
-  const [filterOutOfStock, setFilterOutOfStock] = useState(false);
 
   useEffect(() => { load(); }, []);
 
-  useEffect(() => {
-    if (lowStockFilter) setFilterLowStock(true);
-  }, [lowStockFilter]);
-
   async function load() {
-    const [p, c, settings] = await Promise.all([getProducts(), getCategories(), getStoreSettings()]);
+    const [p, c] = await Promise.all([getProducts(), getCategories()]);
     setProducts(p);
     setCategories(c);
-    setLowStockThreshold(settings.lowStockThreshold ?? 1);
-    setLowStockAlertEnabled(settings.lowStockAlertEnabled ?? true);
   }
 
   function resetForm() {
-    setForm({ name: "", categoryId: "", brand: "", model: "", size: "", batteryTerminal: "", weight: "", sellPrice: "", costPrice: "", stock: "0", warranty: "" });
+    setForm({ name: "", categoryId: "", serviceDuration: "", sellPrice: "", costPrice: "" });
     setImages([]);
     setUploadProgress(null);
     setEditId(null);
@@ -72,9 +61,8 @@ export default function ProductsPage() {
     const p = row.products || row;
     setForm({
       name: p.name, categoryId: p.categoryId?.toString() || "",
-      brand: p.brand || "", model: p.model || "", size: p.size || "", batteryTerminal: p.batteryTerminal || "", weight: p.weight?.toString() || "",
+      serviceDuration: p.serviceDuration || "",
       sellPrice: p.sellPrice, costPrice: p.costPrice,
-      stock: p.stock.toString(), warranty: p.warranty || "",
     });
     // Load existing images
     if (p.images) {
@@ -139,9 +127,8 @@ export default function ProductsPage() {
     const data = {
       name: form.name,
       categoryId: form.categoryId ? Number(form.categoryId) : null,
-      brand: form.brand, model: form.model, size: form.size, batteryTerminal: form.batteryTerminal, weight: form.weight || null,
+      serviceDuration: form.serviceDuration,
       sellPrice: form.sellPrice, costPrice: form.costPrice,
-      stock: Number(form.stock), warranty: form.warranty,
       imageUrl: mainImage?.url || null,
       images: images.length > 0 ? JSON.stringify(images.map(({ publicId, url }) => ({ publicId, url }))) : null,
     };
@@ -179,11 +166,7 @@ export default function ProductsPage() {
   }
 
   function getDisplayProducts() {
-    let filtered = filterOutOfStock
-      ? products.filter((row: any) => (row.products?.stock ?? row.stock) === 0)
-      : filterLowStock && lowStockAlertEnabled
-        ? products.filter((row: any) => (row.products?.stock ?? row.stock) <= lowStockThreshold)
-        : products;
+    let filtered = products;
     if (categoryFilter) {
       filtered = filtered.filter((row: any) => {
         const p = row.products || row;
@@ -227,8 +210,8 @@ export default function ProductsPage() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 flex-wrap">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight">จัดการสินค้า</h1>
-          <p className="text-xs sm:text-sm text-muted-foreground">เพิ่ม แก้ไข และจัดการสินค้าทั้งหมด</p>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight">จัดการแพ็กเกจบริการ</h1>
+          <p className="text-xs sm:text-sm text-muted-foreground">เพิ่ม แก้ไข และจัดการแพ็กเกจบริการทั้งหมด</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {/* Category Filter */}
@@ -240,41 +223,19 @@ export default function ProductsPage() {
             <option value="">ทุกหมวดหมู่</option>
             {categories.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
-          <button
-            onClick={() => { setFilterLowStock(!filterLowStock); setFilterOutOfStock(false); }}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all ${
-              filterLowStock
-                ? "bg-red-500 text-white shadow-luxury"
-                : "bg-white border border-blue-200 text-blue-700 hover:bg-blue-50"
-            }`}
-          >
-            <AlertTriangle className="h-4 w-4" />
-            {filterLowStock ? "แสดงเฉพาะใกล้หมด" : "สินค้าใกล้หมด"}
-          </button>
-          <button
-            onClick={() => { setFilterOutOfStock(!filterOutOfStock); setFilterLowStock(false); }}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all ${
-              filterOutOfStock
-                ? "bg-red-700 text-white shadow-luxury"
-                : "bg-white border border-red-200 text-red-700 hover:bg-red-50"
-            }`}
-          >
-            <Package className="h-4 w-4" />
-            {filterOutOfStock ? "แสดงเฉพาะหมดแล้ว" : "สินค้าหมด"}
-          </button>
-          <button onClick={() => setShowForm(true)} className="flex items-center gap-2 rounded-xl gradient-blue px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto justify-center"><Plus className="h-4 w-4" /> เพิ่มสินค้า</button>
+          <button onClick={() => setShowForm(true)} className="flex items-center gap-2 rounded-xl gradient-blue px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto justify-center"><Plus className="h-4 w-4" /> เพิ่มแพ็กเกจ</button>
         </div>
       </div>
 
       {showForm && (
         <div className="rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white">
-            <h2 className="text-lg font-bold tracking-tight">{editId ? "แก้ไขสินค้า" : "เพิ่มสินค้าใหม่"}</h2>
+            <h2 className="text-lg font-bold tracking-tight">{editId ? "แก้ไขแพ็กเกจ" : "เพิ่มแพ็กเกจใหม่"}</h2>
             <button onClick={resetForm} className="rounded-lg p-1.5 hover:bg-blue-100 transition-colors"><X className="h-4 w-4 text-muted-foreground" /></button>
           </div>
           <div className="p-6">
             <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div><Label>ชื่อสินค้า *</Label><Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required /></div>
+              <div><Label>ชื่อแพ็กเกจ *</Label><Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required /></div>
               <div>
                 <Label>หมวดหมู่</Label>
                 <select className="w-full rounded-xl border border-blue-200/60 bg-blue-50/30 p-2 text-sm focus:border-blue-400 outline-none transition-all" value={form.categoryId} onChange={(e) => setForm({ ...form, categoryId: e.target.value })}>
@@ -282,14 +243,9 @@ export default function ProductsPage() {
                   {categories.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
               </div>
-              <div><Label>ยี่ห้อ</Label><Input value={form.brand} onChange={(e) => setForm({ ...form, brand: e.target.value })} /></div>
-              <div><Label>รุ่น</Label><Input value={form.model} onChange={(e) => setForm({ ...form, model: e.target.value })} /></div>
-              <div><Label>ขนาด</Label><Input value={form.size} onChange={(e) => setForm({ ...form, size: e.target.value })} placeholder="เช่น 60Ah, 80Ah" /></div>
-              <div><Label>น้ำหนัก (kg)</Label><Input type="number" step="0.001" value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} placeholder="เช่น 15.500" /></div>
+              <div><Label>ระยะเวลาบริการ</Label><Input value={form.serviceDuration} onChange={(e) => setForm({ ...form, serviceDuration: e.target.value })} placeholder="เช่น 30 วัน, 3 เดือน" /></div>
               <div><Label>ราคาขาย *</Label><Input type="number" step="0.01" value={form.sellPrice} onChange={(e) => setForm({ ...form, sellPrice: e.target.value })} required /></div>
               <div><Label>ราคาทุน *</Label><Input type="number" step="0.01" value={form.costPrice} onChange={(e) => setForm({ ...form, costPrice: e.target.value })} required /></div>
-              <div><Label>สต็อก</Label><Input type="number" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} /></div>
-              <div><Label>การรับประกัน</Label><Input value={form.warranty} onChange={(e) => setForm({ ...form, warranty: e.target.value })} placeholder="เช่น 12 เดือน" /></div>
 
               {/* Image Upload Section */}
               <div className="md:col-span-3">
@@ -375,7 +331,7 @@ export default function ProductsPage() {
               </div>
 
               <div className="md:col-span-3">
-                <button type="submit" disabled={uploading} className="rounded-xl gradient-blue px-6 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all disabled:opacity-50">{editId ? "บันทึกการแก้ไข" : "เพิ่มสินค้า"}</button>
+                <button type="submit" disabled={uploading} className="rounded-xl gradient-blue px-6 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all disabled:opacity-50">{editId ? "บันทึกการแก้ไข" : "เพิ่มแพ็กเกจ"}</button>
               </div>
             </form>
           </div>
@@ -391,8 +347,8 @@ export default function ProductsPage() {
             <span className="text-xs text-muted-foreground">({getDisplayProducts().length})</span>
           </div>
           <Button variant="outline" size="sm" onClick={async () => {
-            const rows = getDisplayProducts().map((row: any) => { const p = row.products || row; const cat = row.categories; return { "ชื่อสินค้า": p.name, "หมวดหมู่": cat?.name || "-", "ยี่ห้อ": p.brand || "-", "รุ่น": p.model || "-", "ราคาขาย": parseFloat(p.sellPrice), "สต็อก": p.stock }; });
-            const { exportToExcel } = await loadExportExcel(); exportToExcel(rows, `รายการสินค้า_${new Date().toLocaleDateString("th-TH")}`, "สินค้า");
+            const rows = getDisplayProducts().map((row: any) => { const p = row.products || row; const cat = row.categories; return { "ชื่อแพ็กเกจ": p.name, "หมวดหมู่": cat?.name || "-", "ระยะเวลาบริการ": p.serviceDuration || "-", "ราคาขาย": parseFloat(p.sellPrice) }; });
+            const { exportToExcel } = await loadExportExcel(); exportToExcel(rows, `รายการแพ็กเกจ_${new Date().toLocaleDateString("th-TH")}`, "แพ็กเกจ");
           }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
             <Download className="h-3 w-3" /> Excel
           </Button>
@@ -400,10 +356,8 @@ export default function ProductsPage() {
         {getDisplayProducts().map((row: any) => {
           const p = row.products || row;
           const cat = row.categories;
-          const isLowStock = lowStockAlertEnabled && p.stock <= lowStockThreshold;
-          const isOutOfStock = p.stock === 0;
           return (
-            <div key={p.id} className={`rounded-2xl bg-white border shadow-sm overflow-hidden ${isOutOfStock ? "border-red-200 bg-red-50/30" : isLowStock ? "border-red-200/60" : "border-blue-100/60"}`}>
+            <div key={p.id} className="rounded-2xl bg-white border border-blue-100/60 shadow-sm overflow-hidden">
               <div className="p-3">
                 <div className="flex items-start gap-3">
                   {p.imageUrl ? (
@@ -417,15 +371,10 @@ export default function ProductsPage() {
                     <h3 className="text-sm font-bold text-gray-800 truncate">{p.name}</h3>
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1 text-xs text-muted-foreground">
                       {cat?.name && <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 text-[10px]">{cat.name}</span>}
-                      {(p.brand || p.model) && <span>{[p.brand, p.model].filter(Boolean).join(" ")}</span>}
-                      {p.size && <span>{p.size}</span>}
+                      {p.serviceDuration && <span>{p.serviceDuration}</span>}
                     </div>
                     <div className="flex items-center justify-between mt-2">
                       <span className="text-sm font-bold text-blue-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
-                      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${isOutOfStock ? "bg-red-600 text-white" : isLowStock ? "bg-red-50 text-red-700 border border-red-200" : "bg-blue-50 text-blue-700 border border-blue-200"}`}>
-                        {(isOutOfStock || isLowStock) && <AlertTriangle className="h-3 w-3" />}
-                        คงเหลือ {p.stock}
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -446,7 +395,7 @@ export default function ProductsPage() {
         })}
         {getDisplayProducts().length === 0 && (
           <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-blue-100/60">
-            <Package className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีสินค้า
+            <Package className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีแพ็กเกจ
           </div>
         )}
       </div>
@@ -456,7 +405,7 @@ export default function ProductsPage() {
         <div className="px-3 sm:px-5 py-3 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <Package className="h-4 w-4 text-blue-500" />
-            <span className="text-sm font-bold">รายการสินค้า</span>
+            <span className="text-sm font-bold">รายการแพ็กเกจ</span>
             <span className="text-xs text-muted-foreground">({getDisplayProducts().length} รายการ)</span>
             {selectedIds.length > 0 && (
               <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">เลือก {selectedIds.length} รายการ</span>
@@ -496,20 +445,14 @@ export default function ProductsPage() {
                 const p = row.products || row;
                 const cat = row.categories;
                 return {
-                  "ชื่อสินค้า": p.name,
+                  "ชื่อแพ็กเกจ": p.name,
                   "หมวดหมู่": cat?.name || "-",
-                  "ยี่ห้อ": p.brand || "-",
-                  "รุ่น": p.model || "-",
-                  "ขนาด": p.size || "-",
-                  "ขั้วแบตเตอรี่": p.batteryTerminal || "-",
-                  "ราคาทุน": parseFloat(p.cost || "0"),
-                  "ราคาขาย": parseFloat(p.price),
-                  "สต็อก": p.stock,
-                  "Barcode": p.barcode || "-",
-                  "SKU": p.sku || "-",
+                  "ระยะเวลาบริการ": p.serviceDuration || "-",
+                  "ราคาทุน": parseFloat(p.costPrice || "0"),
+                  "ราคาขาย": parseFloat(p.sellPrice),
                 };
               });
-              const { exportToExcel } = await loadExportExcel(); exportToExcel(rows, `รายการสินค้า_${new Date().toLocaleDateString("th-TH")}`, "สินค้า");
+              const { exportToExcel } = await loadExportExcel(); exportToExcel(rows, `รายการแพ็กเกจ_${new Date().toLocaleDateString("th-TH")}`, "แพ็กเกจ");
             }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
               <Download className="h-3 w-3" /> ส่งออก Excel
             </Button>
@@ -526,12 +469,10 @@ export default function ProductsPage() {
                       : <Square className="h-4 w-4 text-gray-400" />}
                   </button>
                 </TableHead>
-                <TableHead className="font-semibold">ชื่อสินค้า</TableHead>
+                <TableHead className="font-semibold">ชื่อแพ็กเกจ</TableHead>
                 <TableHead className="font-semibold">หมวดหมู่</TableHead>
-                <TableHead className="font-semibold">ยี่ห้อ/รุ่น</TableHead>
-                <TableHead className="font-semibold">ขนาด</TableHead>
+                <TableHead className="font-semibold">ระยะเวลาบริการ</TableHead>
                 <TableHead className="text-right font-semibold">ราคาขาย</TableHead>
-                <TableHead className="text-right font-semibold">สต็อก</TableHead>
                 <TableHead></TableHead>
               </TableRow>
             </TableHeader>
@@ -539,11 +480,9 @@ export default function ProductsPage() {
               {getDisplayProducts().map((row: any, rowIdx: number, arr: any[]) => {
                 const p = row.products || row;
                 const cat = row.categories;
-                const isLowStock = lowStockAlertEnabled && p.stock <= lowStockThreshold;
-                const isOutOfStock = p.stock === 0;
                 const isSelected = selectedIds.includes(p.id);
                 return (
-                  <TableRow key={p.id} className={`hover:bg-blue-50/30 ${isLowStock ? "bg-red-50/20" : ""} ${isOutOfStock ? "bg-red-100/40" : ""} ${isSelected ? "bg-blue-50/30" : ""}`}>
+                  <TableRow key={p.id} className={`hover:bg-blue-50/30 ${isSelected ? "bg-blue-50/30" : ""}`}>
                     <TableCell>
                       <button onClick={() => toggleSelect(p.id)} className="p-1 hover:bg-blue-100 rounded">
                         {isSelected
@@ -564,20 +503,12 @@ export default function ProductsPage() {
                       </div>
                     </TableCell>
                     <TableCell>{cat?.name || "-"}</TableCell>
-                    <TableCell>{[p.brand, p.model].filter(Boolean).join(" ") || "-"}</TableCell>
-                    <TableCell>{p.size || "-"}</TableCell>
+                    <TableCell>{p.serviceDuration || "-"}</TableCell>
                     <TableCell className="text-right font-semibold text-blue-700">{formatCurrency(parseFloat(p.sellPrice))}</TableCell>
-                    <TableCell className="text-right">
-                      <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${isOutOfStock ? "bg-red-600 text-white border border-red-700" : isLowStock ? "bg-red-50 text-red-700 border border-red-200" : "bg-blue-50 text-blue-700 border border-blue-200"}`}>
-                        {isOutOfStock && <AlertTriangle className="h-3 w-3" />}
-                        {isLowStock && !isOutOfStock && <AlertTriangle className="h-3 w-3" />}
-                        {p.stock}
-                      </span>
-                    </TableCell>
                     <TableCell className="text-right whitespace-nowrap">
                       <button title="เลื่อนขึ้น" disabled={rowIdx === 0} onClick={async () => { const prev = (arr[rowIdx - 1].products || arr[rowIdx - 1]); await swapProductOrder(p.id, prev.id); load(); }} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-30"><ChevronUp className="h-4 w-4 text-muted-foreground" /></button>
                       <button title="เลื่อนลง" disabled={rowIdx === arr.length - 1} onClick={async () => { const next = (arr[rowIdx + 1].products || arr[rowIdx + 1]); await swapProductOrder(p.id, next.id); load(); }} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-30"><ChevronDown className="h-4 w-4 text-muted-foreground" /></button>
-                      <button title="คัดลอกสินค้า" onClick={async () => { await duplicateProduct(p.id); load(); }} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors"><Copy className="h-4 w-4 text-blue-500" /></button>
+                      <button title="คัดลอกแพ็กเกจ" onClick={async () => { await duplicateProduct(p.id); load(); }} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors"><Copy className="h-4 w-4 text-blue-500" /></button>
                       <button title="แก้ไข" onClick={() => startEdit(row)} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors"><Pencil className="h-4 w-4 text-muted-foreground" /></button>
                       <button title="ลบ" onClick={() => handleDelete(p.id)} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-red-50 transition-colors"><Trash2 className="h-4 w-4 text-red-400" /></button>
                     </TableCell>
@@ -585,7 +516,7 @@ export default function ProductsPage() {
                 );
               })}
               {getDisplayProducts().length === 0 && (
-                <TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-12"><Package className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีสินค้า</TableCell></TableRow>
+                <TableRow><TableCell colSpan={7} className="text-center text-muted-foreground py-12"><Package className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีแพ็กเกจ</TableCell></TableRow>
               )}
             </TableBody>
           </Table>

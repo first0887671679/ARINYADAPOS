@@ -13,7 +13,7 @@ import { relations } from "drizzle-orm";
 // ==================== ตั้งค่าร้าน ====================
 export const storeSettings = pgTable("store_settings", {
   id: serial("id").primaryKey(),
-  storeName: varchar("store_name", { length: 255 }).notNull().default("ร้านแบตเตอรี่"),
+  storeName: varchar("store_name", { length: 255 }).notNull().default("บริษัทรับจ้างทำการตลาด"),
   branchName: varchar("branch_name", { length: 255 }),
   address: text("address"),
   phone: varchar("phone", { length: 50 }),
@@ -31,16 +31,9 @@ export const storeSettings = pgTable("store_settings", {
   lineReportSales: boolean("line_report_sales").notNull().default(true), // แสดงยอดขายรวม
   lineReportQuantity: boolean("line_report_quantity").notNull().default(true), // แสดงจำนวนชิ้น
   lineReportProducts: boolean("line_report_products").notNull().default(true), // แสดงชื่อสินค้า
-  lineReportModel: boolean("line_report_model").notNull().default(true), // แสดงชื่อรุ่น (brand/model)
   lineReportTime: varchar("line_report_time", { length: 255 }).default("18:00"), // เวลาส่งอัตโนมัติ เช่น "08:00,12:00,18:00" (เวลาไทย)
   lineReportEnabled: boolean("line_report_enabled").notNull().default(false), // เปิดใช้งานส่งอัตโนมัติ
-  // Inventory settings
-  lowStockThreshold: integer("low_stock_threshold").notNull().default(1), // จำนวนสินค้าที่ถือว่าใกล้หมด
-  lowStockAlertEnabled: boolean("low_stock_alert_enabled").notNull().default(true), // เปิดใช้งานการแจ้งเตือนสินค้าใกล้หมด
-  outOfStockAlertEnabled: boolean("out_of_stock_alert_enabled").notNull().default(true), // เปิดใช้งานการแจ้งเตือนสินค้าหมดสต๊อก
   newSaleAlertEnabled: boolean("new_sale_alert_enabled").notNull().default(true), // เปิดใช้งานการแจ้งเตือนคำสั่งซื้อใหม่
-  kgPrice: numeric("kg_price", { precision: 10, scale: 2 }).default("0"), // ราคาต่อ kg (บาท/kg)
-  lastStockResetAt: timestamp("last_stock_reset_at"), // วันเวลาที่รีเซ็ทสต๊อกล่าสุด
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
@@ -72,16 +65,10 @@ export const categories = pgTable("categories", {
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
-  brand: varchar("brand", { length: 100 }),
-  model: varchar("model", { length: 100 }),
-  size: varchar("size", { length: 50 }), // e.g. "60Ah", "80Ah"
-  batteryTerminal: varchar("battery_terminal", { length: 50 }), // e.g. "JIS", "DIN", "L-Type"
-  weight: numeric("weight", { precision: 8, scale: 3 }), // น้ำหนักสินค้า (kg) - 3 ตำแหน่งทศนิยม
   costPrice: numeric("cost_price", { precision: 10, scale: 2 }).notNull(),
   sellPrice: numeric("sell_price", { precision: 10, scale: 2 }).notNull(),
-  stock: integer("stock").notNull().default(0),
   categoryId: integer("category_id").references(() => categories.id),
-  warranty: varchar("warranty", { length: 100 }), // e.g. "12 เดือน"
+  serviceDuration: varchar("service_duration", { length: 100 }), // ระยะเวลาบริการ เช่น "30 วัน", "3 เดือน"
   imageUrl: text("image_url"), // ภาพหลัก
   images: text("images"), // JSON array ของภาพทั้งหมด [{publicId, url}]
   active: boolean("active").notNull().default(true),
@@ -94,7 +81,9 @@ export const customers = pgTable("customers", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   phone: varchar("phone", { length: 20 }),
-  licensePlate: varchar("license_plate", { length: 20 }),
+  companyName: varchar("company_name", { length: 255 }), // ชื่อบริษัท
+  industry: varchar("industry", { length: 100 }), // ประเภทธุรกิจ
+  contactPerson: varchar("contact_person", { length: 255 }), // ผู้ติดต่อ
   address: text("address"),
   taxId: varchar("tax_id", { length: 20 }), // เลขประจำตัวผู้เสียภาษี
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -135,7 +124,7 @@ export const sales = pgTable("sales", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// ==================== รายการสินค้าในบิล ====================
+// ==================== รายการบริการในบิล ====================
 export const saleItems = pgTable("sale_items", {
   id: serial("id").primaryKey(),
   saleId: integer("sale_id")
@@ -194,9 +183,9 @@ export const quotationItems = pgTable("quotation_items", {
 // ==================== SMS แจ้งเตือนลูกค้า ====================
 export const smsTemplates = pgTable("sms_templates", {
   id: serial("id").primaryKey(),
-  name: varchar("name", { length: 255 }).notNull(), // ชื่อเทมเพลต เช่น "แจ้งเตือนเปลี่ยนแบต 18 เดือน"
+  name: varchar("name", { length: 255 }).notNull(), // ชื่อเทมเพลต เช่น "แจ้งเตือนบริการหมดอายุ 7 วัน"
   message: text("message").notNull(), // ข้อความ SMS (รองรับ {{name}}, {{phone}}, {{product}}, {{date}})
-  durationMonths: integer("duration_months").notNull().default(18), // ระยะเวลาล่วงหน้า (เดือน)
+  durationDays: integer("duration_days").notNull().default(7), // ระยะเวลาก่อนหมดอายุ (วัน)
   active: boolean("active").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -240,14 +229,31 @@ export const jobApplications = pgTable("job_applications", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// ==================== สัญญาบริการ ====================
+export const contracts = pgTable("contracts", {
+  id: serial("id").primaryKey(),
+  contractNumber: varchar("contract_number", { length: 50 }).notNull().unique(),
+  customerId: integer("customer_id").references(() => customers.id).notNull(),
+  productId: integer("product_id").references(() => products.id), // แพ็กเกจบริการ
+  employeeId: integer("employee_id").references(() => employees.id).notNull(),
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date").notNull(),
+  monthlyFee: numeric("monthly_fee", { precision: 10, scale: 2 }).notNull().default("0"),
+  status: varchar("status", { length: 20 }).notNull().default("active"), // active | expired | cancelled
+  autoRenew: boolean("auto_renew").notNull().default(false), // ต่อสัญญาอัตโนมัติ
+  note: text("note"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // ==================== LINE Channels (หลาย OA) ====================
 export const lineChannels = pgTable("line_channels", {
   id: serial("id").primaryKey(),
-  name: varchar("name", { length: 255 }).notNull(), // ชื่อแสดง เช่น "FIRSTBATTERY Official"
+  name: varchar("name", { length: 255 }).notNull(), // ชื่อแสดง เช่น "ARINYADA Marketing Official"
   channelId: varchar("channel_id", { length: 255 }).notNull().unique(), // LINE Channel ID
   channelSecret: text("channel_secret").notNull(), // LINE Channel Secret
   channelAccessToken: text("channel_access_token").notNull(), // LINE Channel Access Token (Long-lived)
-  webhookPath: varchar("webhook_path", { length: 255 }).notNull().unique(), // เช่น "/api/line-webhook/firstbattery"
+  webhookPath: varchar("webhook_path", { length: 255 }).notNull().unique(), // เช่น "/api/line-webhook/arinyada"
   pictureUrl: text("picture_url"), // รูปโปรไฟล์ OA
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -346,3 +352,5 @@ export type EmployeeSmsLog = typeof employeeSmsLogs.$inferSelect;
 export type NewEmployeeSmsLog = typeof employeeSmsLogs.$inferInsert;
 export type JobApplication = typeof jobApplications.$inferSelect;
 export type NewJobApplication = typeof jobApplications.$inferInsert;
+export type Contract = typeof contracts.$inferSelect;
+export type NewContract = typeof contracts.$inferInsert;

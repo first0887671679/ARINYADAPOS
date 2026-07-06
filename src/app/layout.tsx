@@ -10,8 +10,8 @@ const sarabun = Sarabun({
 });
 
 export const metadata: Metadata = {
-  title: "ระบบ POS ร้านแบตเตอรี่",
-  description: "ระบบบริหารงานขายร้านแบตเตอรี่รถยนต์",
+  title: "ระบบ POS บริษัทรับจ้างทำการตลาด",
+  description: "ระบบบริหารงานบริษัทรับจ้างทำการตลาด",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,

@@ -11,12 +11,7 @@ const posProductColumns = {
   products: {
     id: products.id,
     name: products.name,
-    brand: products.brand,
-    model: products.model,
-    size: products.size,
-    weight: products.weight,
     sellPrice: products.sellPrice,
-    stock: products.stock,
     categoryId: products.categoryId,
     imageUrl: products.imageUrl,
     active: products.active,
@@ -51,7 +46,7 @@ export async function GET(request: NextRequest) {
     }
     if (q) {
       conditions.push(
-        sql`(${products.name} ILIKE ${`%${q}%`} OR ${products.brand} ILIKE ${`%${q}%`} OR ${products.model} ILIKE ${`%${q}%`})`
+        sql`(${products.name} ILIKE ${`%${q}%`})`
       );
     }
 

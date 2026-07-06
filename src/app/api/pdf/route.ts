@@ -235,7 +235,7 @@ function buildReceiptHtml(sale: any, items: any[], store: any, emp: any) {
     idx++;
     const p = si.products || si.product;
     const item = si.sale_items || si.saleItem || si;
-    const nameDisplay = [p?.brand, p?.name, p?.model].filter(Boolean).join(" / ") || "สินค้า";
+    const nameDisplay = p?.name || "บริการ";
     const bg = idx % 2 === 0 ? ' style="background:#fafafa"' : '';
     itemsHtml += `<tr${bg}><td class="tc">${idx}</td><td>${nameDisplay}</td><td class="tc">${item.quantity}</td><td class="tr">${fmt(parseFloat(item.unitPrice))}</td><td class="tr">${fmt(parseFloat(item.total))}</td></tr>`;
   });
@@ -248,7 +248,6 @@ function buildReceiptHtml(sale: any, items: any[], store: any, emp: any) {
   const bPhone = sale.buyerPhone || "";
   const bAddr = sale.buyerAddress || "";
   const bTaxId = sale.buyerTaxId || "";
-  const bLicensePlate = sale.licensePlate || "";
   const createdAt = new Date(sale.createdAt);
   const docTitle = sale.isTaxInvoice ? "ใบกำกับภาษี / TAX INVOICE" : "ใบเสร็จรับเงิน / RECEIPT";
   const logoUrl = store.storeLogo || "";
@@ -321,7 +320,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
   </div>
   <div class="header-text">
     <div class="doc-title">${docTitle}</div>
-    <div class="store-name">${store.storeName || "ร้านแบตเตอรี่"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
+    <div class="store-name">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
     <div class="store-detail">
       ${store.address ? `${store.address}` : ""}
       ${store.phone ? ` | โทร. ${store.phone}` : ""}
@@ -349,12 +348,11 @@ ${bName || bTaxId || bAddr ? `<div class="buyer-section">
     ${bPhone ? `<div class="buyer-item"><span class="bl">โทร:</span> ${bPhone}</div>` : ""}
     ${bAddr ? `<div class="buyer-item" style="min-width:100%"><span class="bl">ที่อยู่:</span> ${bAddr}</div>` : ""}
     ${bTaxId ? `<div class="buyer-item"><span class="bl">เลขประจำตัวผู้เสียภาษี:</span> ${bTaxId}</div>` : ""}
-    ${bLicensePlate ? `<div class="buyer-item"><span class="bl">ทะเบียนรถ:</span> ${bLicensePlate}</div>` : ""}
   </div>
 </div>` : ""}
 
 <table class="items">
-  <thead><tr><th class="tc" style="width:30px">#</th><th style="text-align:left">รายการสินค้า / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:90px">จำนวนเงิน</th></tr></thead>
+  <thead><tr><th class="tc" style="width:30px">#</th><th style="text-align:left">รายการบริการ / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:90px">จำนวนเงิน</th></tr></thead>
   <tbody>${itemsHtml}</tbody>
 </table>
 
@@ -380,7 +378,7 @@ ${sale.note ? `<div class="note-section"><strong>หมายเหตุ:</stro
 
 <div class="footer">
   <div class="footer-thanks">ขอบคุณที่ใช้บริการ / Thank you for your business</div>
-  <div class="footer-sub">${store.storeName || "ร้านแบตเตอรี่"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div>
+  <div class="footer-sub">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div>
 </div>
 
 </body></html>`;
@@ -394,7 +392,7 @@ function buildQuotationHtml(quot: any, items: any[], store: any) {
     idx++;
     const p = qi.products || qi.product;
     const item = qi.quotation_items || qi.quotationItem || qi;
-    const nameDisplay = item.description || [p?.brand, p?.name, p?.model].filter(Boolean).join(" / ") || "สินค้า";
+    const nameDisplay = item.description || p?.name || "บริการ";
     const disc = parseFloat(item.discount || "0");
     const lineTotal = parseFloat(item.unitPrice) * item.quantity - disc;
     const bg = idx % 2 === 0 ? ' style="background:#fafafa"' : '';
@@ -472,7 +470,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
   </div>
   <div class="header-text">
     <div class="doc-title">ใบเสนอราคา / QUOTATION</div>
-    <div class="store-name">${store.storeName || "ร้านแบตเตอรี่"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
+    <div class="store-name">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
     <div class="store-detail">
       ${store.address ? `${store.address}` : ""}
       ${store.phone ? ` | โทร. ${store.phone}` : ""}
@@ -504,7 +502,7 @@ ${bAddr || bTaxId ? `<div class="buyer-section">
 </div>` : ""}
 
 <table class="items">
-  <thead><tr><th class="tc" style="width:30px">#</th><th style="text-align:left">รายการสินค้า / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:65px">ส่วนลด</th><th class="tr" style="width:90px">จำนวนเงิน</th></tr></thead>
+  <thead><tr><th class="tc" style="width:30px">#</th><th style="text-align:left">รายการบริการ / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:65px">ส่วนลด</th><th class="tr" style="width:90px">จำนวนเงิน</th></tr></thead>
   <tbody>${itemsHtml}</tbody>
 </table>
 
@@ -527,7 +525,7 @@ ${quot.note ? `<div class="note-section"><strong>หมายเหตุ:</stro
 
 <div class="footer">
   <div class="footer-thanks">ขอบคุณที่ไว้วางใจ / Thank you for your trust</div>
-  <div class="footer-sub">${store.storeName || "ร้านแบตเตอรี่"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div>
+  <div class="footer-sub">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div>
 </div>
 
 </body></html>`;
@@ -618,7 +616,7 @@ export async function POST(request: NextRequest) {
       lineDocData = {
         title,
         docNumber,
-        storeName: (store as any).storeName || "ร้านแบตเตอรี่",
+        storeName: (store as any).storeName || "บริษัทรับจ้างทำการตลาด",
         storeTaxId: (store as any).taxId || undefined,
         storeLogo: (store as any).storeLogo || undefined,
         date: fmtDate(new Date(sale.createdAt)),
@@ -631,7 +629,7 @@ export async function POST(request: NextRequest) {
           const p = si.products;
           const item = si.sale_items;
           return {
-            name: [p?.brand, p?.name, p?.model].filter(Boolean).join(" / ") || "สินค้า",
+            name: p?.name || "บริการ",
             qty: item.quantity,
             unitPrice: fmt(parseFloat(item.unitPrice)),
             total: fmt(parseFloat(item.total)),
@@ -659,12 +657,11 @@ export async function POST(request: NextRequest) {
         buyerPhone: sale.buyerPhone || undefined,
         buyerAddress: sale.buyerAddress || undefined,
         buyerTaxId: sale.buyerTaxId || undefined,
-        licensePlate: (sale as any).licensePlate || undefined,
         items: itemsRaw.map((si: any) => {
           const p = si.products;
           const item = si.sale_items;
           return {
-            name: [p?.brand, p?.name, p?.model].filter(Boolean).join(" / ") || "สินค้า",
+            name: p?.name || "บริการ",
             quantity: item.quantity,
             unitPrice: item.unitPrice,
             total: item.total,
@@ -680,7 +677,7 @@ export async function POST(request: NextRequest) {
         total: sale.total,
         paymentMethod: sale.paymentMethod || "cash",
         note: sale.note || undefined,
-        storeName: (store as any).storeName || "ร้านแบตเตอรี่",
+        storeName: (store as any).storeName || "บริษัทรับจ้างทำการตลาด",
         branchName: (store as any).branchName || undefined,
         storeAddress: (store as any).address || undefined,
         storePhone: (store as any).phone || undefined,
@@ -707,7 +704,7 @@ export async function POST(request: NextRequest) {
       lineDocData = {
         title,
         docNumber,
-        storeName: (store as any).storeName || "ร้านแบตเตอรี่",
+        storeName: (store as any).storeName || "บริษัทรับจ้างทำการตลาด",
         storeTaxId: (store as any).taxId || undefined,
         storeLogo: (store as any).storeLogo || undefined,
         date: fmtDate(new Date(quot.createdAt)),
@@ -719,7 +716,7 @@ export async function POST(request: NextRequest) {
           const p = qi.products;
           const item = qi.quotation_items;
           return {
-            name: item.description || [p?.brand, p?.name, p?.model].filter(Boolean).join(" / ") || "สินค้า",
+            name: item.description || p?.name || "บริการ",
             qty: item.quantity,
             unitPrice: fmt(parseFloat(item.unitPrice)),
             total: fmt(parseFloat(item.total)),
@@ -878,12 +875,11 @@ export async function GET(request: NextRequest) {
         buyerPhone: sale.buyerPhone || undefined,
         buyerAddress: sale.buyerAddress || undefined,
         buyerTaxId: sale.buyerTaxId || undefined,
-        licensePlate: (sale as any).licensePlate || undefined,
         items: itemsRaw.map((si: any) => {
           const p = si.products;
           const item = si.sale_items;
           return {
-            name: [p?.brand, p?.name, p?.model].filter(Boolean).join(" / ") || "สินค้า",
+            name: p?.name || "บริการ",
             quantity: item.quantity,
             unitPrice: item.unitPrice,
             total: item.total,
@@ -899,7 +895,7 @@ export async function GET(request: NextRequest) {
         total: sale.total,
         paymentMethod: sale.paymentMethod || "cash",
         note: sale.note || undefined,
-        storeName: (store as any).storeName || "ร้านแบตเตอรี่",
+        storeName: (store as any).storeName || "บริษัทรับจ้างทำการตลาด",
         branchName: (store as any).branchName || undefined,
         storeAddress: (store as any).address || undefined,
         storePhone: (store as any).phone || undefined,

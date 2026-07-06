@@ -534,7 +534,7 @@ export default function EmployeesPage() {
                   )}
                   <div className="sm:col-span-2 space-y-1">
                     <Label className="text-xs sm:text-sm">หมายเหตุ</Label>
-                    <Input value={jobForm.note} onChange={(e) => setJobForm({ ...jobForm, note: e.target.value })} placeholder="เช่น มีประสบการณ์ทำงานร้านแบตเตอรี่ 2 ปี" className="h-10" />
+                    <Input value={jobForm.note} onChange={(e) => setJobForm({ ...jobForm, note: e.target.value })} placeholder="เช่น มีประสบการณ์ทำงานด้านการตลาด 2 ปี" className="h-10" />
                   </div>
                 </div>
                 <div className="flex gap-2">

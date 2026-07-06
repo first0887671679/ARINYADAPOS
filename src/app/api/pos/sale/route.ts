@@ -102,18 +102,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // ตัดสต๊อกทันทีพร้อมบันทึกบิล (ไม่รอ finalize)
-    const updatedStock: { id: number; stock: number }[] = [];
-    for (const item of data.items) {
-      const qty = Number(item.quantity) || 0;
-      const result = await db.update(products).set({
-        stock: sql`GREATEST(${products.stock} - ${qty}, 0)`,
-      }).where(eq(products.id, item.productId)).returning({ id: products.id, stock: products.stock });
-      if (result[0]) updatedStock.push({ id: result[0].id, stock: Number(result[0].stock) });
-      console.log(`[STOCK DEDUCT] saleId=${sale.id} productId=${item.productId} qty=${qty} newStock=${result[0]?.stock}`);
-    }
-
-    return NextResponse.json({ ...sale, updatedStock });
+    // บริการไม่ต้องตัดสต๊อก
+    return NextResponse.json({ ...sale });
   } catch (err: any) {
     console.error("[POST /api/pos/sale]", err);
     return NextResponse.json({ error: err?.message || "เกิดข้อผิดพลาด" }, { status: 500 });

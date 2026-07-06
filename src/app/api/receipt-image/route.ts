@@ -102,8 +102,6 @@ export async function GET(request: NextRequest) {
       // Fetch items
       const items = await db.select({
         productName: products.name,
-        brand: products.brand,
-        model: products.model,
         quantity: saleItems.quantity,
         unitPrice: saleItems.unitPrice,
         total: saleItems.total,
@@ -129,7 +127,7 @@ export async function GET(request: NextRequest) {
       let itemsHtml = "";
       for (const item of items) {
         idx++;
-        const nameDisplay = [item.brand, item.productName, item.model].filter(Boolean).join(" / ") || "สินค้า";
+        const nameDisplay = item.productName || "บริการ";
         const bg = idx % 2 === 0 ? ' style="background:#fafafa"' : '';
         itemsHtml += `<tr${bg}><td class="tc">${idx}</td><td>${nameDisplay}</td><td class="tc">${item.quantity}</td><td class="tr">${fmt(parseFloat(item.unitPrice))}</td><td class="tr">${fmt(parseFloat(item.total))}</td></tr>`;
       }
@@ -143,14 +141,13 @@ export async function GET(request: NextRequest) {
       const bPhone = sale.buyerPhone || "";
       const bAddr = sale.buyerAddress || "";
       const bTaxId = sale.buyerTaxId || "";
-      const bPlate = (sale as any).licensePlate || "";
 
       const html = `<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
-<title>${billNum} - ${store.storeName || "ร้านแบตเตอรี่"}</title>
+<title>${billNum} - ${store.storeName || "บริษัทรับจ้างทำการตลาด"}</title>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -354,7 +351,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
     </div>
     <div class="header-text">
       <div class="doc-title">${docTitle}</div>
-      <div class="store-name">${store.storeName || "ร้านแบตเตอรี่"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
+      <div class="store-name">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
       <div class="store-detail">
         ${store.address ? `${store.address}` : ""}
         ${store.phone ? ` | โทร. ${store.phone}` : ""}
@@ -375,19 +372,18 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
     </div>
   </div>
 
-  ${bName || bTaxId || bAddr || bPlate ? `<div class="buyer-section">
+  ${bName || bTaxId || bAddr ? `<div class="buyer-section">
     <div class="buyer-title">ข้อมูลผู้ซื้อ</div>
     <div class="buyer-grid">
       ${bName ? `<div class="buyer-item"><span class="bl">ชื่อ:</span> ${bName}</div>` : ""}
       ${bPhone ? `<div class="buyer-item"><span class="bl">โทร:</span> ${bPhone}</div>` : ""}
       ${bAddr ? `<div class="buyer-item" style="min-width:100%"><span class="bl">ที่อยู่:</span> ${bAddr}</div>` : ""}
       ${bTaxId ? `<div class="buyer-item"><span class="bl">เลขผู้เสียภาษี:</span> ${bTaxId}</div>` : ""}
-      ${bPlate ? `<div class="buyer-item"><span class="bl">ทะเบียนรถ:</span> ${bPlate}</div>` : ""}
     </div>
   </div>` : ""}
 
   <table class="items">
-    <thead><tr><th class="tc" style="width:28px">#</th><th style="text-align:left">รายการสินค้า</th><th class="tc" style="width:40px">จำนวน</th><th class="tr" style="width:70px">ราคา/หน่วย</th><th class="tr" style="width:80px">จำนวนเงิน</th></tr></thead>
+    <thead><tr><th class="tc" style="width:28px">#</th><th style="text-align:left">รายการบริการ</th><th class="tc" style="width:40px">จำนวน</th><th class="tr" style="width:70px">ราคา/หน่วย</th><th class="tr" style="width:80px">จำนวนเงิน</th></tr></thead>
     <tbody>${itemsHtml}</tbody>
   </table>
 
@@ -413,7 +409,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
 
   <div class="footer">
     <div class="footer-thanks">ขอบคุณที่ใช้บริการ / Thank you for your business</div>
-    <div class="footer-sub">${store.storeName || "ร้านแบตเตอรี่"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div>
+    <div class="footer-sub">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div>
   </div>
 
   <div class="watermark">📄 ${billNum} • ${fmtDate(createdAt)}</div>
@@ -509,7 +505,7 @@ async function shareAsImage() {
       if (navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: '${docTitle} - ${billNum}',
-          text: '${store.storeName || "ร้านแบตเตอรี่"} - ${billNum} ยอด ${fmt(parseFloat(sale.total))} บาท',
+          text: '${store.storeName || "บริษัทรับจ้างทำการตลาด"} - ${billNum} ยอด ${fmt(parseFloat(sale.total))} บาท',
           files: [file],
         });
         showToast('✅ แชร์สำเร็จ!', 'success');

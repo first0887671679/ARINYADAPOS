@@ -127,7 +127,7 @@ export async function POST(req: NextRequest) {
           try {
             await sendLineMessageViaChannel(channel, userId, [{
               type: "text",
-              text: `🎉 ยินดีต้อนรับ!\n\nสวัสดีค่ะ 👋\nเราพร้อมตอบคำถามเกี่ยวกับแบตเตอรี่ให้คุณนะค่ะ\n\nอยากรู้อะไรไปถามได้เลย 💬`,
+              text: `🎉 ยินดีต้อนรับ!\n\nสวัสดีค่ะ 👋\nเราพร้อมตอบคำถามเกี่ยวกับบริการรับจ้างทำการตลาดให้คุณนะค่ะ\n\nอยากรู้อะไรไปถามได้เลย 💬`,
             }]);
           } catch (replyError) {
             console.error("LINE reply error:", replyError);

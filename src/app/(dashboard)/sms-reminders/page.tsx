@@ -19,7 +19,7 @@ export default function SmsRemindersPage() {
   const [templates, setTemplates] = useState<any[]>([]);
   const [showTemplateForm, setShowTemplateForm] = useState(false);
   const [editTemplateId, setEditTemplateId] = useState<number | null>(null);
-  const [tForm, setTForm] = useState({ name: "", message: "", durationMonths: 18 });
+  const [tForm, setTForm] = useState({ name: "", message: "", durationDays: 30 });
   // Reminders
   const [reminders, setReminders] = useState<any[]>([]);
   const [reminderFilter, setReminderFilter] = useState<"all" | "pending" | "sent">("pending");
@@ -46,7 +46,7 @@ export default function SmsRemindersPage() {
   }
 
   // Template handlers
-  function resetTemplateForm() { setTForm({ name: "", message: "", durationMonths: 18 }); setEditTemplateId(null); setShowTemplateForm(false); }
+  function resetTemplateForm() { setTForm({ name: "", message: "", durationDays: 30 }); setEditTemplateId(null); setShowTemplateForm(false); }
 
   async function handleTemplateSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -60,7 +60,7 @@ export default function SmsRemindersPage() {
   }
 
   function startEditTemplate(t: any) {
-    setTForm({ name: t.name, message: t.message, durationMonths: t.durationMonths });
+    setTForm({ name: t.name, message: t.message, durationDays: t.durationDays });
     setEditTemplateId(t.id);
     setShowTemplateForm(true);
   }
@@ -90,11 +90,11 @@ export default function SmsRemindersPage() {
     let msg = t.message;
     msg = msg.replace(/\{\{name\}\}/g, rForm.customerName || "ลูกค้า");
     msg = msg.replace(/\{\{phone\}\}/g, rForm.phone || "");
-    msg = msg.replace(/\{\{product\}\}/g, rForm.productInfo || "แบตเตอรี่");
+    msg = msg.replace(/\{\{product\}\}/g, rForm.productInfo || "บริการ");
     msg = msg.replace(/\{\{shopPhone\}\}/g, "");
     // Set scheduled date based on template duration
     const d = new Date();
-    d.setMonth(d.getMonth() + t.durationMonths);
+    d.setDate(d.getDate() + t.durationDays);
     setRForm({ ...rForm, message: msg, templateId, scheduledDate: d.toISOString().split("T")[0] });
   }
 
@@ -176,16 +176,16 @@ export default function SmsRemindersPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label>ชื่อเทมเพลต *</Label>
-                  <Input value={tForm.name} onChange={(e) => setTForm({ ...tForm, name: e.target.value })} placeholder="เช่น แจ้งเตือนเปลี่ยนแบต 18 เดือน" required />
+                  <Input value={tForm.name} onChange={(e) => setTForm({ ...tForm, name: e.target.value })} placeholder="เช่น แจ้งเตือนต่อสัญญา 30 วัน" required />
                 </div>
                 <div>
-                  <Label>ระยะเวลาล่วงหน้า (เดือน) *</Label>
+                  <Label>ระยะเวลาล่วงหน้า (วัน) *</Label>
                   <div className="flex gap-2 items-center">
-                    <Input type="number" min={1} value={tForm.durationMonths} onChange={(e) => setTForm({ ...tForm, durationMonths: parseInt(e.target.value) || 1 })} className="w-24" required />
-                    <span className="text-xs text-muted-foreground">เดือน</span>
+                    <Input type="number" min={1} value={tForm.durationDays} onChange={(e) => setTForm({ ...tForm, durationDays: parseInt(e.target.value) || 1 })} className="w-24" required />
+                    <span className="text-xs text-muted-foreground">วัน</span>
                     <div className="flex gap-1 ml-2">
-                      {[6, 12, 18, 24, 36].map((m) => (
-                        <button key={m} type="button" onClick={() => setTForm({ ...tForm, durationMonths: m })} className={`text-xs px-2 py-1 rounded-lg border transition-all ${tForm.durationMonths === m ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-200 hover:border-blue-300"}`}>{m}</button>
+                      {[7, 14, 30, 60, 90].map((m) => (
+                        <button key={m} type="button" onClick={() => setTForm({ ...tForm, durationDays: m })} className={`text-xs px-2 py-1 rounded-lg border transition-all ${tForm.durationDays === m ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-200 hover:border-blue-300"}`}>{m}</button>
                       ))}
                     </div>
                   </div>
@@ -193,7 +193,7 @@ export default function SmsRemindersPage() {
               </div>
               <div>
                 <Label>ข้อความ SMS *</Label>
-                <textarea className="w-full rounded-lg border border-gray-200 p-3 text-sm focus:border-blue-400 outline-none" rows={4} value={tForm.message} onChange={(e) => setTForm({ ...tForm, message: e.target.value })} placeholder="สวัสดีครับ คุณ{{name}} แบตเตอรี่ {{product}} ที่ซื้อไปครบกำหนดแล้ว..." required />
+                <textarea className="w-full rounded-lg border border-gray-200 p-3 text-sm focus:border-blue-400 outline-none" rows={4} value={tForm.message} onChange={(e) => setTForm({ ...tForm, message: e.target.value })} placeholder="สวัสดีครับ คุณ{{name}} สัญญาบริการ {{product}} ใกล้หมดอายุแล้ว..." required />
                 <p className="text-[10px] text-muted-foreground mt-1">ตัวแปรที่ใช้ได้: {"{{name}}"} = ชื่อลูกค้า, {"{{product}}"} = สินค้า, {"{{phone}}"} = เบอร์โทร, {"{{shopPhone}}"} = เบอร์ร้าน, {"{{date}}"} = วันที่แจ้งเตือน</p>
               </div>
               <div className="flex gap-2 justify-end">
@@ -212,7 +212,7 @@ export default function SmsRemindersPage() {
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm font-bold text-gray-800 truncate">{t.name}</h3>
                       <div className="flex items-center gap-2 mt-1.5">
-                        <Badge className="bg-blue-100 text-blue-800 border-blue-300 text-[10px]">{t.durationMonths} เดือน</Badge>
+                        <Badge className="bg-blue-100 text-blue-800 border-blue-300 text-[10px]">{t.durationDays} วัน</Badge>
                         <button onClick={() => handleToggleTemplate(t.id, t.active)} className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${t.active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
                           {t.active ? "เปิดใช้" : "ปิด"}
                         </button>
@@ -246,7 +246,7 @@ export default function SmsRemindersPage() {
                 {templates.map((t) => (
                   <TableRow key={t.id}>
                     <TableCell className="font-semibold">{t.name}</TableCell>
-                    <TableCell><Badge className="bg-blue-100 text-blue-800 border-blue-300">{t.durationMonths} เดือน</Badge></TableCell>
+                    <TableCell><Badge className="bg-blue-100 text-blue-800 border-blue-300">{t.durationDays} วัน</Badge></TableCell>
                     <TableCell className="hidden md:table-cell text-xs text-muted-foreground max-w-xs truncate">{t.message}</TableCell>
                     <TableCell>
                       <button onClick={() => handleToggleTemplate(t.id, t.active)} className={`text-xs px-2 py-1 rounded-full font-medium ${t.active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
@@ -321,15 +321,15 @@ export default function SmsRemindersPage() {
                 </div>
                 <div>
                   <Label>สินค้า/รุ่น</Label>
-                  <Input value={rForm.productInfo} onChange={(e) => setRForm({ ...rForm, productInfo: e.target.value })} placeholder="เช่น แบตเตอรี่ FB 80Ah" />
+                  <Input value={rForm.productInfo} onChange={(e) => setRForm({ ...rForm, productInfo: e.target.value })} placeholder="เช่น แพ็กเกจ SEO 6 เดือน" />
                 </div>
                 <div>
                   <Label className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> วันที่แจ้งเตือน *</Label>
                   <Input type="date" value={rForm.scheduledDate} onChange={(e) => setRForm({ ...rForm, scheduledDate: e.target.value })} required />
                   {/* Preset buttons */}
                   <div className="flex gap-1 mt-1.5">
-                    {[{ label: "6 ด.", m: 6 }, { label: "12 ด.", m: 12 }, { label: "18 ด.", m: 18 }, { label: "24 ด.", m: 24 }, { label: "36 ด.", m: 36 }].map(({ label, m }) => {
-                      const d = new Date(); d.setMonth(d.getMonth() + m);
+                    {[{ label: "7 วัน", m: 7 }, { label: "14 วัน", m: 14 }, { label: "30 วัน", m: 30 }, { label: "60 วัน", m: 60 }, { label: "90 วัน", m: 90 }].map(({ label, m }) => {
+                      const d = new Date(); d.setDate(d.getDate() + m);
                       return <button key={m} type="button" onClick={() => setRForm({ ...rForm, scheduledDate: d.toISOString().split("T")[0] })} className="text-[10px] px-2 py-0.5 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all">{label}</button>;
                     })}
                   </div>
@@ -343,7 +343,7 @@ export default function SmsRemindersPage() {
                   <div className="flex gap-2 mt-1 flex-wrap">
                     {templates.filter(t => t.active).map((t) => (
                       <button key={t.id} type="button" onClick={() => applyTemplate(t.id)} className="text-xs px-3 py-1.5 rounded-lg border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 transition-all">
-                        {t.name} ({t.durationMonths} ด.)
+                        {t.name} ({t.durationDays} วัน)
                       </button>
                     ))}
                   </div>

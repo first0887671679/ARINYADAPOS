@@ -347,7 +347,7 @@ export default function QuotationsPage() {
     let itemsHtml = "";
     convertedSale.items.forEach((item: any, idx: number) => {
       const it = item.quotation_items || item.sale_items || item;
-      const pName = it.description || [item.products?.brand, item.products?.name, item.products?.model].filter(Boolean).join(" / ") || "-";
+      const pName = it.description || item.products?.name || "-";
       const lineTotal = parseFloat(it.unitPrice) * it.quantity - parseFloat(it.discount || "0");
       itemsHtml += `<tr><td style="padding:2px 0;font-size:10px">${idx + 1}</td><td style="padding:2px 0;font-size:10px">${pName}</td><td style="text-align:center;padding:2px 0;font-size:10px">${it.quantity}</td><td style="text-align:right;padding:2px 0;font-size:10px">${formatCurrency(parseFloat(it.unitPrice))}</td><td style="text-align:right;padding:2px 0;font-size:10px">${formatCurrency(lineTotal)}</td></tr>`;
     });
@@ -367,7 +367,7 @@ export default function QuotationsPage() {
           </div>
           <div style="text-align:center;border-bottom:2px solid #2563eb;padding-bottom:12px;margin-bottom:12px;">
             <div style="font-size:18px;font-weight:bold;color:#2563eb;">${convertedSale.isTaxInvoice ? "ใบกำกับภาษี" : "ใบเสร็จรับเงิน"}</div>
-            <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "ร้านแบตเตอรี่"}</div>
+            <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "บริษัทรับจ้างทำการตลาด"}</div>
             ${store.branchName ? `<div style="font-size:11px;color:#666;">${store.branchName}</div>` : ""}
             ${store.address ? `<div style="font-size:11px;color:#666;">ที่อยู่: ${store.address}</div>` : ""}
             ${store.phone ? `<div style="font-size:11px;color:#666;">โทร. ${store.phone}</div>` : ""}
@@ -494,7 +494,7 @@ export default function QuotationsPage() {
       items.forEach((item: any) => {
         idx++;
         const it = item.quotation_items;
-        const pName = it.description || [item.products?.brand, item.products?.name, item.products?.model].filter(Boolean).join(" / ") || "-";
+        const pName = it.description || item.products?.name || "-";
         const disc = parseFloat(it.discount || "0");
         const lineTotal = parseFloat(it.unitPrice) * it.quantity - disc;
         const bg = idx % 2 === 0 ? ' style="background:#fafafa"' : '';
@@ -517,8 +517,8 @@ export default function QuotationsPage() {
       const copyLabels = ["สำหรับลูกค้า", "สำหรับบริษัท", "สำหรับบัญชี"];
 
       const thCols = hasDiscCol
-        ? `<th class="tc" style="width:30px">#</th><th style="text-align:left">รายการสินค้า / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:65px">ส่วนลด</th><th class="tr" style="width:90px">จำนวนเงิน</th>`
-        : `<th class="tc" style="width:30px">#</th><th style="text-align:left">รายการสินค้า / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:90px">จำนวนเงิน</th>`;
+        ? `<th class="tc" style="width:30px">#</th><th style="text-align:left">รายการบริการ / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:65px">ส่วนลด</th><th class="tr" style="width:90px">จำนวนเงิน</th>`
+        : `<th class="tc" style="width:30px">#</th><th style="text-align:left">รายการบริการ / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:90px">จำนวนเงิน</th>`;
 
       function buildPage(label: string, i: number) {
         return `<div class="page" style="page-break-after:${i < 2 ? "always" : "auto"}">
@@ -527,7 +527,7 @@ export default function QuotationsPage() {
     <div class="logo-box">${logoUrl ? `<img src="${logoUrl}" alt="logo">` : `<div class="logo-ph"></div>`}</div>
     <div class="header-text">
       <div class="doc-title">${docTitle}</div>
-      <div class="store-name">${store.storeName || "ร้านแบตเตอรี่"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
+      <div class="store-name">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
       <div class="store-detail">${store.address || ""}${store.phone ? ` | โทร. ${store.phone}` : ""}${store.taxId ? `<br>เลขประจำตัวผู้เสียภาษี: ${store.taxId}` : ""}</div>
     </div>
   </div>
@@ -571,7 +571,7 @@ export default function QuotationsPage() {
     <div class="sig-block"><div class="sig-line"></div><div class="sig-label">ลูกค้า / ผู้สั่งซื้อ</div><div class="sig-sub">(...............................)</div><div class="sig-sub">วันที่ ____/____/____</div></div>
     `}
   </div>
-  <div class="footer"><div class="footer-thanks">${isReceipt ? "ขอบคุณที่ใช้บริการ / Thank you for your business" : "ขอบคุณที่ไว้วางใจ / Thank you for your trust"}</div><div class="footer-sub">${store.storeName || "ร้านแบตเตอรี่"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div></div>
+  <div class="footer"><div class="footer-thanks">${isReceipt ? "ขอบคุณที่ใช้บริการ / Thank you for your business" : "ขอบคุณที่ไว้วางใจ / Thank you for your trust"}</div><div class="footer-sub">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div></div>
 </div>`;
       }
 
@@ -673,7 +673,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
             </button>
           )}
           <Button variant="outline" size="sm" onClick={async () => {
-            const { exportQuotationsExcel } = await loadExportExcel(); exportQuotationsExcel(filtered, storeSettings?.storeName || "ร้านแบตเตอรี่");
+            const { exportQuotationsExcel } = await loadExportExcel(); exportQuotationsExcel(filtered, storeSettings?.storeName || "บริษัทรับจ้างทำการตลาด");
           }} className="h-8 text-xs border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
             <Download className="h-3.5 w-3.5" /> Excel
           </Button>
@@ -864,7 +864,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
               {/* Items */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <Label className="text-sm font-semibold">รายการสินค้า/บริการ</Label>
+                  <Label className="text-sm font-semibold">รายการบริการ</Label>
                   <div className="flex gap-2">
                     <Button type="button" variant="default" size="sm" className="text-xs h-8 gap-1.5 gradient-blue text-white shadow-sm" onClick={openProductBrowser}>
                       <Package className="h-3.5 w-3.5" /> เลือกสินค้า
@@ -882,11 +882,9 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                         <div key={p.id} className="px-3 py-2 hover:bg-blue-50 cursor-pointer flex justify-between items-center text-xs border-b last:border-0" onClick={() => addProduct(p)}>
                           <div>
                             <div className="font-medium">{p.name}</div>
-                            {p.brand && <div className="text-muted-foreground text-[10px]">{p.brand} {p.model}</div>}
                           </div>
                           <div className="text-right">
                             <div className="text-blue-600 font-semibold">{formatCurrency(parseFloat(p.sellPrice))}</div>
-                            <div className="text-[10px] text-muted-foreground">คงเหลือ {p.stock}</div>
                           </div>
                         </div>
                       ))}
@@ -999,10 +997,8 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                 const filtered = allProducts.filter((row: any) => {
                   const p = row.products || row;
                   const matchName = p.name.toLowerCase().includes(browserFilter.toLowerCase());
-                  const matchBrand = (p.brand || "").toLowerCase().includes(browserFilter.toLowerCase());
-                  const matchModel = (p.model || "").toLowerCase().includes(browserFilter.toLowerCase());
                   const matchCategory = !browserCategory || p.categoryId === parseInt(browserCategory);
-                  return (matchName || matchBrand || matchModel) && matchCategory;
+                  return matchName && matchCategory;
                 });
 
                 if (filtered.length === 0) {
@@ -1039,12 +1035,8 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                             )}
                           </div>
                           <div className="text-xs font-semibold line-clamp-2 mb-1">{p.name}</div>
-                          {(p.brand || p.model) && (
-                            <div className="text-[10px] text-muted-foreground mb-1">{p.brand} {p.model}</div>
-                          )}
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-bold text-blue-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
-                            <span className="text-[10px] text-muted-foreground">คงเหลือ {p.stock}</span>
                           </div>
                           {cat && (
                             <Badge variant="outline" className="mt-1.5 text-[9px] px-1.5 py-0 h-4">{cat.name}</Badge>

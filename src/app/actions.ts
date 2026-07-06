@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { products, categories, customers, sales, saleItems, employees, storeSettings, quotations, quotationItems, smsTemplates, smsReminders, employeeSmsLogs, jobApplications } from "@/db/schema";
+import { products, categories, customers, sales, saleItems, employees, storeSettings, quotations, quotationItems, smsTemplates, smsReminders, employeeSmsLogs, jobApplications, contracts } from "@/db/schema";
 import { eq, desc, sql, and, gte, lte, or } from "drizzle-orm";
 import { hashPassword, getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
@@ -67,64 +67,6 @@ async function requireAdmin() {
   return { id: 1, name: "Temp User", username: "temp", role: "admin" };
 }
 
-// ========== Low Stock Alert ==========
-export async function checkLowStockAndNotify(productId: number) {
-  try {
-    const settings = await getStoreSettings();
-    if (!settings.lineNotifyEnabled) return;
-    if (!settings.lowStockAlertEnabled) return;
-
-    const [product] = await db.select().from(products).where(eq(products.id, productId)).limit(1);
-    if (!product) return;
-
-    if (product.stock <= settings.lowStockThreshold) {
-      const { sendLineMessage } = await import("@/lib/line-notify");
-      
-      // ดึง Channel Token และ User ID
-      const channelToken = settings.lineChannelToken || process.env.LINE_CHANNEL_TOKEN;
-      const ownerUserId = settings.lineUserId || process.env.LINE_USER_ID;
-      
-      if (!channelToken || !ownerUserId) return;
-
-      const message = `⚠️ สินค้าใกล้หมด!\n📦 ${product.name}\nคงเหลือ: ${product.stock} ชิ้น\n(เกณฑ์การเตือน: ${settings.lowStockThreshold} ชิ้น)`;
-      
-      await sendLineMessage(channelToken, ownerUserId, message);
-      console.log(`[LowStock] Notified for product: ${product.name}, stock: ${product.stock}`);
-    }
-  } catch (err) {
-    console.error("[checkLowStockAndNotify] Error:", err);
-  }
-}
-
-export async function checkOutOfStockAndNotify(productId: number) {
-  try {
-    const settings = await getStoreSettings();
-    if (!settings.lineNotifyEnabled) return;
-    if (settings.outOfStockAlertEnabled === false) return;
-
-    const [product] = await db.select().from(products).where(eq(products.id, productId)).limit(1);
-    if (!product) return;
-
-    if (product.stock === 0) {
-      const { sendLineMessage } = await import("@/lib/line-notify");
-      
-      const channelToken = settings.lineChannelToken || process.env.LINE_CHANNEL_TOKEN;
-      const ownerUserId = settings.lineUserId || process.env.LINE_USER_ID;
-      
-      if (!channelToken || !ownerUserId) return;
-
-      const name = [product.brand, product.name, product.model].filter(Boolean).join(" / ");
-      const terminal = product.batteryTerminal ? ` (${product.batteryTerminal})` : "";
-      const message = `⚠️ สินค้าหมด!\n📦 ${name}${terminal}\nคงเหลือ: 0 ชิ้น\n📝 กรุณาเติมสต๊อกโดยเร็วที่สุด`;
-      
-      await sendLineMessage(channelToken, ownerUserId, message);
-      console.log(`[OutOfStock] Notified for product: ${product.name}`);
-    }
-  } catch (err) {
-    console.error("[checkOutOfStockAndNotify] Error:", err);
-  }
-}
-
 // ========== Session ==========
 export async function getSessionUser() {
   const { getSession } = await import("@/lib/auth");
@@ -137,7 +79,7 @@ export async function getStoreSettings() {
   if (settings.length === 0) {
     // Create default settings if not exists
     const [newSettings] = await db.insert(storeSettings).values({
-      storeName: "ร้านแบตเตอรี่",
+      storeName: "บริษัทรับจ้างทำการตลาด",
     }).returning();
     return newSettings;
   }
@@ -161,14 +103,9 @@ export async function updateStoreSettings(data: {
   lineReportSales?: boolean;
   lineReportQuantity?: boolean;
   lineReportProducts?: boolean;
-  lineReportModel?: boolean;
   lineReportTime?: string;
   lineReportEnabled?: boolean;
-  lowStockThreshold?: number;
-  lowStockAlertEnabled?: boolean;
-  outOfStockAlertEnabled?: boolean;
   newSaleAlertEnabled?: boolean;
-  kgPrice?: number;
 }) {
   await requireAdmin();
   const existing = await db.select().from(storeSettings).limit(1);
@@ -190,14 +127,9 @@ export async function updateStoreSettings(data: {
       lineReportSales: data.lineReportSales ?? true,
       lineReportQuantity: data.lineReportQuantity ?? true,
       lineReportProducts: data.lineReportProducts ?? true,
-      lineReportModel: data.lineReportModel ?? true,
       lineReportTime: data.lineReportTime ?? "18:00",
       lineReportEnabled: data.lineReportEnabled ?? false,
-      lowStockThreshold: data.lowStockThreshold ?? 1,
-      lowStockAlertEnabled: data.lowStockAlertEnabled ?? true,
-      outOfStockAlertEnabled: data.outOfStockAlertEnabled ?? true,
       newSaleAlertEnabled: data.newSaleAlertEnabled ?? true,
-      kgPrice: data.kgPrice !== undefined ? String(data.kgPrice) : "0",
     }).returning();
     return newSettings;
   }
@@ -220,14 +152,9 @@ export async function updateStoreSettings(data: {
   if (data.lineReportSales !== undefined) updatePayload.lineReportSales = data.lineReportSales;
   if (data.lineReportQuantity !== undefined) updatePayload.lineReportQuantity = data.lineReportQuantity;
   if (data.lineReportProducts !== undefined) updatePayload.lineReportProducts = data.lineReportProducts;
-  if (data.lineReportModel !== undefined) updatePayload.lineReportModel = data.lineReportModel;
   if (data.lineReportTime !== undefined) updatePayload.lineReportTime = data.lineReportTime;
   if (data.lineReportEnabled !== undefined) updatePayload.lineReportEnabled = data.lineReportEnabled;
-  if (data.lowStockThreshold !== undefined) updatePayload.lowStockThreshold = data.lowStockThreshold;
-  if (data.lowStockAlertEnabled !== undefined) updatePayload.lowStockAlertEnabled = data.lowStockAlertEnabled;
-  if (data.outOfStockAlertEnabled !== undefined) updatePayload.outOfStockAlertEnabled = data.outOfStockAlertEnabled;
   if (data.newSaleAlertEnabled !== undefined) updatePayload.newSaleAlertEnabled = data.newSaleAlertEnabled;
-  if (data.kgPrice !== undefined) updatePayload.kgPrice = String(data.kgPrice);
 
   const [updated] = await db.update(storeSettings).set(updatePayload).where(eq(storeSettings.id, existing[0].id)).returning();
   revalidatePath("/pos");
@@ -247,18 +174,16 @@ export async function getProductById(id: number) {
 
 export async function createProduct(data: {
   name: string; categoryId: number | null;
-  brand: string; model: string; size: string; batteryTerminal: string; weight: string | null; sellPrice: string; costPrice: string;
-  stock: number; warranty: string;
+  sellPrice: string; costPrice: string;
+  serviceDuration?: string;
   imageUrl?: string | null;
   images?: string | null;
 }) {
   await requireAuth();
   await db.insert(products).values({
     name: data.name, categoryId: data.categoryId,
-    brand: data.brand || null, model: data.model || null, size: data.size || null, batteryTerminal: data.batteryTerminal || null,
-    weight: data.weight ? data.weight : null,
     sellPrice: data.sellPrice, costPrice: data.costPrice,
-    stock: data.stock, warranty: data.warranty || null,
+    serviceDuration: data.serviceDuration || null,
     imageUrl: data.imageUrl || null,
     images: data.images || null,
   });
@@ -267,23 +192,19 @@ export async function createProduct(data: {
 
 export async function updateProduct(id: number, data: {
   name: string; categoryId: number | null;
-  brand: string; model: string; size: string; batteryTerminal: string; weight: string | null; sellPrice: string; costPrice: string;
-  stock: number; warranty: string;
+  sellPrice: string; costPrice: string;
+  serviceDuration?: string;
   imageUrl?: string | null;
   images?: string | null;
 }) {
   await db.update(products).set({
     name: data.name, categoryId: data.categoryId,
-    brand: data.brand || null, model: data.model || null, size: data.size || null, batteryTerminal: data.batteryTerminal || null,
-    weight: data.weight ? data.weight : null,
     sellPrice: data.sellPrice, costPrice: data.costPrice,
-    stock: data.stock, warranty: data.warranty || null,
+    serviceDuration: data.serviceDuration || null,
     imageUrl: data.imageUrl || null,
     images: data.images || null,
   }).where(eq(products.id, id));
   revalidatePath("/products");
-  // Check if product is now out of stock
-  await checkOutOfStockAndNotify(id).catch(() => {});
 }
 
 export async function deleteProduct(id: number): Promise<{ success: boolean; error?: string }> {
@@ -310,9 +231,9 @@ export async function duplicateProduct(id: number) {
   const p = original[0];
   await db.insert(products).values({
     name: `${p.name} (สำเนา)`,
-    brand: p.brand, model: p.model, size: p.size, batteryTerminal: p.batteryTerminal,
     costPrice: p.costPrice, sellPrice: p.sellPrice,
-    stock: 0, categoryId: p.categoryId, warranty: p.warranty,
+    categoryId: p.categoryId,
+    serviceDuration: p.serviceDuration,
     imageUrl: p.imageUrl, images: p.images,
     sortOrder: p.sortOrder,
   });
@@ -327,56 +248,6 @@ export async function swapProductOrder(id1: number, id2: number) {
   await db.update(products).set({ sortOrder: p2.sortOrder }).where(eq(products.id, id1));
   await db.update(products).set({ sortOrder: p1.sortOrder }).where(eq(products.id, id2));
   revalidatePath("/products");
-}
-
-export async function sendOutOfStockAlert() {
-  const { sendLineMessage } = await import("@/lib/line-notify");
-
-  const settings = await db.select().from(storeSettings).limit(1);
-  const s = settings[0];
-
-  const isEnabled = s?.lineNotifyEnabled ?? true;
-  if (!isEnabled) return { success: false, message: "LINE แจ้งเตือนถูกปิดอยู่" };
-
-  const channelToken = s?.lineChannelToken || process.env.LINE_CHANNEL_TOKEN;
-  if (!channelToken) return { success: false, message: "ไม่พบ LINE Channel Token" };
-
-  const ownerUserId = s?.lineUserId || process.env.LINE_USER_ID;
-  if (!ownerUserId) return { success: false, message: "ไม่พบ LINE User ID ของผู้ดูแล" };
-
-  // ดึงสินค้าที่หมดแล้ว (stock = 0)
-  const outOfStockItems = await db.select({
-    productName: products.name,
-    brand: products.brand,
-    model: products.model,
-    batteryTerminal: products.batteryTerminal,
-  }).from(products).where(eq(products.stock, 0)).orderBy(products.sortOrder, products.name);
-
-  if (outOfStockItems.length === 0) return { success: false, message: "ไม่มีสินค้าที่หมดแล้ว" };
-
-  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
-  const dateStr = now.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" });
-
-  let msg = `⚠️ แจ้งเตือนสินค้าหมด\n📅 ${dateStr}\n`;
-  msg += `━━━━━━━━━━━━━━━\n`;
-
-  outOfStockItems.forEach((item, idx) => {
-    const name = [item.brand, item.productName, item.model].filter(Boolean).join(" / ");
-    const terminal = item.batteryTerminal ? ` (${item.batteryTerminal})` : "";
-    msg += `${idx + 1}. ${name}${terminal}\n`;
-  });
-
-  msg += `━━━━━━━━━━━━━━━\n`;
-  msg += `รวม ${outOfStockItems.length} รายการ\n`;
-  msg += `📝 กรุณาเติมสต๊อกโดยเร็วที่สุด`;
-
-  try {
-    await sendLineMessage(channelToken, ownerUserId, msg);
-    return { success: true, message: `ส่งแจ้งเตือนสำเร็จ (${outOfStockItems.length} รายการ)` };
-  } catch (error) {
-    console.error("LINE out of stock alert error:", error);
-    return { success: false, message: "ส่งแจ้งเตือนล้มเหลว" };
-  }
 }
 
 export async function bulkDeleteProducts(ids: number[]): Promise<{ success: boolean; deletedCount: number; error?: string }> {
@@ -411,7 +282,7 @@ export async function searchProducts(query: string) {
   return db.select().from(products)
     .leftJoin(categories, eq(products.categoryId, categories.id))
     .where(
-      sql`${products.name} ILIKE ${`%${query}%`} OR ${products.brand} ILIKE ${`%${query}%`} OR ${products.model} ILIKE ${`%${query}%`}`
+      sql`${products.name} ILIKE ${`%${query}%`}`
     );
 }
 
@@ -437,7 +308,7 @@ export async function deleteCategory(id: number): Promise<{ success: boolean; er
   // Check if any products are in this category
   const productsInCategory = await db.select({ id: products.id }).from(products).where(eq(products.categoryId, id)).limit(1);
   if (productsInCategory.length > 0) {
-    return { success: false, error: "ไม่สามารถลบหมวดหมู่นี้ได้ เนื่องจากมีสินค้าอยู่ในหมวดหมู่นี้" };
+    return { success: false, error: "ไม่สามารถลบหมวดหมู่นี้ได้ เนื่องจากมีบริการอยู่ในหมวดหมู่นี้" };
   }
   await db.delete(categories).where(eq(categories.id, id));
   revalidatePath("/categories");
@@ -449,24 +320,24 @@ export async function getCustomers() {
   return db.select().from(customers).orderBy(customers.name);
 }
 
-export async function createCustomer(data: { name: string; phone: string; licensePlate: string; address: string; taxId?: string }) {
+export async function createCustomer(data: { name: string; phone: string; companyName?: string; industry?: string; contactPerson?: string; address: string; taxId?: string }) {
   await db.insert(customers).values({
-    name: data.name, phone: data.phone || null, licensePlate: data.licensePlate || null, address: data.address || null, taxId: data.taxId || null,
+    name: data.name, phone: data.phone || null, companyName: data.companyName || null, industry: data.industry || null, contactPerson: data.contactPerson || null, address: data.address || null, taxId: data.taxId || null,
   });
   revalidatePath("/customers");
 }
 
 // สำหรับเพิ่มลูกค้าจากหน้า POS โดยไม่ revalidate (ป้องกัน state reset ของ cart)
-export async function createCustomerInline(data: { name: string; phone: string; licensePlate: string; address: string; taxId?: string }) {
+export async function createCustomerInline(data: { name: string; phone: string; companyName?: string; industry?: string; contactPerson?: string; address: string; taxId?: string }) {
   const result = await db.insert(customers).values({
-    name: data.name, phone: data.phone || null, licensePlate: data.licensePlate || null, address: data.address || null, taxId: data.taxId || null,
+    name: data.name, phone: data.phone || null, companyName: data.companyName || null, industry: data.industry || null, contactPerson: data.contactPerson || null, address: data.address || null, taxId: data.taxId || null,
   }).returning();
   return result[0];
 }
 
-export async function updateCustomer(id: number, data: { name: string; phone: string; licensePlate: string; address: string; taxId?: string }) {
+export async function updateCustomer(id: number, data: { name: string; phone: string; companyName?: string; industry?: string; contactPerson?: string; address: string; taxId?: string }) {
   await db.update(customers).set({
-    name: data.name, phone: data.phone || null, licensePlate: data.licensePlate || null, address: data.address || null, taxId: data.taxId || null,
+    name: data.name, phone: data.phone || null, companyName: data.companyName || null, industry: data.industry || null, contactPerson: data.contactPerson || null, address: data.address || null, taxId: data.taxId || null,
   }).where(eq(customers.id, id));
   revalidatePath("/customers");
 }
@@ -582,14 +453,6 @@ export async function createSale(data: {
     });
   }
 
-  // ตัดสต๊อกทันทีพร้อมบันทึกบิล
-  for (const item of data.items) {
-    const result = await db.update(products).set({
-      stock: sql`GREATEST(${products.stock} - ${item.quantity}, 0)`,
-    }).where(eq(products.id, item.productId)).returning({ id: products.id, stock: products.stock });
-    console.log(`[STOCK DEDUCT] saleId=${sale.id} productId=${item.productId} qty=${item.quantity} newStock=${result[0]?.stock}`);
-  }
-
   revalidatePath("/pos");
   revalidatePath("/sales");
   revalidatePath("/products");
@@ -623,16 +486,6 @@ export async function voidSale(id: number): Promise<{ success: boolean; error?: 
   const [sale] = await db.select().from(sales).where(eq(sales.id, id)).limit(1);
   if (!sale) return { success: false, error: "ไม่พบรายการขาย" };
   if (sale.status === "voided") return { success: false, error: "รายการนี้ถูกยกเลิกแล้ว" };
-
-  // คืนสต๊อกถ้าเป็น completed
-  if (sale.status === "completed") {
-    const items = await db.select().from(saleItems).where(eq(saleItems.saleId, id));
-    for (const item of items) {
-      await db.update(products).set({
-        stock: sql`${products.stock} + ${item.quantity}`,
-      }).where(eq(products.id, item.productId));
-    }
-  }
 
   await db.update(sales).set({ status: "voided" }).where(eq(sales.id, id));
   revalidatePath("/sales");
@@ -719,13 +572,6 @@ export async function updateSale(id: number, data: {
 }) {
   // If items provided, recalculate totals and replace items
   if (data.items && data.items.length > 0) {
-    // Restore old stock first
-    const oldItems = await db.select().from(saleItems).where(eq(saleItems.saleId, id));
-    for (const oi of oldItems) {
-      await db.update(products).set({
-        stock: sql`${products.stock} + ${oi.quantity}`,
-      }).where(eq(products.id, oi.productId));
-    }
     // Delete old items
     await db.delete(saleItems).where(eq(saleItems.saleId, id));
 
@@ -766,9 +612,6 @@ export async function updateSale(id: number, data: {
         discount: item.discount || "0",
         total: lineTotal.toFixed(2),
       });
-      await db.update(products).set({
-        stock: sql`${products.stock} - ${item.quantity}`,
-      }).where(eq(products.id, item.productId));
     }
 
     const [updated] = await db.update(sales).set({
@@ -1174,8 +1017,6 @@ export async function sendDailySalesLineNotify() {
   const showSales = s?.lineReportSales ?? true;
   const showQuantity = s?.lineReportQuantity ?? true;
   const showProducts = s?.lineReportProducts ?? true;
-  const showModel = s?.lineReportModel ?? true;
-
   const today = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
   today.setHours(0, 0, 0, 0);
 
@@ -1184,7 +1025,7 @@ export async function sendDailySalesLineNotify() {
     .where(and(gte(sales.createdAt, today), eq(sales.status, "completed")))
     .orderBy(desc(sales.createdAt));
 
-  const storeName = s?.storeName || "ร้านแบตเตอรี่";
+  const storeName = s?.storeName || "บริษัทรับจ้างทำการตลาด";
 
   if (todaySalesData.length === 0) {
     const msg = `📊 สรุปยอดขายวันนี้\n🏪 ${storeName}\n📅 ${today.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })}\n\n❌ ไม่มีรายการขายวันนี้`;
@@ -1199,23 +1040,21 @@ export async function sendDailySalesLineNotify() {
   msg += `\n📅 ${today.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })}`;
 
   // Show products if enabled
-  if ((showProducts || showModel) && todaySalesData.length > 0) {
+  if (showProducts && todaySalesData.length > 0) {
     const saleIds = todaySalesData.map(sale => sale.id);
     const allItems = await db.select({
       productName: products.name,
-      brand: products.brand,
-      model: products.model,
       quantity: saleItems.quantity,
       total: saleItems.total,
     }).from(saleItems)
       .innerJoin(products, eq(saleItems.productId, products.id))
       .where(sql`${saleItems.saleId} = ANY(${sql.raw(`ARRAY[${saleIds.join(",")}]`)})`);
 
-    // Aggregate by product (use name + model as key for uniqueness)
-    const productMap = new Map<string, { name: string; brand: string | null; model: string | null; qty: number; total: number }>();
+    // Aggregate by product
+    const productMap = new Map<string, { name: string; qty: number; total: number }>();
     for (const item of allItems) {
-      const key = `${item.productName}||${item.brand || ""}||${item.model || ""}`;
-      const existing = productMap.get(key) || { name: item.productName, brand: item.brand, model: item.model, qty: 0, total: 0 };
+      const key = item.productName;
+      const existing = productMap.get(key) || { name: item.productName, qty: 0, total: 0 };
       existing.qty += item.quantity;
       existing.total += parseFloat(item.total);
       productMap.set(key, existing);
@@ -1228,10 +1067,6 @@ export async function sendDailySalesLineNotify() {
       Array.from(productMap.values()).forEach((data) => {
         let line = `\n${idx}.`;
         if (showProducts) line += ` ${data.name}`;
-        if (showModel && (data.brand || data.model)) {
-          const modelParts = [data.brand, data.model].filter(Boolean).join(" ");
-          if (modelParts) line += showProducts ? ` (${modelParts})` : ` ${modelParts}`;
-        }
         if (showQuantity) line += ` x${data.qty}`;
         msg += line;
         idx++;
@@ -1264,14 +1099,6 @@ export async function finalizeSale(saleId: number, saleItems?: { productId: numb
     console.error(`❌ Finalize Sale: LINE notify failed for saleId=${saleId}:`, err);
   }
 
-  // 2. Check low stock and notify for each item
-  if (saleItems) {
-    for (const item of saleItems) {
-      await checkLowStockAndNotify(item.productId).catch(() => {});
-      await checkOutOfStockAndNotify(item.productId).catch(() => {});
-    }
-  }
-
   revalidatePath("/pos");
   revalidatePath("/sales");
   revalidatePath("/products");
@@ -1284,19 +1111,6 @@ export async function cancelPendingSale(saleId: number) {
   // เปลี่ยนสถานะเป็น voided แทนการลบ (เก็บประวัติไว้)
   const [sale] = await db.select({ status: sales.status }).from(sales).where(eq(sales.id, saleId)).limit(1);
   if (!sale || sale.status === "voided") return;
-
-  // คืนสต๊อกสินค้าทุกรายการในบิล
-  if (sale.status === "completed") {
-    const items = await db.select({
-      productId: saleItems.productId,
-      quantity: saleItems.quantity,
-    }).from(saleItems).where(eq(saleItems.saleId, saleId));
-    for (const item of items) {
-      await db.update(products).set({
-        stock: sql`${products.stock} + ${item.quantity}`,
-      }).where(eq(products.id, item.productId));
-    }
-  }
 
   await db.update(sales).set({ status: "voided" }).where(eq(sales.id, saleId));
   revalidatePath("/pos");
@@ -1357,8 +1171,6 @@ export async function sendSaleLineNotify(saleId: number) {
 
   const items = await db.select({
     productName: products.name,
-    brand: products.brand,
-    model: products.model,
     quantity: saleItems.quantity,
     unitPrice: saleItems.unitPrice,
     total: saleItems.total,
@@ -1369,13 +1181,11 @@ export async function sendSaleLineNotify(saleId: number) {
   // ดึงข้อมูลลูกค้า
   let customerName = "-";
   let customerPhone = "";
-  let customerPlate = "";
   if (sale.customerId) {
     const custData = await db.select().from(customers).where(eq(customers.id, sale.customerId)).limit(1);
     if (custData[0]) {
       customerName = custData[0].name;
       customerPhone = custData[0].phone || "";
-      customerPlate = custData[0].licensePlate || "";
     }
   }
 
@@ -1386,7 +1196,7 @@ export async function sendSaleLineNotify(saleId: number) {
     if (empData[0]) employeeName = empData[0].name;
   }
 
-  const storeName = s?.storeName || "ร้านแบตเตอรี่";
+  const storeName = s?.storeName || "บริษัทรับจ้างทำการตลาด";
   const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
 
   // อ่านค่า preferences สำหรับแจ้งเตือนแต่ละบิล
@@ -1404,19 +1214,14 @@ export async function sendSaleLineNotify(saleId: number) {
   if (customerName !== "-") {
     msg += `\n\n🧑‍💼 ลูกค้า: ${customerName}`;
     if (customerPhone) msg += `\n📱 ${customerPhone}`;
-    if (customerPlate) msg += `\n🚗 ${customerPlate}`;
   }
 
-  // รายการสินค้า
-  msg += `\n\n📝 รายการสินค้า:`;
+  // รายการบริการ
+  msg += `\n\n📝 รายการบริการ:`;
   msg += `\n${"─".repeat(20)}`;
   for (const item of items) {
     if (showProducts) {
-      let productLine = `${item.productName}`;
-      if (item.brand) productLine += ` (${item.brand}`;
-      if (item.model) productLine += ` ${item.model}`;
-      if (item.brand) productLine += `)`;
-      msg += `\n• ${productLine}`;
+      msg += `\n• ${item.productName}`;
     }
     if (showQuantity || showPrice) {
       let detailLine = "  ";
@@ -1493,8 +1298,6 @@ export async function sendSaleToEmployeeLine(data: {
   // Get sale items
   const items = await db.select({
     productName: products.name,
-    brand: products.brand,
-    model: products.model,
     quantity: saleItems.quantity,
     unitPrice: saleItems.unitPrice,
     total: saleItems.total,
@@ -1502,7 +1305,7 @@ export async function sendSaleToEmployeeLine(data: {
     .innerJoin(products, eq(saleItems.productId, products.id))
     .where(eq(saleItems.saleId, data.saleId));
 
-  const storeName = s?.storeName || "ร้านแบตเตอรี่";
+  const storeName = s?.storeName || "บริษัทรับจ้างทำการตลาด";
   const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
 
   let msg = `📋 งานมอบหมาย - รายละเอียดการขาย`;
@@ -1523,10 +1326,9 @@ export async function sendSaleToEmployeeLine(data: {
   // Items
   if (items.length > 0) {
     msg += `\n${'─'.repeat(20)}`;
-    msg += `\n📦 รายการสินค้า:`;
+    msg += `\n📦 รายการบริการ:`;
     items.forEach((item, idx) => {
-      const itemLabel = [item.brand, item.productName, item.model].filter(Boolean).join(" / ");
-      msg += `\n${idx + 1}. ${itemLabel} x${item.quantity} = ${parseFloat(item.total).toLocaleString("th-TH", { minimumFractionDigits: 2 })} บ.`;
+      msg += `\n${idx + 1}. ${item.productName} x${item.quantity} = ${parseFloat(item.total).toLocaleString("th-TH", { minimumFractionDigits: 2 })} บ.`;
     });
   }
 
@@ -1538,7 +1340,7 @@ export async function sendSaleToEmployeeLine(data: {
   const taxAmountVal = parseFloat(sale.taxAmount || "0");
   const totalVal = parseFloat(sale.total);
 
-  msg += `\n🧮 ยอดสินค้า: ${subtotalVal.toLocaleString("th-TH", { minimumFractionDigits: 2 })} บ.`;
+  msg += `\n🧮 ยอดบริการ: ${subtotalVal.toLocaleString("th-TH", { minimumFractionDigits: 2 })} บ.`;
   if (serviceFeeVal > 0) {
     msg += `\n🔧 ค่าบริการ: ${serviceFeeVal.toLocaleString("th-TH", { minimumFractionDigits: 2 })} บ.`;
     if (sale.serviceDescription) msg += ` (${sale.serviceDescription})`;
@@ -1597,7 +1399,7 @@ export async function testLineNotify() {
   if (!channelToken) return { success: false, error: "ยังไม่ได้ตั้งค่า LINE Channel Access Token" };
   if (!userId) return { success: false, error: "ยังไม่ได้ตั้งค่า LINE User ID" };
 
-  const storeName = s?.storeName || "ร้านแบตเตอรี่";
+  const storeName = s?.storeName || "บริษัทรับจ้างทำการตลาด";
   const thaiNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
   const msg = `✅ ทดสอบการเชื่อมต่อ LINE Messaging API\n🏪 ${storeName}\n📅 ${thaiNow.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })}\n🕐 ${thaiNow.toLocaleTimeString("th-TH")}\n\nระบบแจ้งเตือนพร้อมใช้งาน!`;
   const result = await sendLineMessage(channelToken, userId, msg);
@@ -1688,9 +1490,9 @@ export async function getDashboardStatsWithDate(dateFrom: string, dateTo: string
     .innerJoin(products, eq(saleItems.productId, products.id))
     .where(and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate), eq(sales.status, "completed")));
 
-  // ทุนสต๊อกสินค้าทั้งหมดตอนนี้
+  // ทุนสินค้าทั้งหมดตอนนี้
   const [stockValueResult] = await db.select({
-    total: sql<string>`COALESCE(sum(${products.costPrice}::numeric * ${products.stock}), 0)::text`,
+    total: sql<string>`COALESCE(sum(${products.costPrice}::numeric), 0)::text`,
   }).from(products);
 
   const recentSales = await db.select().from(sales)
@@ -1698,13 +1500,8 @@ export async function getDashboardStatsWithDate(dateFrom: string, dateTo: string
     .where(and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate)))
     .orderBy(desc(sales.createdAt)).limit(50);
 
-  // น้ำหนักรวมที่ขายไปในช่วงเวลา
-  const [weightResult] = await db.select({
-    totalWeight: sql<number>`COALESCE(sum(${products.weight}::numeric * ${saleItems.quantity}), 0)::float`,
-  }).from(saleItems)
-    .innerJoin(sales, eq(saleItems.saleId, sales.id))
-    .innerJoin(products, eq(saleItems.productId, products.id))
-    .where(and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate), eq(sales.status, "completed")));
+  // น้ำหนักไม่ใช้แล้วสำหรับบริษัทรับจ้างทำการตลาด
+  const totalWeight = 0;
 
   // จำนวนสินค้าที่ขายไปในช่วงเวลา (รวมทุก payment method)
   const [itemsSoldResult] = await db.select({
@@ -1721,10 +1518,6 @@ export async function getDashboardStatsWithDate(dateFrom: string, dateTo: string
     and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate), eq(sales.status, "completed"), eq(sales.paymentMethod, "cash"))
   );
 
-  // ดึงราคา kg จากการตั้งค่า
-  const settingsData = await db.select().from(storeSettings).limit(1);
-  const kgPrice = parseFloat(settingsData[0]?.kgPrice || "0");
-
   return {
     todaySalesCount: periodSales?.count || 0,
     todaySalesTotal: periodSales?.total || "0",
@@ -1732,9 +1525,9 @@ export async function getDashboardStatsWithDate(dateFrom: string, dateTo: string
     totalCustomers: totalCustomers?.count || 0,
     costOfGoodsSold: cogsResult?.total || "0",
     totalStockValue: stockValueResult?.total || "0",
-    totalWeightSold: weightResult?.totalWeight || 0,
-    kgPrice,
-    totalWeightValue: (weightResult?.totalWeight || 0) * kgPrice,
+    totalWeightSold: 0,
+    kgPrice: 0,
+    totalWeightValue: 0,
     totalItemsSold: itemsSoldResult?.totalQty || 0,
     totalCashSales: cashSalesResult?.total || "0",
     totalCashSalesCount: cashSalesResult?.count || 0,
@@ -1761,20 +1554,16 @@ export async function sendStockDecreaseLineNotify() {
   // ใช้ข้อมูลตั้งแต่รีเซ็ทล่าสุดถึงปัจจุบัน
   const soldItems = await getStockDecreaseItemsSinceReset();
 
-  if (soldItems.length === 0) return { success: false, message: "ไม่มีรายการสินค้าที่สต๊อกลดตั้งแต่รีเซ็ทล่าสุด" };
+  if (soldItems.length === 0) return { success: false, message: "ไม่มีรายการบริการที่สต๊อกลดตั้งแต่รีเซ็ทล่าสุด" };
 
   const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
   const dateStr = now.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" });
-  const lastReset = s?.lastStockResetAt;
-  const resetStr = lastReset ? new Date(lastReset).toLocaleDateString("th-TH", { year: "numeric", month: "short", day: "numeric" }) : "ไม่เคยรีเซ็ท";
 
-  let msg = `📦 แจ้งเตือนสต๊อกลด\n📅 ${dateStr}\n🔄 ตั้งแต่รีเซ็ท: ${resetStr}\n`;
+  let msg = `📦 แจ้งเตือนสต๊อกลด\n📅 ${dateStr}\n`;
   msg += `━━━━━━━━━━━━━━━\n`;
 
   soldItems.forEach((item, idx) => {
-    const name = [item.brand, item.productName, item.model].filter(Boolean).join(" / ");
-    const terminal = item.batteryTerminal ? ` (${item.batteryTerminal})` : "";
-    msg += `${idx + 1}. ${name}${terminal}\n   จำนวนที่ต้องสั่ง: ${item.totalQty}\n`;
+    msg += `${idx + 1}. ${item.productName}\n   จำนวนที่ต้องสั่ง: ${item.totalQty}\n`;
   });
 
   msg += `━━━━━━━━━━━━━━━\n`;
@@ -1791,27 +1580,20 @@ export async function sendStockDecreaseLineNotify() {
 
 // ========== Stock Decrease Since Reset (ไม่ต้องกำหนดวันที่) ==========
 export async function getStockDecreaseItemsSinceReset() {
-  const settingsArr = await db.select().from(storeSettings).limit(1);
-  const lastReset = settingsArr[0]?.lastStockResetAt;
-
-  // เริ่มนับจาก lastStockResetAt ถึงปัจจุบัน ถ้าไม่เคยรีเซ็ทให้เริ่มจาก 1 ปีก่อน
-  const startDate = lastReset ? new Date(lastReset) : new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
+  // เริ่มนับจาก 1 ปีก่อนถึงปัจจุบัน
+  const startDate = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
   const endDate = new Date();
   endDate.setHours(23, 59, 59, 999);
 
   const soldItems = await db.select({
     productId: products.id,
     productName: products.name,
-    brand: products.brand,
-    model: products.model,
-    batteryTerminal: products.batteryTerminal,
-    currentStock: products.stock,
     totalQty: sql<number>`sum(${saleItems.quantity})::int`,
   }).from(saleItems)
     .innerJoin(sales, eq(saleItems.saleId, sales.id))
     .innerJoin(products, eq(saleItems.productId, products.id))
     .where(and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate), eq(sales.status, "completed")))
-    .groupBy(products.id, products.name, products.brand, products.model, products.batteryTerminal, products.stock);
+    .groupBy(products.id, products.name);
 
   return soldItems;
 }
@@ -1823,77 +1605,48 @@ export async function getStockDecreaseItems(dateFrom: string, dateTo: string) {
   const endDate = new Date(dateTo);
   endDate.setHours(23, 59, 59, 999);
 
-  // ดึง lastStockResetAt เพื่อกรองเฉพาะ sales ที่เกิดหลังรีเซ็ทล่าสุด
-  const settingsArr = await db.select().from(storeSettings).limit(1);
-  const lastReset = settingsArr[0]?.lastStockResetAt;
-
-  // ถ้ารีเซ็ทแล้ว ให้เริ่มนับจาก lastReset หรือ startDate แล้วแต่อันไหนทีหลัง
-  const effectiveStart = lastReset && new Date(lastReset) > startDate ? new Date(lastReset) : startDate;
-
   const soldItems = await db.select({
     productId: products.id,
     productName: products.name,
-    brand: products.brand,
-    model: products.model,
-    batteryTerminal: products.batteryTerminal,
-    currentStock: products.stock,
     totalQty: sql<number>`sum(${saleItems.quantity})::int`,
   }).from(saleItems)
     .innerJoin(sales, eq(saleItems.saleId, sales.id))
     .innerJoin(products, eq(saleItems.productId, products.id))
-    .where(and(gte(sales.createdAt, effectiveStart), lte(sales.createdAt, endDate), eq(sales.status, "completed")))
-    .groupBy(products.id, products.name, products.brand, products.model, products.batteryTerminal, products.stock);
+    .where(and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate), eq(sales.status, "completed")))
+    .groupBy(products.id, products.name);
 
   return soldItems;
 }
 
 export async function resetStockFromSales() {
   await requireAuth();
-  const items = await getStockDecreaseItemsSinceReset();
-  if (items.length === 0) return { success: false, message: "ไม่มีรายการสินค้าที่ต้องรีเซ็ท" };
-
-  let resetCount = 0;
-  for (const item of items) {
-    await db.update(products).set({
-      stock: sql`${products.stock} + ${item.totalQty}`,
-    }).where(eq(products.id, item.productId));
-    resetCount++;
-  }
-
-  // บันทึกวันเวลารีเซ็ทล่าสุด
-  const now = new Date();
-  await db.update(storeSettings).set({ lastStockResetAt: now }).where(eq(storeSettings.id, 1));
-
-  revalidatePath("/products");
-  revalidatePath("/dashboard");
-  revalidatePath("/pos");
-
-  return { success: true, message: `รีเซ็ทสต๊อกสำเร็จ ${resetCount} รายการ (เติมสต๊อกกลับแล้ว)`, resetAt: now.toISOString() };
+  // ไม่ใช้ระบบสต๊อกแล้วสำหรับบริษัทรับจ้างทำการตลาด
+  return { success: true, message: "ไม่ต้องรีเซ็ทสต๊อก (ระบบบริการไม่ใช้สต๊อก)" };
 }
 
 // ========== SMS Templates ==========
 export async function getSmsTemplates() {
-  return db.select().from(smsTemplates).orderBy(smsTemplates.durationMonths);
+  return db.select().from(smsTemplates).orderBy(smsTemplates.durationDays);
 }
 
 export async function createSmsTemplate(data: {
-  name: string; message: string; durationMonths: number;
+  name: string; message: string; durationDays: number;
 }) {
   await db.insert(smsTemplates).values({
     name: data.name,
     message: data.message,
-    durationMonths: data.durationMonths,
+    durationDays: data.durationDays,
   });
   revalidatePath("/sms-reminders");
 }
 
 export async function updateSmsTemplate(id: number, data: {
-  name?: string; message?: string; durationMonths?: number; active?: boolean;
+  name?: string; message?: string; durationDays?: number; active?: boolean;
 }) {
   const updateData: Record<string, unknown> = {};
   if (data.name !== undefined) updateData.name = data.name;
   if (data.message !== undefined) updateData.message = data.message;
-  if (data.durationMonths !== undefined) updateData.durationMonths = data.durationMonths;
+  if (data.durationDays !== undefined) updateData.durationDays = data.durationDays;
   if (data.active !== undefined) updateData.active = data.active;
   await db.update(smsTemplates).set(updateData).where(eq(smsTemplates.id, id));
   revalidatePath("/sms-reminders");
@@ -1969,13 +1722,13 @@ export async function createAutoSmsReminder(saleId: number, customerId: number, 
   for (const template of templates) {
     // คำนวณวันที่ส่ง
     const scheduledDate = new Date();
-    scheduledDate.setMonth(scheduledDate.getMonth() + template.durationMonths);
+    scheduledDate.setDate(scheduledDate.getDate() + template.durationDays);
 
     // แทนที่ตัวแปรในเทมเพลต
     let msg = template.message;
     msg = msg.replace(/\{\{name\}\}/g, customer.name || "ลูกค้า");
     msg = msg.replace(/\{\{phone\}\}/g, customer.phone || "");
-    msg = msg.replace(/\{\{product\}\}/g, productInfo || "แบตเตอรี่");
+    msg = msg.replace(/\{\{product\}\}/g, productInfo || "บริการ");
     msg = msg.replace(/\{\{shopPhone\}\}/g, shopPhone);
     msg = msg.replace(/\{\{date\}\}/g, scheduledDate.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" }));
 
@@ -2141,4 +1894,79 @@ export async function deleteJobApplication(id: number) {
   await requireAdmin();
   await db.delete(jobApplications).where(eq(jobApplications.id, id));
   revalidatePath("/employees");
+}
+
+// ========== Contracts (สัญญาบริการ) ==========
+export async function getContracts() {
+  return db.select().from(contracts)
+    .leftJoin(customers, eq(contracts.customerId, customers.id))
+    .leftJoin(products, eq(contracts.productId, products.id))
+    .leftJoin(employees, eq(contracts.employeeId, employees.id))
+    .orderBy(desc(contracts.createdAt));
+}
+
+export async function createContract(data: {
+  customerId: number;
+  productId?: number | null;
+  employeeId: number;
+  startDate: string;
+  endDate: string;
+  monthlyFee: string;
+  status?: string;
+  autoRenew?: boolean;
+  note?: string;
+}) {
+  await requireAuth();
+  // Generate contract number: CT-YYYYMMDD-XXXX
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
+  const [countResult] = await db.select({ count: sql<number>`count(*)::int` }).from(contracts);
+  const seq = (countResult?.count || 0) + 1;
+  const contractNumber = `CT-${dateStr}-${String(seq).padStart(4, "0")}`;
+
+  await db.insert(contracts).values({
+    contractNumber,
+    customerId: data.customerId,
+    productId: data.productId || null,
+    employeeId: data.employeeId,
+    startDate: new Date(data.startDate),
+    endDate: new Date(data.endDate),
+    monthlyFee: data.monthlyFee,
+    status: data.status || "active",
+    autoRenew: data.autoRenew ?? false,
+    note: data.note || null,
+  });
+  revalidatePath("/contracts");
+}
+
+export async function updateContract(id: number, data: {
+  customerId?: number;
+  productId?: number | null;
+  employeeId?: number;
+  startDate?: string;
+  endDate?: string;
+  monthlyFee?: string;
+  status?: string;
+  autoRenew?: boolean;
+  note?: string;
+}) {
+  await requireAuth();
+  const updateData: Record<string, any> = { updatedAt: new Date() };
+  if (data.customerId !== undefined) updateData.customerId = data.customerId;
+  if (data.productId !== undefined) updateData.productId = data.productId || null;
+  if (data.employeeId !== undefined) updateData.employeeId = data.employeeId;
+  if (data.startDate !== undefined) updateData.startDate = new Date(data.startDate);
+  if (data.endDate !== undefined) updateData.endDate = new Date(data.endDate);
+  if (data.monthlyFee !== undefined) updateData.monthlyFee = data.monthlyFee;
+  if (data.status !== undefined) updateData.status = data.status;
+  if (data.autoRenew !== undefined) updateData.autoRenew = data.autoRenew;
+  if (data.note !== undefined) updateData.note = data.note || null;
+  await db.update(contracts).set(updateData).where(eq(contracts.id, id));
+  revalidatePath("/contracts");
+}
+
+export async function deleteContract(id: number) {
+  await requireAuth();
+  await db.delete(contracts).where(eq(contracts.id, id));
+  revalidatePath("/contracts");
 }

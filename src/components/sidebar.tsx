@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { logoutAction } from "@/app/login/actions";
 import {
-  Battery,
   LayoutDashboard,
   ShoppingCart,
   Package,
@@ -23,6 +22,7 @@ import {
   X,
   Settings,
   MessageSquare,
+  Briefcase,
 } from "lucide-react";
 import type { SessionUser } from "@/lib/auth";
 
@@ -32,6 +32,7 @@ const navItems = [
   { href: "/products", label: "สินค้า", icon: Package, roles: ["admin", "cashier"] },
   { href: "/categories", label: "หมวดหมู่", icon: FolderOpen, roles: ["admin"] },
   { href: "/customers", label: "ลูกค้า", icon: Users, roles: ["admin", "cashier"] },
+  { href: "/contracts", label: "สัญญา", icon: Briefcase, roles: ["admin"] },
   { href: "/quotations", label: "ใบเสนอราคา", icon: FileText, roles: ["admin", "cashier"] },
   { href: "/sales", label: "ประวัติการขาย", icon: Receipt, roles: ["admin", "cashier"] },
   { href: "/employees", label: "พนักงาน", icon: UserCog, roles: ["admin"] },

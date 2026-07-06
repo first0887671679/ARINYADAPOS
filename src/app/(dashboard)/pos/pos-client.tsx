@@ -13,13 +13,10 @@ import { Label } from "@/components/ui/label";
 interface CartItem {
   productId: number;
   name: string;
-  brand?: string;
-  model?: string;
-  weight?: number; // kg
+  serviceDuration?: string;
   unitPrice: number;
   quantity: number;
   discount: number;
-  stock: number;
   imageUrl?: string;
 }
 
@@ -61,7 +58,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
   const [lineSendResult, setLineSendResult] = useState<{ success: boolean; error?: string } | null>(null);
   // SMS editable fields (ส่งงานพนักงาน)
   const [smsEnabled, setSmsEnabled] = useState(false);
-  const [smsModel, setSmsModel] = useState("");
+  const [smsServiceInfo, setSmsServiceInfo] = useState("");
   const [smsPrice, setSmsPrice] = useState("");
   const [smsEmpPhone, setSmsEmpPhone] = useState("");
   const [smsConditions, setSmsConditions] = useState("");
@@ -83,7 +80,8 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
   const [showAddCustomer, setShowAddCustomer] = useState(false);
   const [newCustName, setNewCustName] = useState("");
   const [newCustPhone, setNewCustPhone] = useState("");
-  const [newCustLicensePlate, setNewCustLicensePlate] = useState("");
+  const [newCustCompanyName, setNewCustCompanyName] = useState("");
+  const [newCustContactPerson, setNewCustContactPerson] = useState("");
   const [newCustAddress, setNewCustAddress] = useState("");
   const [newCustTaxId, setNewCustTaxId] = useState("");
   const [newCustSaving, setNewCustSaving] = useState(false);
@@ -100,7 +98,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
   const [showAddTemplate, setShowAddTemplate] = useState(false);
   const [newTplName, setNewTplName] = useState("");
   const [newTplMsg, setNewTplMsg] = useState("");
-  const [newTplMonths, setNewTplMonths] = useState(18);
+  const [newTplDays, setNewTplDays] = useState(7);
   const [tplSaving, setTplSaving] = useState(false);
   // Refs for preventing double submission & closing dropdown
   const checkoutInProgress = useRef(false);
@@ -173,14 +171,14 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
     setSelectedTemplateId(templateId);
     // คำนวณวันที่
     const d = new Date();
-    d.setMonth(d.getMonth() + t.durationMonths);
+    d.setDate(d.getDate() + (t.durationDays || 7));
     setSmsReminderDate(d.toISOString().split("T")[0]);
     // แทนที่ตัวแปรในข้อความ
     let msg = t.message;
     const custName = buyerName || success?.buyerName || "ลูกค้า";
     msg = msg.replace(/\{\{name\}\}/g, custName);
     msg = msg.replace(/\{\{phone\}\}/g, smsReminderPhone || buyerPhone || "");
-    msg = msg.replace(/\{\{product\}\}/g, smsReminderProductInfo || receiptCart.map(i => i.name).join(", ") || "แบตเตอรี่");
+    msg = msg.replace(/\{\{product\}\}/g, smsReminderProductInfo || receiptCart.map(i => i.name).join(", ") || "บริการ");
     msg = msg.replace(/\{\{shopPhone\}\}/g, storeSettings?.phone || "");
     msg = msg.replace(/\{\{date\}\}/g, d.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" }));
     setSmsReminderMsg(msg);
@@ -218,17 +216,17 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
   }
 
   async function handleAddTemplate() {
-    if (!newTplName || !newTplMsg || !newTplMonths) return;
+    if (!newTplName || !newTplMsg || !newTplDays) return;
     setTplSaving(true);
     try {
       await fetch("/api/pos/sms-templates", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: newTplName, message: newTplMsg, durationMonths: newTplMonths }),
+        body: JSON.stringify({ name: newTplName, message: newTplMsg, durationDays: newTplDays }),
       });
       await loadSmsTemplates();
       setShowAddTemplate(false);
-      setNewTplName(""); setNewTplMsg(""); setNewTplMonths(18);
+      setNewTplName(""); setNewTplMsg(""); setNewTplDays(7);
     } catch { /* ignore */ } finally { setTplSaving(false); }
   }
 
@@ -247,7 +245,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
       const res = await fetch("/api/customers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: newCustName, phone: newCustPhone, licensePlate: newCustLicensePlate, address: newCustAddress, taxId: newCustTaxId || undefined }),
+        body: JSON.stringify({ name: newCustName, phone: newCustPhone, companyName: newCustCompanyName, contactPerson: newCustContactPerson, address: newCustAddress, taxId: newCustTaxId || undefined }),
       });
       if (!res.ok) throw new Error("Failed to create customer");
       const newCust = await res.json();
@@ -255,7 +253,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
       await loadCustomers();
       // Auto-select the newly created customer
       if (newCust?.id) setSelectedCustomer(newCust.id);
-      setNewCustName(""); setNewCustPhone(""); setNewCustLicensePlate(""); setNewCustAddress(""); setNewCustTaxId("");
+      setNewCustName(""); setNewCustPhone(""); setNewCustCompanyName(""); setNewCustContactPerson(""); setNewCustAddress(""); setNewCustTaxId("");
       setShowAddCustomer(false);
       // บนมือถือ: ฟอร์มพับลงทำให้ browser เลื่อนขึ้น → ดึง scroll กลับมาที่ตะกร้า
       requestAnimationFrame(() => {
@@ -309,7 +307,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
   async function autoSaveStoreSettings(updated: any) {
     try {
       await updateStoreSettings({
-        storeName: updated.storeName || "ร้านแบตเตอรี่",
+        storeName: updated.storeName || "บริษัทรับจ้างทำการตลาด",
         branchName: updated.branchName,
         address: updated.address,
         phone: updated.phone,
@@ -363,7 +361,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
       }
       // Auto-fill product model/price from cart
       if (receiptCart.length > 0) {
-        setSmsModel(receiptCart.map(i => [i.brand, i.name, i.model].filter(Boolean).join(" / ")).join(", "));
+        setSmsServiceInfo(receiptCart.map(i => i.name).join(", "));
         setSmsPrice(formatCurrency(parseFloat(success?.total || "0")));
       }
     }
@@ -376,7 +374,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
     try {
       // สร้างข้อความรวม LINE + SMS info
       let extraMsg = lineExtraMsg || "";
-      if (smsModel) extraMsg += `\nรุ่น/สินค้า: ${smsModel}`;
+      if (smsServiceInfo) extraMsg += `\nบริการ: ${smsServiceInfo}`;
       if (smsPrice) extraMsg += `\nราคา: ${smsPrice}`;
       if (smsConditions) extraMsg += `\nเงื่อนไข: ${smsConditions}`;
 
@@ -407,7 +405,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
     setSmsSendResult(null);
     try {
       let smsText = `งานมอบหมาย`;
-      if (smsModel) smsText += `\nรุ่น: ${smsModel}`;
+      if (smsServiceInfo) smsText += `\nบริการ: ${smsServiceInfo}`;
       if (smsPrice) smsText += `\nราคา: ${smsPrice}`;
       if (success?.billNumber) smsText += `\nบิล: ${success.billNumber}`;
       if (smsConditions) smsText += `\nเงื่อนไข: ${smsConditions}`;
@@ -438,21 +436,17 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
     const p = product.products || product;
     const existing = cart.find((item) => item.productId === p.id);
     if (existing) {
-      if (existing.quantity >= p.stock) return;
       setCart(cart.map((item) =>
         item.productId === p.id ? { ...item, quantity: item.quantity + 1 } : item
       ));
     } else {
-      if (p.stock <= 0) return;
       setCart([...cart, {
         productId: p.id, name: p.name,
-        brand: p.brand || undefined, model: p.model || undefined, weight: p.weight ? parseFloat(p.weight) : undefined,
-        unitPrice: parseFloat(p.sellPrice), quantity: 1, discount: 0, stock: p.stock,
+        serviceDuration: p.serviceDuration || undefined,
+        unitPrice: parseFloat(p.sellPrice), quantity: 1, discount: 0,
         imageUrl: p.imageUrl || undefined,
       }]);
     }
-    // On mobile, the sticky bottom bar updates automatically showing count + total
-    // No need to scroll since the cart is always visible at the bottom
   }
 
   function updateQuantity(productId: number, qty: number) {
@@ -460,7 +454,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
       setCart(cart.filter((item) => item.productId !== productId));
     } else {
       setCart(cart.map((item) =>
-        item.productId === productId ? { ...item, quantity: Math.min(qty, item.stock) } : item
+        item.productId === productId ? { ...item, quantity: qty } : item
       ));
     }
   }
@@ -470,8 +464,6 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
   }
 
   const subtotal = cart.reduce((sum, item) => sum + item.unitPrice * item.quantity - item.discount, 0);
-  const totalCartWeight = cart.reduce((sum, item) => sum + (item.weight || 0) * item.quantity, 0);
-  const kgPrice = parseFloat(storeSettings?.kgPrice || "0");
   const beforeDiscount = subtotal + serviceFee;
   const afterDiscount = beforeDiscount - discount;
   
@@ -548,19 +540,6 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
       setIsTaxInvoice(false);
       setVatType("vat_out");
       setSelectedCustomer(null);
-      // อัพเดทสต๊อกจาก API response ทันที (ไม่ต้องรอ fetch ใหม่)
-      if (sale.updatedStock && sale.updatedStock.length > 0) {
-        console.log("[SALE] updatedStock:", JSON.stringify(sale.updatedStock));
-        setProductList(prev => prev.map(p => {
-          const updated = sale.updatedStock.find((s: any) => s.id === (p.products?.id ?? p.id));
-          if (updated) {
-            return p.products
-              ? { ...p, products: { ...p.products, stock: updated.stock } }
-              : { ...p, stock: updated.stock };
-          }
-          return p;
-        }));
-      }
     } catch (err) {
       alert("เกิดข้อผิดพลาดในการบันทึกการขาย กรุณาลองใหม่อีกครั้ง");
     } finally {
@@ -579,7 +558,6 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
     const bPhone = buyerPhone || success.buyerPhone || (selectedCustomer ? customers.find((c: any) => c.id === selectedCustomer)?.phone : "");
     const bAddr = buyerAddress || success.buyerAddress || (selectedCustomer ? customers.find((c: any) => c.id === selectedCustomer)?.address : "");
     const bTaxId = buyerTaxId || success.buyerTaxId || "";
-    const bLicensePlate = success.licensePlate || "";
     const docTitle = success.isTaxInvoice ? "ใบกำกับภาษี / TAX INVOICE" : "ใบเสร็จรับเงิน / RECEIPT";
     const fmtD = (d: Date) => d.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" });
     const fmtT = (d: Date) => d.toLocaleTimeString("th-TH");
@@ -593,7 +571,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
     } else {
       receiptCart.forEach((item) => {
         idx++;
-        const nameDisplay = [item.brand, item.name, item.model].filter(Boolean).join(" / ");
+        const nameDisplay = item.name;
         const bg = idx % 2 === 0 ? ' style="background:#fafafa"' : '';
         itemsHtml += `<tr${bg}><td class="tc">${idx}</td><td>${nameDisplay}</td><td class="tc">${item.quantity}</td><td class="tr">${formatCurrency(item.unitPrice)}</td><td class="tr">${formatCurrency(item.unitPrice * item.quantity)}</td></tr>`;
       });
@@ -612,7 +590,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
     <div class="logo-box">${logoUrl ? `<img src="${logoUrl}" alt="logo">` : `<div class="logo-ph"></div>`}</div>
     <div class="header-text">
       <div class="doc-title">${docTitle}</div>
-      <div class="store-name">${store.storeName || "ร้านแบตเตอรี่"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
+      <div class="store-name">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
       <div class="store-detail">${store.address || ""}${store.phone ? ` | โทร. ${store.phone}` : ""}${store.taxId ? `<br>เลขประจำตัวผู้เสียภาษี: ${store.taxId}` : ""}</div>
     </div>
   </div>
@@ -633,11 +611,10 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
       ${bPhone ? `<div class="buyer-item"><span class="bl">โทร:</span> ${bPhone}</div>` : ""}
       ${bAddr ? `<div class="buyer-item" style="min-width:100%"><span class="bl">ที่อยู่:</span> ${bAddr}</div>` : ""}
       ${bTaxId ? `<div class="buyer-item"><span class="bl">เลขประจำตัวผู้เสียภาษี:</span> ${bTaxId}</div>` : ""}
-      ${bLicensePlate ? `<div class="buyer-item"><span class="bl">ทะเบียนรถ:</span> ${bLicensePlate}</div>` : ""}
     </div>
   </div>` : ""}
   <table class="items">
-    <thead><tr><th class="tc" style="width:30px">#</th><th style="text-align:left">รายการสินค้า / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:90px">จำนวนเงิน</th></tr></thead>
+    <thead><tr><th class="tc" style="width:30px">#</th><th style="text-align:left">รายการบริการ / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:90px">จำนวนเงิน</th></tr></thead>
     <tbody>${itemsHtml}</tbody>
   </table>
   <div class="summary-section"><div class="summary-box">
@@ -653,7 +630,7 @@ export default function POSClient({ initialProducts = [] }: { initialProducts?: 
     <div class="sig-block"><div class="sig-line"></div><div class="sig-label">ผู้จ่ายเงิน / ผู้ซื้อ</div><div class="sig-sub">(...............................)</div><div class="sig-sub">วันที่ ____/____/____</div></div>
     <div class="sig-block"><div class="sig-line"></div><div class="sig-label">ผู้อนุมัติ</div><div class="sig-sub">(...............................)</div><div class="sig-sub">วันที่ ____/____/____</div></div>
   </div>
-  <div class="footer"><div class="footer-thanks">ขอบคุณที่ใช้บริการ / Thank you for your business</div><div class="footer-sub">${store.storeName || "ร้านแบตเตอรี่"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div></div>
+  <div class="footer"><div class="footer-thanks">ขอบคุณที่ใช้บริการ / Thank you for your business</div><div class="footer-sub">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div></div>
 </div>`;
     }
 
@@ -783,21 +760,17 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                 if (selectedCategory && p.categoryId !== selectedCategory) return false;
                 if (query) {
                   const q = query.toLowerCase();
-                  return (p.name || '').toLowerCase().includes(q) ||
-                    (p.brand || '').toLowerCase().includes(q) ||
-                    (p.model || '').toLowerCase().includes(q);
+                  return (p.name || '').toLowerCase().includes(q);
                 }
                 return true;
               })
               .map((item) => {
                 const p = item.products || item;
-                const modelName = [p.brand, p.model].filter(Boolean).join(" ") || p.name;
                 return (
                   <button
                     key={p.id}
                     onClick={() => addToCart(item)}
-                    disabled={p.stock <= 0}
-                    className="group rounded-lg lg:rounded-xl border border-blue-100/60 bg-white px-2 py-2 lg:p-3 text-left shadow-sm transition-all duration-150 hover:shadow-md hover:border-blue-300 disabled:opacity-40 lg:hover:shadow-luxury lg:hover:-translate-y-0.5"
+                    className="group rounded-lg lg:rounded-xl border border-blue-100/60 bg-white px-2 py-2 lg:p-3 text-left shadow-sm transition-all duration-150 hover:shadow-md hover:border-blue-300 lg:hover:shadow-luxury lg:hover:-translate-y-0.5"
                   >
                     {/* Desktop: show image */}
                     <div className="hidden lg:block">
@@ -811,24 +784,16 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                         </div>
                       )}
                       <p className="text-sm font-semibold truncate group-hover:text-blue-700">{p.name}</p>
-                      {p.brand && <p className="text-xs text-muted-foreground">{p.brand} {p.model}</p>}
-                      {p.size && <p className="text-xs text-muted-foreground">{p.size}</p>}
+                      {p.serviceDuration && <p className="text-xs text-muted-foreground">ระยะเวลา: {p.serviceDuration}</p>}
                       <div className="mt-2 flex items-center justify-between">
                         <span className="text-sm font-bold text-blue-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
-                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${p.stock > 0 ? "bg-blue-50 text-blue-600 border border-blue-200" : "bg-red-50 text-red-600 border border-red-200"}`}>
-                          คงเหลือ {p.stock}
-                        </span>
                       </div>
                     </div>
-                    {/* Mobile: compact - brand, name, price, stock */}
+                    {/* Mobile: compact - name, price */}
                     <div className="lg:hidden">
-                      {p.brand && <p className="text-[10px] text-muted-foreground truncate">{p.brand}</p>}
                       <p className="text-xs font-semibold truncate group-hover:text-blue-700">{p.name}</p>
                       <div className="mt-1 flex items-center justify-between">
                         <span className="text-xs font-bold text-blue-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${p.stock > 0 ? "bg-blue-50 text-blue-600" : "bg-red-50 text-red-600"}`}>
-                          {p.stock}
-                        </span>
                       </div>
                     </div>
                   </button>
@@ -871,7 +836,6 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                         <p className="text-sm font-semibold truncate">{item.name}</p>
                         <p className="text-xs text-muted-foreground">
                           {formatCurrency(item.unitPrice)} x {item.quantity}
-                          {item.weight && <span className="ml-2 text-blue-600">{item.weight}kg x{item.quantity} = {(item.weight * item.quantity).toFixed(3)}kg</span>}
                         </p>
                       </div>
                       <Button size="icon" variant="ghost" className="h-7 w-7 text-red-400 hover:text-red-600 hover:bg-red-50 flex-shrink-0" onClick={() => removeFromCart(item.productId)}>
@@ -948,7 +912,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                           return (
                             c.name?.toLowerCase().includes(q) ||
                             c.phone?.toLowerCase().includes(q) ||
-                            c.licensePlate?.toLowerCase().includes(q)
+                            c.companyName?.toLowerCase().includes(q)
                           );
                         })
                         .slice(0, 10)
@@ -1001,9 +965,13 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                       <Input className="h-8 text-xs border-green-200" value={newCustPhone} onChange={(e) => setNewCustPhone(e.target.value)} placeholder="0xx-xxx-xxxx" />
                     </div>
                     <div>
-                      <Label className="text-[10px] text-green-700">ทะเบียนรถ</Label>
-                      <Input className="h-8 text-xs border-green-200" value={newCustLicensePlate} onChange={(e) => setNewCustLicensePlate(e.target.value)} placeholder="เช่น กก 1234" />
+                      <Label className="text-[10px] text-green-700">ชื่อบริษัท</Label>
+                      <Input className="h-8 text-xs border-green-200" value={newCustCompanyName} onChange={(e) => setNewCustCompanyName(e.target.value)} placeholder="ชื่อบริษัท (ถ้ามี)" />
                     </div>
+                  </div>
+                  <div>
+                    <Label className="text-[10px] text-green-700">ผู้ติดต่อ</Label>
+                    <Input className="h-8 text-xs border-green-200" value={newCustContactPerson} onChange={(e) => setNewCustContactPerson(e.target.value)} placeholder="ชื่อผู้ติดต่อ" />
                   </div>
                   <div>
                     <Label className="text-[10px] text-green-700">ที่อยู่</Label>
@@ -1142,15 +1110,6 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                 <span className="text-muted-foreground">รวมสินค้า</span>
                 <span className="font-medium">{formatCurrency(subtotal)}</span>
               </div>
-              {totalCartWeight > 0 && (
-                <div className="flex justify-between text-sm text-green-600">
-                  <span>น้ำหนักรวม</span>
-                  <span className="font-medium">
-                    {totalCartWeight.toFixed(3)} kg
-                    {kgPrice > 0 && <span className="ml-1 text-xs">({formatCurrency(totalCartWeight * kgPrice)})</span>}
-                  </span>
-                </div>
-              )}
               {serviceFee > 0 && (
                 <div className="flex justify-between text-sm text-amber-600">
                   <span>ค่าบริการ</span>
@@ -1358,9 +1317,13 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                           <Input className="h-8 text-xs border-green-200" value={newCustPhone} onChange={(e) => setNewCustPhone(e.target.value)} placeholder="0xx-xxx-xxxx" />
                         </div>
                         <div>
-                          <Label className="text-[10px] text-green-700">ทะเบียนรถ</Label>
-                          <Input className="h-8 text-xs border-green-200" value={newCustLicensePlate} onChange={(e) => setNewCustLicensePlate(e.target.value)} placeholder="เช่น กก 1234" />
+                          <Label className="text-[10px] text-green-700">ชื่อบริษัท</Label>
+                          <Input className="h-8 text-xs border-green-200" value={newCustCompanyName} onChange={(e) => setNewCustCompanyName(e.target.value)} placeholder="ชื่อบริษัท (ถ้ามี)" />
                         </div>
+                      </div>
+                      <div>
+                        <Label className="text-[10px] text-green-700">ผู้ติดต่อ</Label>
+                        <Input className="h-8 text-xs border-green-200" value={newCustContactPerson} onChange={(e) => setNewCustContactPerson(e.target.value)} placeholder="ชื่อผู้ติดต่อ" />
                       </div>
                       <div>
                         <Label className="text-[10px] text-green-700">ที่อยู่</Label>
@@ -1476,15 +1439,6 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                     <span className="text-muted-foreground">รวมสินค้า</span>
                     <span className="font-medium">{formatCurrency(subtotal)}</span>
                   </div>
-                  {totalCartWeight > 0 && (
-                    <div className="flex justify-between text-sm text-green-600">
-                      <span>น้ำหนักรวม</span>
-                      <span className="font-medium">
-                        {totalCartWeight.toFixed(3)} kg
-                        {kgPrice > 0 && <span className="ml-1 text-xs">({formatCurrency(totalCartWeight * kgPrice)})</span>}
-                      </span>
-                    </div>
-                  )}
                   {serviceFee > 0 && (
                     <div className="flex justify-between text-sm text-amber-600">
                       <span>ค่าบริการ</span>
@@ -1554,7 +1508,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                   </div>
                 )}
                 <div className="mt-2">
-                  <Input className="h-7 text-sm font-semibold text-center border-blue-200" value={storeSettings?.storeName || "ร้านแบตเตอรี่"} onChange={(e) => setStoreSettings({ ...storeSettings, storeName: e.target.value })} onBlur={() => autoSaveStoreSettings({ ...storeSettings })} placeholder="ชื่อร้าน" />
+                  <Input className="h-7 text-sm font-semibold text-center border-blue-200" value={storeSettings?.storeName || "บริษัทรับจ้างทำการตลาด"} onChange={(e) => setStoreSettings({ ...storeSettings, storeName: e.target.value })} onBlur={() => autoSaveStoreSettings({ ...storeSettings })} placeholder="ชื่อบริษัท" />
                 </div>
                 <div className="mt-1">
                   <Input className="h-6 text-xs text-center border-gray-200" value={storeSettings?.branchName || ""} onChange={(e) => setStoreSettings({ ...storeSettings, branchName: e.target.value })} onBlur={() => autoSaveStoreSettings({ ...storeSettings })} placeholder="สาขา" />
@@ -1608,7 +1562,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                     ) : (
                       <>
                         {receiptCart.map((item) => (
-                          <tr key={item.productId}><td className="py-0.5 text-[10px]">{[item.brand, item.name, item.model].filter(Boolean).join(" / ")}</td><td className="text-center py-0.5 text-[10px]">{item.quantity}</td><td className="text-right py-0.5 text-[10px]">{formatCurrency(item.unitPrice)}</td><td className="text-right py-0.5 text-[10px]">{formatCurrency(item.unitPrice * item.quantity)}</td></tr>
+                          <tr key={item.productId}><td className="py-0.5 text-[10px]">{item.name}</td><td className="text-center py-0.5 text-[10px]">{item.quantity}</td><td className="text-right py-0.5 text-[10px]">{formatCurrency(item.unitPrice)}</td><td className="text-right py-0.5 text-[10px]">{formatCurrency(item.unitPrice * item.quantity)}</td></tr>
                         ))}
                         {parseFloat(success.serviceFee) > 0 && (
                           <tr className="text-amber-700"><td className="py-0.5 text-[10px]">{success.serviceDescription || "ค่าบริการ"}</td><td className="text-center py-0.5 text-[10px]">1</td><td className="text-right py-0.5 text-[10px]">{formatCurrency(parseFloat(success.serviceFee))}</td><td className="text-right py-0.5 text-[10px]">{formatCurrency(parseFloat(success.serviceFee))}</td></tr>
@@ -1651,7 +1605,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                     setSelectedEmpId(null); 
                     setSmsEnabled(false); 
                     // Auto-fill product names and total price from receipt
-                    setSmsModel(receiptCart.map(i => [i.brand, i.name, i.model].filter(Boolean).join(" / ")).join(", "));
+                    setSmsServiceInfo(receiptCart.map(i => i.name).join(", "));
                     setSmsPrice(formatCurrency(parseFloat(success.total)));
                     setSmsEmpPhone(""); 
                     setSmsConditions(""); 
@@ -1706,7 +1660,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <Label className="text-[10px] text-green-700">ชื่อรุ่น / สินค้า</Label>
-                      <Input className="h-7 text-xs border-green-200" value={smsModel} onChange={(e) => setSmsModel(e.target.value)} placeholder="ชื่อรุ่น/สินค้า" />
+                      <Input className="h-7 text-xs border-green-200" value={smsServiceInfo} onChange={(e) => setSmsServiceInfo(e.target.value)} placeholder="ชื่อบริการ" />
                     </div>
                     <div>
                       <Label className="text-[10px] text-green-700">ราคา</Label>
@@ -1815,7 +1769,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                         <div key={t.id} className="relative group">
                           <button type="button" onClick={() => handleApplyReminderTemplate(t.id)}
                             className={`text-[10px] sm:text-[11px] px-2.5 py-1.5 sm:py-1 rounded-lg border font-medium transition-all pr-5 ${selectedTemplateId === t.id ? "bg-blue-600 text-white border-blue-600 shadow-sm" : "border-blue-200 bg-white text-blue-700 hover:bg-blue-100"}`}>
-                            {t.name} ({t.durationMonths} ด.)
+                            {t.name} ({t.durationDays || 7} วัน)
                           </button>
                           <button type="button" onClick={() => handleDeleteTemplateInline(t.id)} className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white rounded-full text-[8px] flex items-center justify-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity hover:bg-red-600" title="ลบ">✕</button>
                         </div>
@@ -1830,17 +1784,17 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                           <span className="text-[10px] font-bold text-blue-700">เพิ่มเทมเพลตใหม่</span>
                           <button type="button" onClick={() => setShowAddTemplate(false)}><X className="h-3 w-3 text-gray-400" /></button>
                         </div>
-                        <Input className="h-8 sm:h-7 text-xs border-blue-200" value={newTplName} onChange={(e) => setNewTplName(e.target.value)} placeholder="ชื่อเทมเพลต เช่น แจ้งเตือน 18 เดือน" />
+                        <Input className="h-8 sm:h-7 text-xs border-blue-200" value={newTplName} onChange={(e) => setNewTplName(e.target.value)} placeholder="ชื่อเทมเพลต เช่น แจ้งเตือน 7 วัน" />
                         <div className="flex flex-wrap gap-2 items-center">
-                          <Input type="number" min={1} className="h-8 sm:h-7 text-xs border-blue-200 w-20" value={newTplMonths} onChange={(e) => setNewTplMonths(parseInt(e.target.value) || 1)} />
-                          <span className="text-[10px] text-blue-600">เดือน</span>
+                          <Input type="number" min={1} className="h-8 sm:h-7 text-xs border-blue-200 w-20" value={newTplDays} onChange={(e) => setNewTplDays(parseInt(e.target.value) || 1)} />
+                          <span className="text-[10px] text-blue-600">วัน</span>
                           <div className="flex gap-1">
-                            {[6, 12, 18, 24, 36].map((m) => (
-                              <button key={m} type="button" onClick={() => setNewTplMonths(m)} className={`text-[9px] px-1.5 py-0.5 rounded border transition-all ${newTplMonths === m ? "bg-blue-500 text-white border-blue-500" : "border-blue-200 hover:bg-blue-50"}`}>{m}</button>
+                            {[7, 14, 30, 60, 90].map((d) => (
+                              <button key={d} type="button" onClick={() => setNewTplDays(d)} className={`text-[9px] px-1.5 py-0.5 rounded border transition-all ${newTplDays === d ? "bg-blue-500 text-white border-blue-500" : "border-blue-200 hover:bg-blue-50"}`}>{d}</button>
                             ))}
                           </div>
                         </div>
-                        <textarea className="w-full rounded-lg border border-blue-200 bg-white p-2 text-xs focus:border-blue-400 outline-none resize-none" rows={2} value={newTplMsg} onChange={(e) => setNewTplMsg(e.target.value)} placeholder="ข้อความ SMS: สวัสดีครับ คุณ{{name}} แบตเตอรี่ {{product}} ครบ..." />
+                        <textarea className="w-full rounded-lg border border-blue-200 bg-white p-2 text-xs focus:border-blue-400 outline-none resize-none" rows={2} value={newTplMsg} onChange={(e) => setNewTplMsg(e.target.value)} placeholder="ข้อความ SMS: สวัสดีครับ คุณ{{name}} บริการ {{product}} จะครบกำหนด..." />
                         <p className="text-[9px] text-blue-400">ตัวแปร: {"{{name}}"} {"{{product}}"} {"{{phone}}"} {"{{shopPhone}}"} {"{{date}}"}</p>
                         <button type="button" onClick={handleAddTemplate} disabled={!newTplName || !newTplMsg || tplSaving} className="w-full h-8 sm:h-7 rounded-lg bg-blue-500 text-white text-xs font-semibold flex items-center justify-center gap-1 hover:bg-blue-600 disabled:opacity-50 transition-all">
                           {tplSaving ? <><Loader2 className="h-3 w-3 animate-spin" /> กำลังบันทึก...</> : <><Plus className="h-3 w-3" /> บันทึกเทมเพลต</>}
@@ -1868,7 +1822,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
 
                   <div>
                     <Label className="text-[10px] text-blue-700 font-semibold">สินค้า/รุ่น</Label>
-                    <Input className="h-8 sm:h-7 text-xs border-blue-200" value={smsReminderProductInfo} onChange={(e) => setSmsReminderProductInfo(e.target.value)} placeholder="เช่น แบตเตอรี่ FB 80Ah" />
+                    <Input className="h-8 sm:h-7 text-xs border-blue-200" value={smsReminderProductInfo} onChange={(e) => setSmsReminderProductInfo(e.target.value)} placeholder="เช่น บริการโฆษณา Facebook Ads" />
                   </div>
 
                   <div>
@@ -1953,18 +1907,6 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                           }
                           const cancelData = await cancelRes.json();
                           console.log("[CANCEL] response data:", JSON.stringify(cancelData));
-                          if (cancelData.updatedStock && cancelData.updatedStock.length > 0) {
-                            setProductList(prev => prev.map(p => {
-                              const updated = cancelData.updatedStock.find((s: any) => s.id === (p.products?.id ?? p.id));
-                              if (updated) {
-                                return p.products
-                                  ? { ...p, products: { ...p.products, stock: updated.stock } }
-                                  : { ...p, stock: updated.stock };
-                              }
-                              return p;
-                            }));
-                            console.log("[CANCEL] productList updated with", cancelData.updatedStock.length, "items");
-                          }
                           setSaleCancelled(true);
                         } catch (err: any) {
                           console.error("[CANCEL] error:", err);

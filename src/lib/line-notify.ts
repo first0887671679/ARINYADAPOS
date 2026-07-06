@@ -150,7 +150,7 @@ export async function sendLinePdfLink(
       { type: "text", text: "รวม", size: "xs", color: "#888888", flex: 3, align: "end", weight: "bold" },
     ]});
 
-    // รายการสินค้า (จำกัด 10 รายการ เพื่อไม่เกิน limit ของ LINE)
+    // รายการบริการ (จำกัด 10 รายการ เพื่อไม่เกิน limit ของ LINE)
     const displayItems = doc.items.slice(0, 10);
     displayItems.forEach((item) => {
       bodyContents.push({ type: "box", layout: "horizontal", margin: "sm", contents: [
@@ -177,7 +177,7 @@ export async function sendLinePdfLink(
     // สรุปยอด
     const summaryRows: any[] = [];
     summaryRows.push({ type: "box", layout: "horizontal", margin: "md", contents: [
-      { type: "text", text: "รวมสินค้า/บริการ", size: "xs", color: "#555555", flex: 5 },
+      { type: "text", text: "รวมบริการ", size: "xs", color: "#555555", flex: 5 },
       { type: "text", text: `฿${doc.subtotal}`, size: "xs", color: "#333333", flex: 5, align: "end" },
     ]});
     if (doc.discount && parseFloat(doc.discount.replace(/,/g, "")) > 0) {

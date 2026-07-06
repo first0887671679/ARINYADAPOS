@@ -16,7 +16,7 @@ export default function CustomersPage() {
   const [customers, setCustomers] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
-  const [form, setForm] = useState({ name: "", phone: "", licensePlate: "", address: "", taxId: "" });
+  const [form, setForm] = useState({ name: "", phone: "", companyName: "", industry: "", contactPerson: "", address: "", taxId: "" });
   const [expandedCustomer, setExpandedCustomer] = useState<number | null>(null);
   const [customerSales, setCustomerSales] = useState<any[]>([]);
   const [loadingSales, setLoadingSales] = useState(false);
@@ -58,7 +58,9 @@ export default function CustomersPage() {
     return (
       (c.name || "").toLowerCase().includes(q) ||
       (c.phone || "").toLowerCase().includes(q) ||
-      (c.licensePlate || "").toLowerCase().includes(q) ||
+      (c.companyName || "").toLowerCase().includes(q) ||
+      (c.industry || "").toLowerCase().includes(q) ||
+      (c.contactPerson || "").toLowerCase().includes(q) ||
       (c.address || "").toLowerCase().includes(q) ||
       (c.taxId || "").toLowerCase().includes(q)
     );
@@ -76,13 +78,13 @@ export default function CustomersPage() {
   }
 
   function resetForm() {
-    setForm({ name: "", phone: "", licensePlate: "", address: "", taxId: "" });
+    setForm({ name: "", phone: "", companyName: "", industry: "", contactPerson: "", address: "", taxId: "" });
     setEditId(null);
     setShowForm(false);
   }
 
   function startEdit(c: any) {
-    setForm({ name: c.name, phone: c.phone || "", licensePlate: c.licensePlate || "", address: c.address || "", taxId: c.taxId || "" });
+    setForm({ name: c.name, phone: c.phone || "", companyName: c.companyName || "", industry: c.industry || "", contactPerson: c.contactPerson || "", address: c.address || "", taxId: c.taxId || "" });
     setEditId(c.id);
     setShowForm(true);
   }
@@ -359,7 +361,7 @@ export default function CustomersPage() {
           </div>
           <div style="text-align:center;border-bottom:2px solid #2563eb;padding-bottom:12px;margin-bottom:12px;">
             <div style="font-size:18px;font-weight:bold;color:#2563eb;">${sale.isTaxInvoice ? "ใบกำกับภาษี" : "ใบเสร็จรับเงิน"}</div>
-            <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "ร้านแบตเตอรี่"}</div>
+            <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "บริษัทรับจ้างทำการตลาด"}</div>
             ${store.branchName ? `<div style="font-size:11px;color:#666;">${store.branchName}</div>` : ""}
             ${store.address ? `<div style="font-size:11px;color:#666;">ที่อยู่: ${store.address}</div>` : ""}
             ${store.phone ? `<div style="font-size:11px;color:#666;">โทร. ${store.phone}</div>` : ""}
@@ -486,7 +488,7 @@ export default function CustomersPage() {
           </div>
           <div style="text-align:center;border-bottom:2px solid ${accentColor};padding-bottom:12px;margin-bottom:12px;">
             <div style="font-size:18px;font-weight:bold;color:${accentColor};">${docTitle}</div>
-            <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "ร้านแบตเตอรี่"}</div>
+            <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "บริษัทรับจ้างทำการตลาด"}</div>
             ${store.branchName ? `<div style="font-size:11px;color:#666;">${store.branchName}</div>` : ""}
             ${store.address ? `<div style="font-size:11px;color:#666;">ที่อยู่: ${store.address}</div>` : ""}
             ${store.phone ? `<div style="font-size:11px;color:#666;">โทร. ${store.phone}</div>` : ""}
@@ -538,7 +540,7 @@ export default function CustomersPage() {
           </div>
           <div style="text-align:center;border-bottom:2px solid ${accentColor};padding-bottom:12px;margin-bottom:12px;">
             <div style="font-size:20px;font-weight:bold;color:${accentColor};">${docTitle}</div>
-            <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "ร้านแบตเตอรี่"}</div>
+            <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "บริษัทรับจ้างทำการตลาด"}</div>
             ${store.branchName ? `<div style="font-size:11px;color:#666;">${store.branchName}</div>` : ""}
             ${store.address ? `<div style="font-size:11px;color:#666;">ที่อยู่: ${store.address}</div>` : ""}
             ${store.phone ? `<div style="font-size:11px;color:#666;">โทร. ${store.phone}</div>` : ""}
@@ -641,8 +643,16 @@ export default function CustomersPage() {
                 <Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
               </div>
               <div>
-                <Label>ทะเบียนรถ</Label>
-                <Input value={form.licensePlate} onChange={(e) => setForm({ ...form, licensePlate: e.target.value })} />
+                <Label>ชื่อบริษัท</Label>
+                <Input value={form.companyName} onChange={(e) => setForm({ ...form, companyName: e.target.value })} />
+              </div>
+              <div>
+                <Label>ประเภทธุรกิจ</Label>
+                <Input value={form.industry} onChange={(e) => setForm({ ...form, industry: e.target.value })} placeholder="เช่น ร้านอาหาร, ขนส่ง" />
+              </div>
+              <div>
+                <Label>ผู้ติดต่อ</Label>
+                <Input value={form.contactPerson} onChange={(e) => setForm({ ...form, contactPerson: e.target.value })} />
               </div>
               <div>
                 <Label>ที่อยู่</Label>
@@ -712,7 +722,7 @@ export default function CustomersPage() {
           <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="ค้นหาลูกค้า... ชื่อ, เบอร์โทร, ทะเบียนรถ, ที่อยู่"
+            placeholder="ค้นหาลูกค้า... ชื่อ, เบอร์โทร, บริษัท, ผู้ติดต่อ, ที่อยู่"
             className="pl-10 h-10 border-blue-200/60 focus:border-blue-400"
           />
           {searchQuery && (
@@ -733,7 +743,7 @@ export default function CustomersPage() {
           </div>
           <Button variant="outline" size="sm" onClick={async () => {
             const rows = customers.map((c: any) => ({
-              "ชื่อลูกค้า": c.name, "เบอร์โทร": c.phone || "-", "ทะเบียนรถ": c.licensePlate || "-", "ที่อยู่": c.address || "-", "เลขประจำตัวผู้เสียภาษี": c.taxId || "-",
+              "ชื่อลูกค้า": c.name, "เบอร์โทร": c.phone || "-", "ชื่อบริษัท": c.companyName || "-", "ประเภทธุรกิจ": c.industry || "-", "ผู้ติดต่อ": c.contactPerson || "-", "ที่อยู่": c.address || "-", "เลขประจำตัวผู้เสียภาษี": c.taxId || "-",
             }));
             const { exportToExcel } = await loadExportExcel(); exportToExcel(rows, `รายชื่อลูกค้า_${new Date().toLocaleDateString("th-TH")}`, "ลูกค้า");
           }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
@@ -748,7 +758,8 @@ export default function CustomersPage() {
                   <h3 className="text-sm font-bold text-gray-800 truncate">{c.name}</h3>
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-xs text-muted-foreground">
                     {c.phone && <span className="flex items-center gap-1">📞 {c.phone}</span>}
-                    {c.licensePlate && <span className="flex items-center gap-1 text-blue-600 font-medium">🚗 {c.licensePlate}</span>}
+                    {c.companyName && <span className="flex items-center gap-1 text-blue-600 font-medium">🏢 {c.companyName}</span>}
+                    {c.contactPerson && <span className="flex items-center gap-1">👤 {c.contactPerson}</span>}
                   </div>
                   {c.address && <p className="text-[11px] text-muted-foreground mt-1 truncate">📍 {c.address}</p>}
                   {c.taxId && <p className="text-[11px] text-blue-600 mt-0.5">TAX: {c.taxId}</p>}
@@ -828,7 +839,9 @@ export default function CustomersPage() {
             const rows = filteredCustomers.map((c: any) => ({
               "ชื่อลูกค้า": c.name,
               "เบอร์โทร": c.phone || "-",
-              "ทะเบียนรถ": c.licensePlate || "-",
+              "ชื่อบริษัท": c.companyName || "-",
+              "ประเภทธุรกิจ": c.industry || "-",
+              "ผู้ติดต่อ": c.contactPerson || "-",
               "ที่อยู่": c.address || "-",
               "เลขประจำตัวผู้เสียภาษี": c.taxId || "-",
             }));
@@ -844,7 +857,9 @@ export default function CustomersPage() {
                 <TableHead className="font-semibold w-8"></TableHead>
                 <TableHead className="font-semibold">ชื่อลูกค้า</TableHead>
                 <TableHead className="font-semibold">เบอร์โทร</TableHead>
-                <TableHead className="font-semibold">ทะเบียนรถ</TableHead>
+                <TableHead className="font-semibold">ชื่อบริษัท</TableHead>
+                <TableHead className="font-semibold">ประเภทธุรกิจ</TableHead>
+                <TableHead className="font-semibold">ผู้ติดต่อ</TableHead>
                 <TableHead className="font-semibold">ที่อยู่</TableHead>
                 <TableHead className="font-semibold">เลขประจำตัวผู้เสียภาษี</TableHead>
                 <TableHead></TableHead>
@@ -865,7 +880,9 @@ export default function CustomersPage() {
                     </TableCell>
                     <TableCell className="font-semibold">{c.name}</TableCell>
                     <TableCell>{c.phone || "-"}</TableCell>
-                    <TableCell className="text-blue-700 font-medium">{c.licensePlate || "-"}</TableCell>
+                    <TableCell className="text-blue-700 font-medium">{c.companyName || "-"}</TableCell>
+                    <TableCell>{c.industry || "-"}</TableCell>
+                    <TableCell>{c.contactPerson || "-"}</TableCell>
                     <TableCell className="text-muted-foreground">{c.address || "-"}</TableCell>
                     <TableCell className="text-blue-600 font-medium">{c.taxId || "-"}</TableCell>
                     <TableCell className="text-right">
@@ -877,7 +894,7 @@ export default function CustomersPage() {
                     <>
                       {/* Quotations Section - แสดงก่อน */}
                       <TableRow key={`quotations-${c.id}`}>
-                        <TableCell colSpan={7} className="p-0 bg-gradient-to-r from-blue-50/30 to-purple-50/20">
+                        <TableCell colSpan={8} className="p-0 bg-gradient-to-r from-blue-50/30 to-purple-50/20">
                           <div className="px-6 py-4">
                             <div className="flex items-center gap-2 mb-3">
                               <FileSpreadsheet className="h-4 w-4 text-blue-500" />
@@ -1026,7 +1043,7 @@ export default function CustomersPage() {
 
                       {/* Sales Section - แสดงหลัง */}
                       <TableRow key={`sales-${c.id}`}>
-                        <TableCell colSpan={7} className="p-0 bg-gradient-to-r from-blue-50/30 to-blue-50/20">
+                        <TableCell colSpan={8} className="p-0 bg-gradient-to-r from-blue-50/30 to-blue-50/20">
                           <div className="px-6 py-4">
                             <div className="flex items-center gap-2 mb-3">
                               <Receipt className="h-4 w-4 text-blue-500" />
@@ -1161,7 +1178,7 @@ export default function CustomersPage() {
                 </>
               ))}
               {customers.length === 0 && (
-                <TableRow><TableCell colSpan={7} className="text-center text-muted-foreground py-12"><Users className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีลูกค้า</TableCell></TableRow>
+                <TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-12"><Users className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีลูกค้า</TableCell></TableRow>
               )}
             </TableBody>
           </Table>
@@ -1248,7 +1265,7 @@ export default function CustomersPage() {
               {/* Items */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <Label className="text-sm font-semibold">รายการสินค้า/บริการ</Label>
+                  <Label className="text-sm font-semibold">รายการบริการ</Label>
                   <div className="flex gap-2">
                     <Button type="button" variant="default" size="sm" className="text-xs h-8 gap-1.5 bg-blue-500 text-white hover:bg-blue-600" onClick={openProductBrowser}>
                       <Package className="h-3.5 w-3.5" /> เลือกสินค้า
@@ -1266,11 +1283,9 @@ export default function CustomersPage() {
                         <div key={p.id} className="px-3 py-2 hover:bg-blue-50 cursor-pointer flex justify-between items-center text-xs border-b last:border-0" onClick={() => addProductToEdit(p)}>
                           <div>
                             <div className="font-medium">{p.name}</div>
-                            {p.brand && <div className="text-muted-foreground text-[10px]">{p.brand} {p.model}</div>}
                           </div>
                           <div className="text-right">
                             <div className="text-blue-600 font-semibold">{formatCurrency(parseFloat(p.sellPrice))}</div>
-                            <div className="text-[10px] text-muted-foreground">คงเหลือ {p.stock}</div>
                           </div>
                         </div>
                       ))}
@@ -1385,10 +1400,8 @@ export default function CustomersPage() {
                 const filtered = allProducts.filter((row: any) => {
                   const p = row.products || row;
                   const matchName = p.name.toLowerCase().includes(browserFilter.toLowerCase());
-                  const matchBrand = (p.brand || "").toLowerCase().includes(browserFilter.toLowerCase());
-                  const matchModel = (p.model || "").toLowerCase().includes(browserFilter.toLowerCase());
                   const matchCategory = !browserCategory || p.categoryId === parseInt(browserCategory);
-                  return (matchName || matchBrand || matchModel) && matchCategory;
+                  return matchName && matchCategory;
                 });
                 if (filtered.length === 0) {
                   return <div className="text-center text-muted-foreground py-12">ไม่พบสินค้า</div>;
@@ -1416,10 +1429,8 @@ export default function CustomersPage() {
                             {p.imageUrl ? <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" /> : <Package className="h-8 w-8 text-gray-300" />}
                           </div>
                           <div className="text-xs font-semibold line-clamp-2 mb-1">{p.name}</div>
-                          {(p.brand || p.model) && <div className="text-[10px] text-muted-foreground mb-1">{p.brand} {p.model}</div>}
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-bold text-blue-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
-                            <span className="text-[10px] text-muted-foreground">คงเหลือ {p.stock}</span>
                           </div>
                           {cat && <span className="mt-1.5 text-[9px] px-1.5 py-0.5 rounded-full bg-gray-100 text-muted-foreground">{cat.name}</span>}
                         </div>

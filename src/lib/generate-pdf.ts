@@ -32,7 +32,6 @@ export interface ReceiptData {
   buyerPhone?: string;
   buyerAddress?: string;
   buyerTaxId?: string;
-  licensePlate?: string;
   items: ReceiptItem[];
   serviceFee?: string;
   serviceDescription?: string;
@@ -153,7 +152,7 @@ export function generateReceiptPdf(data: ReceiptData): Buffer {
   if (data.buyerName || data.buyerTaxId || data.buyerAddress) {
     doc.setDrawColor(224, 224, 224);
     doc.setFillColor(254, 254, 254);
-    const buyerBoxH = 6 + (data.buyerName ? 4.5 : 0) + (data.buyerPhone ? 4.5 : 0) + (data.buyerAddress ? 4.5 : 0) + (data.buyerTaxId ? 4.5 : 0) + (data.licensePlate ? 4.5 : 0) + 2;
+    const buyerBoxH = 6 + (data.buyerName ? 4.5 : 0) + (data.buyerPhone ? 4.5 : 0) + (data.buyerAddress ? 4.5 : 0) + (data.buyerTaxId ? 4.5 : 0) + 2;
     doc.roundedRect(margin, y, contentWidth, buyerBoxH, 2, 2, "FD");
 
     doc.setFont("Sarabun", "bold");
@@ -194,13 +193,6 @@ export function generateReceiptPdf(data: ReceiptData): Buffer {
       doc.text(data.buyerTaxId, margin + 42, by);
       by += 4.5;
     }
-    if (data.licensePlate) {
-      doc.setTextColor(136, 136, 136);
-      doc.text("ทะเบียนรถ:", margin + 4, by);
-      doc.setTextColor(26, 26, 26);
-      doc.text(data.licensePlate, margin + 24, by);
-      by += 4.5;
-    }
 
     y = y + buyerBoxH + 3;
   }
@@ -208,7 +200,7 @@ export function generateReceiptPdf(data: ReceiptData): Buffer {
   // ============= ITEMS TABLE =============
   const tableColumns = [
     { header: "#", dataKey: "idx" },
-    { header: "รายการสินค้า / Description", dataKey: "name" },
+    { header: "รายการบริการ / Description", dataKey: "name" },
     { header: "จำนวน", dataKey: "qty" },
     { header: "ราคา/หน่วย", dataKey: "price" },
     { header: "จำนวนเงิน", dataKey: "total" },

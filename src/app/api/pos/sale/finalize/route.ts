@@ -12,7 +12,7 @@ function getSession(request: NextRequest) {
   try { return JSON.parse(sessionCookie.value); } catch { return null; }
 }
 
-// POST /api/pos/sale/finalize — ส่ง LINE แจ้งเตือน + เช็คสต๊อกต่ำ (สต๊อกถูกตัดไปแล้วตอนสร้างบิล)
+// POST /api/pos/sale/finalize — ส่ง LINE แจ้งเตือน (บริการไม่ต้องตัดสต็อก)
 export async function POST(request: NextRequest) {
   try {
     console.log("[FINALIZE] Request received");
@@ -37,20 +37,7 @@ export async function POST(request: NextRequest) {
       console.error(`[FINALIZE] LINE notify failed for saleId=${saleId}:`, err);
     }
 
-    // Check low stock (import dynamically)
-    if (items && Array.isArray(items)) {
-      console.log(`[FINALIZE] Checking low stock for ${items.length} items`);
-      try {
-        const mod = await import("@/app/actions");
-        for (const item of items) {
-          console.log(`[FINALIZE] Checking stock for productId=${item.productId}`);
-          await mod.checkLowStockAndNotify?.(item.productId).catch((e: any) => console.error(`[FINALIZE] checkLowStockAndNotify failed:`, e));
-          await mod.checkOutOfStockAndNotify?.(item.productId).catch((e: any) => console.error(`[FINALIZE] checkOutOfStockAndNotify failed:`, e));
-        }
-      } catch (err) {
-        console.error(`[FINALIZE] Low stock check failed:`, err);
-      }
-    }
+    // บริการไม่ต้องเช็คสต็อก
 
     console.log("[FINALIZE] Success");
     return NextResponse.json({ success: true });

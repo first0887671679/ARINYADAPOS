@@ -6,10 +6,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { getDashboardStatsWithDate, getDailySalesChart, getTopProductsChart, getSaleById, sendStockDecreaseLineNotify, getStockDecreaseItemsSinceReset, resetStockFromSales } from "@/app/actions";
+import { getDashboardStatsWithDate, getDailySalesChart, getTopProductsChart, getSaleById } from "@/app/actions";
 import dynamic from "next/dynamic";
 import { formatCurrency } from "@/lib/utils";
-import { ShoppingCart, Package, Users, TrendingUp, Zap, ExternalLink, Eye, Calendar, ChevronDown, ChevronUp, Printer, Receipt, X, BarChart3, PieChart as PieIcon, Download, FileSpreadsheet, Bell, RotateCcw, AlertTriangle } from "lucide-react";
+import { ShoppingCart, Package, Users, TrendingUp, Zap, ExternalLink, Eye, Calendar, ChevronDown, ChevronUp, Printer, Receipt, X, BarChart3, PieChart as PieIcon, Download, FileSpreadsheet } from "lucide-react";
 import { PaymentBadge } from "@/components/payment-badge";
 // Dynamic import for export-excel to reduce bundle size
 const loadExportExcel = () => import("@/lib/export-excel");
@@ -30,14 +30,6 @@ export default function DashboardClient({ initialStats, initialSettings }: { ini
   const [dateTo, setDateTo] = useState(() => new Date().toISOString().split("T")[0]);
   const [loading, setLoading] = useState(false);
   const [activeFilter, setActiveFilter] = useState("today");
-  const [sendingStockAlert, setSendingStockAlert] = useState(false);
-  const [stockAlertMsg, setStockAlertMsg] = useState("");
-  const [stockDecreaseItems, setStockDecreaseItems] = useState<any[]>([]);
-  const [showStockDecrease, setShowStockDecrease] = useState(false);
-  const [resettingStock, setResettingStock] = useState(false);
-  const [resetMsg, setResetMsg] = useState("");
-  const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [lastStockResetAt, setLastStockResetAt] = useState<string | null>(initialSettings?.lastStockResetAt || null);
 
   const quickFilters = [
     { label: "ทั้งหมด", key: "all", fn: () => { const n = new Date(); setDateFrom("1970-01-01"); setDateTo(n.toISOString().split("T")[0]); setActiveFilter("all"); } },
@@ -53,38 +45,18 @@ export default function DashboardClient({ initialStats, initialSettings }: { ini
   async function loadAll() {
     setLoading(true);
     try {
-      const [newStats, daily, products, stockItems] = await Promise.all([
+      const [newStats, daily, products] = await Promise.all([
         getDashboardStatsWithDate(dateFrom, dateTo),
         getDailySalesChart(dateFrom, dateTo),
         getTopProductsChart(dateFrom, dateTo),
-        getStockDecreaseItemsSinceReset(),
       ]);
       setStats(newStats);
       setChartData(daily);
       setTopProducts(products);
-      setStockDecreaseItems(stockItems);
     } catch (error) {
       console.error("Failed to load stats:", error);
     }
     setLoading(false);
-  }
-
-  async function handleResetStock() {
-    setResettingStock(true);
-    setResetMsg("");
-    try {
-      const res = await resetStockFromSales();
-      setResetMsg(res.message);
-      if (res.success) {
-        setShowResetConfirm(false);
-        if (res.resetAt) setLastStockResetAt(res.resetAt);
-        await loadAll();
-      }
-    } catch {
-      setResetMsg("เกิดข้อผิดพลาดในการรีเซ็ทสต๊อก");
-    }
-    setResettingStock(false);
-    setTimeout(() => setResetMsg(""), 5000);
   }
 
   useEffect(() => { loadAll(); }, [dateFrom, dateTo]);
@@ -113,7 +85,7 @@ export default function DashboardClient({ initialStats, initialSettings }: { ini
     items.forEach((si: any) => {
       const p = si.products;
       const item = si.sale_items || si;
-      const nameDisplay = [p?.brand, p?.name, p?.model].filter(Boolean).join(" / ") || "สินค้า";
+      const nameDisplay = p?.name || "บริการ";
       itemsHtml += `<tr><td style="padding:2px 0;font-size:10px">${nameDisplay}</td><td style="text-align:center;padding:2px 0;font-size:10px">${item.quantity}</td><td style="text-align:right;padding:2px 0;font-size:10px">${formatCurrency(parseFloat(item.unitPrice))}</td><td style="text-align:right;padding:2px 0;font-size:10px">${formatCurrency(parseFloat(item.total))}</td></tr>`;
     });
     if (parseFloat(sale.serviceFee || "0") > 0) {
@@ -134,7 +106,7 @@ export default function DashboardClient({ initialStats, initialSettings }: { ini
           </div>
           <div style="text-align:center;border-bottom:2px solid #2563eb;padding-bottom:12px;margin-bottom:12px;">
             <div style="font-size:18px;font-weight:bold;color:#2563eb;">${sale.isTaxInvoice ? "ใบกำกับภาษี" : "ใบเสร็จรับเงิน"}</div>
-            <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "ร้านแบตเตอรี่"}</div>
+            <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "บริษัทรับจ้างทำการตลาด"}</div>
             ${store.branchName ? `<div style="font-size:11px;color:#666;">${store.branchName}</div>` : ""}
             ${store.address ? `<div style="font-size:11px;color:#666;">ที่อยู่: ${store.address}</div>` : ""}
             ${store.phone ? `<div style="font-size:11px;color:#666;">โทร. ${store.phone}</div>` : ""}
@@ -248,26 +220,6 @@ export default function DashboardClient({ initialStats, initialSettings }: { ini
       href: `/sales?from=${dateFrom}&to=${dateTo}`,
     },
     {
-      label: "น้ำหนักที่ขายไป",
-      value: `${(stats.totalWeightSold || 0).toLocaleString("th-TH", { minimumFractionDigits: 3 })} kg`,
-      sub: stats.kgPrice > 0
-        ? `฿${(stats.totalWeightValue || 0).toLocaleString("th-TH", { minimumFractionDigits: 2 })} (${stats.kgPrice?.toLocaleString("th-TH")} บ./kg)`
-        : `ตามวันที่เลือก`,
-      icon: Package,
-      gradient: "from-green-500 to-emerald-600",
-      bg: "bg-green-50",
-      href: `/sales?from=${dateFrom}&to=${dateTo}`,
-    },
-    {
-      label: "ทุนสต๊อกสินค้า",
-      value: `฿${parseFloat(stats.totalStockValue || 0).toLocaleString("th-TH", { minimumFractionDigits: 2 })}`,
-      sub: `${stats.totalProducts || 0} รายการ`,
-      icon: Package,
-      gradient: "from-blue-500 to-indigo-600",
-      bg: "bg-blue-50",
-      href: "/products",
-    },
-    {
       label: "สินค้าทั้งหมด",
       value: stats.totalProducts,
       sub: "รายการ",
@@ -293,7 +245,7 @@ export default function DashboardClient({ initialStats, initialSettings }: { ini
       <div className="flex items-center justify-between gap-2">
         <div>
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight">แดชบอร์ด</h1>
-          <p className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">ภาพรวมร้าน</p>
+          <p className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">ภาพรวมบริษัท</p>
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-xl bg-blue-50 border border-blue-200/60 px-2.5 sm:px-4 py-1.5 sm:py-2">
           <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-500" />
@@ -385,8 +337,8 @@ export default function DashboardClient({ initialStats, initialSettings }: { ini
               <PieIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white" />
             </div>
             <div>
-              <h3 className="text-xs sm:text-sm font-bold text-gray-800">สินค้าขายดี Top 6</h3>
-              <p className="text-[10px] sm:text-[11px] text-muted-foreground">สัดส่วนจำนวนสินค้าที่ขายได้</p>
+              <h3 className="text-xs sm:text-sm font-bold text-gray-800">บริการขายดี Top 6</h3>
+              <p className="text-[10px] sm:text-[11px] text-muted-foreground">สัดส่วนจำนวนบริการที่ขายได้</p>
             </div>
           </div>
           <div className="-mx-2 sm:mx-0">
@@ -394,166 +346,6 @@ export default function DashboardClient({ initialStats, initialSettings }: { ini
           </div>
         </div>
       </div>
-
-      {/* Stock Decrease Section */}
-      <div className="rounded-xl sm:rounded-2xl bg-white border border-red-100/60 shadow-luxury overflow-hidden">
-        <div className="px-3 sm:px-5 py-3 sm:py-4 border-b border-red-100/60 bg-gradient-to-r from-red-50/80 to-white space-y-2 sm:space-y-0">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-              <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-gradient-to-br from-red-500 to-rose-600 flex-shrink-0">
-                <AlertTriangle className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white" />
-              </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <h2 className="text-sm sm:text-base font-bold tracking-tight text-red-800">สต๊อกลด</h2>
-                  {stockDecreaseItems.length > 0 ? (
-                    <Badge variant="outline" className="border-red-200 text-red-600 text-[10px] sm:text-xs">{stockDecreaseItems.length} รายการ / {stockDecreaseItems.reduce((s: number, i: any) => s + i.totalQty, 0)} ชิ้น</Badge>
-                  ) : (
-                    <Badge variant="outline" className="border-green-200 text-green-600 text-[10px] sm:text-xs">ไม่มีรายการ</Badge>
-                  )}
-                </div>
-                <p className="text-[10px] sm:text-xs text-red-500">สินค้าที่ขายไปตั้งแต่รีเซ็ทล่าสุด</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
-              {stockDecreaseItems.length > 0 && (
-                <Button variant="outline" size="sm" onClick={() => setShowStockDecrease(!showStockDecrease)}
-                  className="h-7 sm:h-8 text-[10px] sm:text-xs border-red-200 hover:bg-red-50 text-red-700 gap-1 rounded-md sm:rounded-lg px-2 sm:px-3">
-                  {showStockDecrease ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-                  <span className="hidden sm:inline">{showStockDecrease ? "ซ่อน" : "ดูรายการ"}</span>
-                </Button>
-              )}
-              <Button variant="outline" size="sm" disabled={sendingStockAlert} onClick={async () => {
-                setSendingStockAlert(true); setStockAlertMsg("");
-                const res = await sendStockDecreaseLineNotify();
-                setStockAlertMsg(res.message);
-                setSendingStockAlert(false);
-                setTimeout(() => setStockAlertMsg(""), 4000);
-              }}
-                className="h-7 sm:h-8 text-[10px] sm:text-xs border-green-200 hover:bg-green-50 text-green-700 gap-1 rounded-md sm:rounded-lg px-2 sm:px-3">
-                <Bell className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> <span className="hidden sm:inline">{sendingStockAlert ? "กำลังส่ง..." : "แจ้งสต๊อกลด"}</span>
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => setShowResetConfirm(true)}
-                disabled={resettingStock}
-                className="h-7 sm:h-8 text-[10px] sm:text-xs border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-700 gap-1 rounded-md sm:rounded-lg px-2 sm:px-3 font-semibold">
-                <RotateCcw className={`h-3 w-3 sm:h-3.5 sm:w-3.5 ${resettingStock ? "animate-spin" : ""}`} />
-                <span className="hidden sm:inline">{resettingStock ? "กำลังรีเซ็ท..." : "รีเซ็ทสต๊อก"}</span>
-              </Button>
-            </div>
-          </div>
-          {lastStockResetAt && (
-            <div className="flex items-center sm:ml-9">
-              <span className="text-[9px] sm:text-[10px] text-blue-500 bg-blue-50 border border-blue-200 rounded-md px-1.5 py-0.5 whitespace-nowrap">
-                🔄 รีเซ็ทล่าสุด: {new Date(lastStockResetAt).toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "numeric" })} {new Date(lastStockResetAt).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" })}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {resetMsg && (
-          <div className={`mx-3 sm:mx-5 mt-2 p-2 rounded-lg text-xs font-medium ${resetMsg.includes("สำเร็จ") ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"}`}>
-            {resetMsg}
-          </div>
-        )}
-        {stockAlertMsg && (
-          <div className="mx-3 sm:mx-5 mt-2 p-2 rounded-lg text-xs font-medium bg-green-50 text-green-700 border border-green-200">
-            {stockAlertMsg}
-          </div>
-        )}
-
-        {showStockDecrease && (
-          <div className="max-h-[400px] overflow-auto">
-            {/* Mobile Card View */}
-            <div className="sm:hidden divide-y divide-red-50">
-              {stockDecreaseItems.map((item: any, idx: number) => {
-                const name = [item.brand, item.productName, item.model].filter(Boolean).join(" / ");
-                const terminal = item.batteryTerminal ? ` (${item.batteryTerminal})` : "";
-                return (
-                  <div key={idx} className="p-3 flex justify-between items-center">
-                    <div>
-                      <span className="text-xs font-medium text-gray-800">{name}{terminal}</span>
-                      <div className="text-[10px] text-muted-foreground">คงเหลือ: {item.currentStock} ชิ้น</div>
-                    </div>
-                    <Badge className="bg-red-100 text-red-700 border-red-200 text-xs font-bold">-{item.totalQty}</Badge>
-                  </div>
-                );
-              })}
-            </div>
-            {/* Desktop Table View */}
-            <div className="hidden sm:block">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-red-50/50 hover:bg-red-50/50">
-                    <TableHead className="font-semibold text-xs">#</TableHead>
-                    <TableHead className="font-semibold text-xs">สินค้า</TableHead>
-                    <TableHead className="text-center font-semibold text-xs">จำนวนที่ขาย</TableHead>
-                    <TableHead className="text-center font-semibold text-xs">คงเหลือ</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {stockDecreaseItems.map((item: any, idx: number) => {
-                    const name = [item.brand, item.productName, item.model].filter(Boolean).join(" / ");
-                    const terminal = item.batteryTerminal ? ` (${item.batteryTerminal})` : "";
-                    return (
-                      <TableRow key={idx} className="hover:bg-red-50/30">
-                        <TableCell className="text-xs text-muted-foreground">{idx + 1}</TableCell>
-                        <TableCell className="text-sm font-medium">{name}{terminal}</TableCell>
-                        <TableCell className="text-center">
-                          <Badge className="bg-red-100 text-red-700 border-red-200 text-xs font-bold">-{item.totalQty}</Badge>
-                        </TableCell>
-                        <TableCell className="text-center text-sm">{item.currentStock}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Reset Confirm Modal */}
-      {showResetConfirm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-red-500">
-                <RotateCcw className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold">ยืนยันรีเซ็ทสต๊อก</h3>
-                <p className="text-sm text-muted-foreground">เติมสต๊อกกลับตามจำนวนที่ขายไป</p>
-              </div>
-            </div>
-            <div className="bg-blue-50 rounded-xl p-4 mb-4 space-y-2 text-sm">
-              <p className="font-semibold text-blue-800">จะเติมสต๊อกกลับ:</p>
-              <ul className="space-y-1 text-blue-700 max-h-[200px] overflow-auto">
-                {stockDecreaseItems.map((item: any, idx: number) => {
-                  const name = [item.brand, item.productName, item.model].filter(Boolean).join(" / ");
-                  return (
-                    <li key={idx} className="flex justify-between">
-                      <span className="truncate mr-2">{name}</span>
-                      <span className="font-bold whitespace-nowrap">+{item.totalQty} ชิ้น</span>
-                    </li>
-                  );
-                })}
-              </ul>
-              <p className="text-xs text-blue-500 pt-1">รวม {stockDecreaseItems.length} รายการ / {stockDecreaseItems.reduce((s: number, i: any) => s + i.totalQty, 0)} ชิ้น</p>
-            </div>
-            <div className="flex gap-2">
-              <Button onClick={handleResetStock} disabled={resettingStock}
-                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white rounded-xl gap-2">
-                <RotateCcw className={`h-4 w-4 ${resettingStock ? "animate-spin" : ""}`} />
-                {resettingStock ? "กำลังรีเซ็ท..." : "ยืนยันรีเซ็ท"}
-              </Button>
-              <Button variant="outline" onClick={() => setShowResetConfirm(false)} disabled={resettingStock}
-                className="flex-1 rounded-xl border-gray-200">
-                ยกเลิก
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Receipt Modal */}
       {viewReceiptSale && (
@@ -598,7 +390,7 @@ export default function DashboardClient({ initialStats, initialSettings }: { ini
 
               {/* Items */}
               <div>
-                <div className="text-sm font-semibold mb-2">รายการสินค้า</div>
+                <div className="text-sm font-semibold mb-2">รายการบริการ</div>
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-blue-50/50">
@@ -667,7 +459,7 @@ export default function DashboardClient({ initialStats, initialSettings }: { ini
             <Badge variant="outline" className="border-blue-200 text-blue-600 text-[10px] sm:text-xs">{(stats.recentSales || []).length} รายการ</Badge>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <Button variant="outline" size="sm" onClick={async () => { const { exportSalesExcel } = await loadExportExcel(); exportSalesExcel(stats.recentSales || [], storeSettings?.storeName || "ร้าน"); }}
+            <Button variant="outline" size="sm" onClick={async () => { const { exportSalesExcel } = await loadExportExcel(); exportSalesExcel(stats.recentSales || [], storeSettings?.storeName || "บริษัท"); }}
               className="h-6 sm:h-7 text-[10px] sm:text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-md sm:rounded-lg px-1.5 sm:px-2">
               <Download className="h-3 w-3" /> <span className="hidden sm:inline">Excel</span>
             </Button>

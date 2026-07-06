@@ -313,7 +313,7 @@ export default function SalesPage() {
       idx++;
       const p = si.products;
       const item = si.sale_items || si;
-      const nameDisplay = [p?.brand, p?.name, p?.model].filter(Boolean).join(" / ") || "สินค้า";
+      const nameDisplay = p?.name || "บริการ";
       const bg = idx % 2 === 0 ? ' style="background:#fafafa"' : '';
       itemsHtml += `<tr${bg}><td class="tc">${idx}</td><td>${nameDisplay}</td><td class="tc">${item.quantity}</td><td class="tr">${formatCurrency(parseFloat(item.unitPrice))}</td><td class="tr">${formatCurrency(parseFloat(item.total))}</td></tr>`;
     });
@@ -326,7 +326,6 @@ export default function SalesPage() {
     const bPhone = sale.buyerPhone || "";
     const bAddr = sale.buyerAddress || "";
     const bTaxId = sale.buyerTaxId || "";
-    const bLicensePlate = sale.licensePlate || "";
     const docTitle = sale.isTaxInvoice ? "ใบกำกับภาษี / TAX INVOICE" : "ใบเสร็จรับเงิน / RECEIPT";
     const fmtD = (d: Date) => d.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" });
     const fmtT = (d: Date) => d.toLocaleTimeString("th-TH");
@@ -339,7 +338,7 @@ export default function SalesPage() {
     <div class="logo-box">${logoUrl ? `<img src="${logoUrl}" alt="logo">` : `<div class="logo-ph"></div>`}</div>
     <div class="header-text">
       <div class="doc-title">${docTitle}</div>
-      <div class="store-name">${store.storeName || "ร้านแบตเตอรี่"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
+      <div class="store-name">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
       <div class="store-detail">${store.address || ""}${store.phone ? ` | โทร. ${store.phone}` : ""}${store.taxId ? `<br>เลขประจำตัวผู้เสียภาษี: ${store.taxId}` : ""}</div>
     </div>
   </div>
@@ -361,11 +360,10 @@ export default function SalesPage() {
       ${bPhone ? `<div class="buyer-item"><span class="bl">โทร:</span> ${bPhone}</div>` : ""}
       ${bAddr ? `<div class="buyer-item" style="min-width:100%"><span class="bl">ที่อยู่:</span> ${bAddr}</div>` : ""}
       ${bTaxId ? `<div class="buyer-item"><span class="bl">เลขประจำตัวผู้เสียภาษี:</span> ${bTaxId}</div>` : ""}
-      ${bLicensePlate ? `<div class="buyer-item"><span class="bl">ทะเบียนรถ:</span> ${bLicensePlate}</div>` : ""}
     </div>
   </div>` : ""}
   <table class="items">
-    <thead><tr><th class="tc" style="width:30px">#</th><th style="text-align:left">รายการสินค้า / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:90px">จำนวนเงิน</th></tr></thead>
+    <thead><tr><th class="tc" style="width:30px">#</th><th style="text-align:left">รายการบริการ / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:90px">จำนวนเงิน</th></tr></thead>
     <tbody>${itemsHtml}</tbody>
   </table>
   <div class="summary-section"><div class="summary-box">
@@ -381,7 +379,7 @@ export default function SalesPage() {
     <div class="sig-block"><div class="sig-line"></div><div class="sig-label">ผู้จ่ายเงิน / ผู้ซื้อ</div><div class="sig-sub">(...............................)</div><div class="sig-sub">วันที่ ____/____/____</div></div>
     <div class="sig-block"><div class="sig-line"></div><div class="sig-label">ผู้อนุมัติ</div><div class="sig-sub">(...............................)</div><div class="sig-sub">วันที่ ____/____/____</div></div>
   </div>
-  <div class="footer"><div class="footer-thanks">ขอบคุณที่ใช้บริการ / Thank you for your business</div><div class="footer-sub">${store.storeName || "ร้านแบตเตอรี่"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div></div>
+  <div class="footer"><div class="footer-thanks">ขอบคุณที่ใช้บริการ / Thank you for your business</div><div class="footer-sub">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div></div>
 </div>`;
     }
 
@@ -492,7 +490,6 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
         const bPhone = sale.buyerPhone || "";
         const bAddr = sale.buyerAddress || "";
         const bTaxId = sale.buyerTaxId || "";
-        const bLicensePlate = sale.licensePlate || "";
         const docTitle = sale.isTaxInvoice ? "ใบกำกับภาษี / TAX INVOICE" : "ใบเสร็จรับเงิน / RECEIPT";
         const createdAt = new Date(sale.createdAt);
 
@@ -502,7 +499,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
           idx++;
           const p = si.products;
           const item = si.sale_items || si;
-          const nameDisplay = [p?.brand, p?.name, p?.model].filter(Boolean).join(" / ") || "สินค้า";
+          const nameDisplay = p?.name || "บริการ";
           const bg = idx % 2 === 0 ? ' style="background:#fafafa"' : '';
           itemsHtml += `<tr${bg}><td class="tc">${idx}</td><td>${nameDisplay}</td><td class="tc">${item.quantity}</td><td class="tr">${formatCurrency(parseFloat(item.unitPrice))}</td><td class="tr">${formatCurrency(parseFloat(item.total))}</td></tr>`;
         });
@@ -517,7 +514,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
     <div class="logo-box">${logoUrl ? `<img src="${logoUrl}" alt="logo">` : `<div class="logo-ph"></div>`}</div>
     <div class="header-text">
       <div class="doc-title">${docTitle}</div>
-      <div class="store-name">${store.storeName || "ร้านแบตเตอรี่"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
+      <div class="store-name">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.branchName ? ` - ${store.branchName}` : ""}</div>
       <div class="store-detail">${store.address || ""}${store.phone ? ` | โทร. ${store.phone}` : ""}${store.taxId ? `<br>เลขประจำตัวผู้เสียภาษี: ${store.taxId}` : ""}</div>
     </div>
   </div>
@@ -539,11 +536,10 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
       ${bPhone ? `<div class="buyer-item"><span class="bl">โทร:</span> ${bPhone}</div>` : ""}
       ${bAddr ? `<div class="buyer-item" style="min-width:100%"><span class="bl">ที่อยู่:</span> ${bAddr}</div>` : ""}
       ${bTaxId ? `<div class="buyer-item"><span class="bl">เลขประจำตัวผู้เสียภาษี:</span> ${bTaxId}</div>` : ""}
-      ${bLicensePlate ? `<div class="buyer-item"><span class="bl">ทะเบียนรถ:</span> ${bLicensePlate}</div>` : ""}
     </div>
   </div>` : ""}
   <table class="items">
-    <thead><tr><th class="tc" style="width:30px">#</th><th style="text-align:left">รายการสินค้า / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:90px">จำนวนเงิน</th></tr></thead>
+    <thead><tr><th class="tc" style="width:30px">#</th><th style="text-align:left">รายการบริการ / Description</th><th class="tc" style="width:50px">จำนวน</th><th class="tr" style="width:80px">ราคา/หน่วย</th><th class="tr" style="width:90px">จำนวนเงิน</th></tr></thead>
     <tbody>${itemsHtml}</tbody>
   </table>
   <div class="summary-section"><div class="summary-box">
@@ -559,7 +555,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
     <div class="sig-block"><div class="sig-line"></div><div class="sig-label">ผู้จ่ายเงิน / ผู้ซื้อ</div><div class="sig-sub">(...............................)</div><div class="sig-sub">วันที่ ____/____/____</div></div>
     <div class="sig-block"><div class="sig-line"></div><div class="sig-label">ผู้อนุมัติ</div><div class="sig-sub">(...............................)</div><div class="sig-sub">วันที่ ____/____/____</div></div>
   </div>
-  <div class="footer"><div class="footer-thanks">ขอบคุณที่ใช้บริการ / Thank you for your business</div><div class="footer-sub">${store.storeName || "ร้านแบตเตอรี่"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div></div>
+  <div class="footer"><div class="footer-thanks">ขอบคุณที่ใช้บริการ / Thank you for your business</div><div class="footer-sub">${store.storeName || "บริษัทรับจ้างทำการตลาด"}${store.phone ? ` | โทร. ${store.phone}` : ""}</div></div>
 </div>`;
 
         // Mark as printed
@@ -782,9 +778,9 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                 </select>
               </div>
 
-              {/* รายการสินค้า */}
+              {/* รายการบริการ */}
               <div>
-                <Label className="text-xs font-semibold">รายการสินค้า</Label>
+                <Label className="text-xs font-semibold">รายการบริการ</Label>
                 <div className="relative mt-1 mb-2">
                   <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                   <Input
@@ -808,7 +804,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
                   )}
                 </div>
                 {editItems.length === 0 ? (
-                  <div className="text-center py-4 text-xs text-muted-foreground border border-dashed rounded-lg">ยังไม่มีรายการสินค้า</div>
+                  <div className="text-center py-4 text-xs text-muted-foreground border border-dashed rounded-lg">ยังไม่มีรายการบริการ</div>
                 ) : (
                   <div className="space-y-1">
                     {editItems.map((item) => (
@@ -939,11 +935,11 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
           </div>
           <div className="flex items-center gap-1.5">
             <Button variant="outline" size="sm" onClick={async () => {
-              const { exportSalesExcel } = await loadExportExcel(); exportSalesExcel(sales, storeSettings?.storeName || "ร้านแบตเตอรี่");
+              const { exportSalesExcel } = await loadExportExcel(); exportSalesExcel(sales, storeSettings?.storeName || "บริษัทรับจ้างทำการตลาด");
             }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
               <Download className="h-3 w-3" /> Excel</Button>
             <Button variant="outline" size="sm" onClick={async () => {
-              const { exportSalesReportExcel } = await loadExportExcel(); await exportSalesReportExcel(sales, storeSettings?.storeName || "ร้านแบตเตอรี่", dateFrom, dateTo, customers);
+              const { exportSalesReportExcel } = await loadExportExcel(); await exportSalesReportExcel(sales, storeSettings?.storeName || "บริษัทรับจ้างทำการตลาด", dateFrom, dateTo, customers);
             }} className="h-7 text-[11px] border-green-200 hover:bg-green-50 text-green-700 gap-1 rounded-lg">
               <FileText className="h-3 w-3" /> ภาษี
             </Button>
@@ -1070,11 +1066,11 @@ table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <Button variant="outline" size="sm" onClick={async () => {
-              const { exportSalesExcel } = await loadExportExcel(); exportSalesExcel(sales, storeSettings?.storeName || "ร้านแบตเตอรี่");
+              const { exportSalesExcel } = await loadExportExcel(); exportSalesExcel(sales, storeSettings?.storeName || "บริษัทรับจ้างทำการตลาด");
             }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
               <Download className="h-3 w-3" /> ส่งออก Excel</Button>
             <Button variant="outline" size="sm" onClick={async () => {
-              const { exportSalesReportExcel } = await loadExportExcel(); await exportSalesReportExcel(sales, storeSettings?.storeName || "ร้านแบตเตอรี่", dateFrom, dateTo, customers);
+              const { exportSalesReportExcel } = await loadExportExcel(); await exportSalesReportExcel(sales, storeSettings?.storeName || "บริษัทรับจ้างทำการตลาด", dateFrom, dateTo, customers);
             }} className="h-7 text-[11px] border-green-200 hover:bg-green-50 text-green-700 gap-1 rounded-lg">
               <FileText className="h-3 w-3" /> ภาษี
             </Button>

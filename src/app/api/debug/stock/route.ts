@@ -5,13 +5,14 @@ import { sql } from "drizzle-orm";
 
 export const dynamic = "force-dynamic";
 
-// Debug endpoint — ดูสต๊อกจริงจาก DB (ไม่ต้อง login)
+// Debug endpoint — ดูบริการทั้งหมดจาก DB (ไม่ต้อง login)
 export async function GET() {
   try {
     const data = await db.select({
       id: products.id,
       name: products.name,
-      stock: products.stock,
+      sellPrice: products.sellPrice,
+      active: products.active,
     }).from(products)
       .where(sql`${products.active} = true`)
       .orderBy(products.id);

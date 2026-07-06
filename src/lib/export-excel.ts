@@ -84,9 +84,6 @@ export function exportDashboardExcel(stats: any, chartData: any[], topProducts: 
     "รายการ": "ลูกค้าทั้งหมด",
     "ค่า": stats.totalCustomers || 0,
   }, {
-    "รายการ": "สินค้าใกล้หมด",
-    "ค่า": stats.lowStockCount || 0,
-  }, {
     "รายการ": "ช่วงวันที่",
     "ค่า": `${dateFrom} ถึง ${dateTo}`,
   }];
@@ -157,7 +154,6 @@ export async function exportSalesReportExcel(
       const buyerPhone = pick(sale.buyerPhone, cust?.phone, listCust?.phone);
       const buyerAddress = pick(sale.buyerAddress, cust?.address, listCust?.address);
       const buyerTaxId = pick(sale.buyerTaxId, cust?.taxId, listCust?.taxId);
-      const buyerLicensePlate = pick(null, cust?.licensePlate, listCust?.licensePlate);
       const docType = sale.isTaxInvoice ? "ใบกำกับภาษี" : "ใบเสร็จรับเงิน";
       return {
         date,
@@ -167,7 +163,6 @@ export async function exportSalesReportExcel(
         buyerPhone,
         buyerAddress,
         buyerTaxId,
-        buyerLicensePlate,
         subtotal,
         taxAmount,
         total,
@@ -195,11 +190,10 @@ export async function exportSalesReportExcel(
     { width: 18 },  // F: เลขประจำตัวผู้เสียภาษี
     { width: 16 },  // G: เบอร์โทร
     { width: 32 },  // H: ที่อยู่
-    { width: 14 },  // I: ทะเบียนรถ
-    { width: 16 },  // J: มูลค่าสินค้าหรือบริการ
-    { width: 18 },  // K: จำนวนเงินภาษีมูลค่าเพิ่ม (7%)
-    { width: 18 },  // L: มูลค่าสินค้ารวมภาษีมูลค่าเพิ่ม
-    { width: 8 },   // M: SU
+    { width: 16 },  // I: มูลค่าสินค้าหรือบริการ
+    { width: 18 },  // J: จำนวนเงินภาษีมูลค่าเพิ่ม (7%)
+    { width: 18 },  // K: มูลค่าสินค้ารวมภาษีมูลค่าเพิ่ม
+    { width: 8 },   // L: SU
   ];
 
   const thinBorder: Partial<ExcelJS.Borders> = {
@@ -210,21 +204,21 @@ export async function exportSalesReportExcel(
   };
 
   // ---- Title rows ----
-  ws.mergeCells("A1:M1");
+  ws.mergeCells("A1:L1");
   const titleCell = ws.getCell("A1");
   titleCell.value = storeName;
   titleCell.font = { name: "TH Sarabun New", size: 16, bold: true };
   titleCell.alignment = { horizontal: "center", vertical: "middle" };
   ws.getRow(1).height = 26;
 
-  ws.mergeCells("A2:M2");
+  ws.mergeCells("A2:L2");
   const subtitleCell = ws.getCell("A2");
   subtitleCell.value = "รายงานขาย (ใบเสร็จรับเงินและใบกำกับภาษี)";
   subtitleCell.font = { name: "TH Sarabun New", size: 14, bold: true };
   subtitleCell.alignment = { horizontal: "center", vertical: "middle" };
   ws.getRow(2).height = 22;
 
-  ws.mergeCells("A3:M3");
+  ws.mergeCells("A3:L3");
   const dateCell = ws.getCell("A3");
   const fmtDate = (d: string) => {
     if (!d) return "";
@@ -247,7 +241,6 @@ export async function exportSalesReportExcel(
     "เลขประจำตัวผู้เสียภาษี",
     "เบอร์โทร",
     "ที่อยู่",
-    "ทะเบียนรถ",
     "มูลค่าสินค้าหรือบริการ",
     "จำนวนเงินภาษีมูลค่าเพิ่ม (7%)",
     "มูลค่าสินค้ารวมภาษีมูลค่าเพิ่ม",
@@ -272,7 +265,7 @@ export async function exportSalesReportExcel(
   let totalTotal = 0;
 
   if (salesRows.length === 0) {
-    ws.mergeCells(`A${currentRow}:M${currentRow}`);
+    ws.mergeCells(`A${currentRow}:L${currentRow}`);
     const emptyCell = ws.getCell(`A${currentRow}`);
     emptyCell.value = "ไม่มีข้อมูลการขายในช่วงวันที่ที่เลือก";
     emptyCell.font = { name: "TH Sarabun New", size: 11, italic: true };
@@ -341,43 +334,36 @@ export async function exportSalesReportExcel(
       cellH.font = { name: "TH Sarabun New", size: 11 };
       cellH.border = thinBorder;
 
-      // I: ทะเบียนรถ
+      // I: มูลค่าสินค้าหรือบริการ
       const cellI = row.getCell(9);
-      cellI.value = sale.buyerLicensePlate;
-      cellI.alignment = { horizontal: "center", vertical: "middle" };
+      cellI.value = sale.subtotal;
+      cellI.numFmt = "#,##0.00";
+      cellI.alignment = { horizontal: "right", vertical: "middle" };
       cellI.font = { name: "TH Sarabun New", size: 11 };
       cellI.border = thinBorder;
 
-      // J: มูลค่าสินค้าหรือบริการ
+      // J: จำนวนเงินภาษีมูลค่าเพิ่ม (7%)
       const cellJ = row.getCell(10);
-      cellJ.value = sale.subtotal;
+      cellJ.value = sale.taxAmount;
       cellJ.numFmt = "#,##0.00";
       cellJ.alignment = { horizontal: "right", vertical: "middle" };
       cellJ.font = { name: "TH Sarabun New", size: 11 };
       cellJ.border = thinBorder;
 
-      // K: จำนวนเงินภาษีมูลค่าเพิ่ม (7%)
+      // K: มูลค่าสินค้ารวมภาษีมูลค่าเพิ่ม
       const cellK = row.getCell(11);
-      cellK.value = sale.taxAmount;
+      cellK.value = sale.total;
       cellK.numFmt = "#,##0.00";
       cellK.alignment = { horizontal: "right", vertical: "middle" };
       cellK.font = { name: "TH Sarabun New", size: 11 };
       cellK.border = thinBorder;
 
-      // L: มูลค่าสินค้ารวมภาษีมูลค่าเพิ่ม
+      // L: SU
       const cellL = row.getCell(12);
-      cellL.value = sale.total;
-      cellL.numFmt = "#,##0.00";
-      cellL.alignment = { horizontal: "right", vertical: "middle" };
+      cellL.value = sale.status;
+      cellL.alignment = { horizontal: "center", vertical: "middle" };
       cellL.font = { name: "TH Sarabun New", size: 11 };
       cellL.border = thinBorder;
-
-      // M: SU
-      const cellM = row.getCell(13);
-      cellM.value = sale.status;
-      cellM.alignment = { horizontal: "center", vertical: "middle" };
-      cellM.font = { name: "TH Sarabun New", size: 11 };
-      cellM.border = thinBorder;
 
       ws.getRow(currentRow).height = 22;
       totalSubtotal += sale.subtotal;
@@ -389,7 +375,7 @@ export async function exportSalesReportExcel(
 
   // ---- Summary / Total row ----
   const totalRow = ws.getRow(currentRow);
-  ws.mergeCells(`A${currentRow}:J${currentRow}`);
+  ws.mergeCells(`A${currentRow}:I${currentRow}`);
   const totalLabelCell = totalRow.getCell(1);
   totalLabelCell.value = "รวมทั้งหมด (บาท)";
   totalLabelCell.font = { name: "TH Sarabun New", size: 11, bold: true };
@@ -398,12 +384,12 @@ export async function exportSalesReportExcel(
   totalLabelCell.border = thinBorder;
 
   // Apply border to merged cells
-  for (let c = 2; c <= 10; c++) {
+  for (let c = 2; c <= 9; c++) {
     totalRow.getCell(c).border = thinBorder;
     totalRow.getCell(c).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFDE9D9" } };
   }
 
-  const totalSubtotalCell = totalRow.getCell(10);
+  const totalSubtotalCell = totalRow.getCell(9);
   totalSubtotalCell.value = totalSubtotal;
   totalSubtotalCell.numFmt = "#,##0.00";
   totalSubtotalCell.font = { name: "TH Sarabun New", size: 11, bold: true };
@@ -411,7 +397,7 @@ export async function exportSalesReportExcel(
   totalSubtotalCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFDE9D9" } };
   totalSubtotalCell.border = thinBorder;
 
-  const totalTaxCell = totalRow.getCell(11);
+  const totalTaxCell = totalRow.getCell(10);
   totalTaxCell.value = totalTax;
   totalTaxCell.numFmt = "#,##0.00";
   totalTaxCell.font = { name: "TH Sarabun New", size: 11, bold: true };
@@ -419,7 +405,7 @@ export async function exportSalesReportExcel(
   totalTaxCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFDE9D9" } };
   totalTaxCell.border = thinBorder;
 
-  const totalTotalCell = totalRow.getCell(12);
+  const totalTotalCell = totalRow.getCell(11);
   totalTotalCell.value = totalTotal;
   totalTotalCell.numFmt = "#,##0.00";
   totalTotalCell.font = { name: "TH Sarabun New", size: 11, bold: true };

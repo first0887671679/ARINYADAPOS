@@ -11,12 +11,7 @@ export default async function POSPage() {
     products: {
       id: products.id,
       name: products.name,
-      brand: products.brand,
-      model: products.model,
-      size: products.size,
-      weight: products.weight,
       sellPrice: products.sellPrice,
-      stock: products.stock,
       categoryId: products.categoryId,
       imageUrl: products.imageUrl,
       active: products.active,

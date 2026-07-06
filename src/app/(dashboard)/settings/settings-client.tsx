@@ -27,7 +27,6 @@ import {
   Zap,
   ImagePlus,
   X,
-  Weight,
 } from "lucide-react";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 
@@ -41,14 +40,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
   const [storeLogo, setStoreLogo] = useState(initialSettings?.storeLogo ?? "");
   const [uploadingLogo, setUploadingLogo] = useState(false);
 
-  // Inventory Settings
-  const [lowStockThreshold, setLowStockThreshold] = useState(initialSettings?.lowStockThreshold ?? 1);
-  const [lowStockAlertEnabled, setLowStockAlertEnabled] = useState(initialSettings?.lowStockAlertEnabled ?? true);
-  const [outOfStockAlertEnabled, setOutOfStockAlertEnabled] = useState(initialSettings?.outOfStockAlertEnabled ?? true);
   const [newSaleAlertEnabled, setNewSaleAlertEnabled] = useState(initialSettings?.newSaleAlertEnabled ?? true);
-
-  // ราคา kg
-  const [kgPrice, setKgPrice] = useState(parseFloat(initialSettings?.kgPrice ?? "0"));
 
   // LINE Settings
   const [channelToken, setChannelToken] = useState(initialSettings?.lineChannelToken ?? "");
@@ -60,7 +52,6 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
   const [showSales, setShowSales] = useState(initialSettings?.lineReportSales ?? true);
   const [showQuantity, setShowQuantity] = useState(initialSettings?.lineReportQuantity ?? true);
   const [showProducts, setShowProducts] = useState(initialSettings?.lineReportProducts ?? true);
-  const [showModel, setShowModel] = useState(initialSettings?.lineReportModel ?? true);
   const [reportTimes, setReportTimes] = useState<string[]>(() => {
     const raw = initialSettings?.lineReportTime ?? "18:00";
     return raw.split(",").map((t: string) => t.trim()).filter(Boolean);
@@ -79,7 +70,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
     setResult(null);
     try {
       await updateStoreSettings({
-        storeName: storeName || "ร้านแบตเตอรี่",
+        storeName: storeName || "บริษัทรับจ้างทำการตลาด",
         branchName,
         address,
         phone,
@@ -94,14 +85,9 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
         lineReportSales: showSales,
         lineReportQuantity: showQuantity,
         lineReportProducts: showProducts,
-        lineReportModel: showModel,
         lineReportTime: reportTimes.join(","),
         lineReportEnabled: autoSend,
-        lowStockThreshold,
-        lowStockAlertEnabled,
-        outOfStockAlertEnabled,
         newSaleAlertEnabled,
-        kgPrice,
       });
       setResult({ type: "success", msg: "บันทึกการตั้งค่าสำเร็จ" });
     } catch {
@@ -143,7 +129,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
   }
 
   const tabs = [
-    { key: "store" as const, label: "ข้อมูลร้าน", icon: Store, color: "blue" },
+    { key: "store" as const, label: "ข้อมูลบริษัท", icon: Store, color: "blue" },
     { key: "line" as const, label: "LINE แจ้งเตือน", icon: MessageSquare, color: "green" },
   ];
 
@@ -156,9 +142,9 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-md">
               <Settings className="h-5 w-5 text-white" />
             </div>
-            ตั้งค่าร้าน
+            ตั้งค่าบริษัท
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-1 ml-11">จัดการข้อมูลร้าน, LINE แจ้งเตือน และการตั้งค่าทั้งหมด</p>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1 ml-11">จัดการข้อมูลบริษัท, LINE แจ้งเตือน และการตั้งค่าทั้งหมด</p>
         </div>
       </div>
 
@@ -202,15 +188,15 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
               <Store className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg font-bold tracking-tight">ข้อมูลร้านค้า</h2>
+              <h2 className="text-base sm:text-lg font-bold tracking-tight">ข้อมูลบริษัท</h2>
               <p className="text-xs text-muted-foreground">ข้อมูลที่จะแสดงในใบเสร็จและเอกสาร</p>
             </div>
           </div>
           <div className="p-4 sm:p-6 space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <Label className="text-sm font-semibold flex items-center gap-1.5"><Zap className="h-3.5 w-3.5 text-blue-500" /> ชื่อร้าน *</Label>
-                <Input value={storeName} onChange={(e) => setStoreName(e.target.value)} placeholder="ร้านแบตเตอรี่" className="border-blue-200/60 focus:border-blue-400" />
+                <Label className="text-sm font-semibold flex items-center gap-1.5"><Zap className="h-3.5 w-3.5 text-blue-500" /> ชื่อบริษัท *</Label>
+                <Input value={storeName} onChange={(e) => setStoreName(e.target.value)} placeholder="บริษัทรับจ้างทำการตลาด" className="border-blue-200/60 focus:border-blue-400" />
               </div>
               <div className="space-y-1.5">
                 <Label className="text-sm font-semibold">สาขา</Label>
@@ -229,17 +215,17 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
             </div>
             <div className="space-y-1.5">
               <Label className="text-sm font-semibold flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-blue-500" /> ที่อยู่</Label>
-              <Input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="ที่อยู่ร้านค้า" className="border-blue-200/60 focus:border-blue-400" />
+              <Input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="ที่อยู่บริษัท" className="border-blue-200/60 focus:border-blue-400" />
             </div>
 
             {/* โลโก้ร้าน */}
             <div className="space-y-2">
-              <Label className="text-sm font-semibold flex items-center gap-1.5"><ImagePlus className="h-3.5 w-3.5 text-blue-500" /> โลโก้ร้าน</Label>
+              <Label className="text-sm font-semibold flex items-center gap-1.5"><ImagePlus className="h-3.5 w-3.5 text-blue-500" /> โลโก้บริษัท</Label>
               <p className="text-xs text-muted-foreground">โลโก้จะแสดงในใบเสร็จ ใบเสนอราคา และเอกสารทุกประเภท</p>
               <div className="flex items-start gap-4">
                 {storeLogo ? (
                   <div className="relative group">
-                    <img src={storeLogo} alt="โลโก้ร้าน" className="w-24 h-24 object-contain rounded-xl border-2 border-blue-200 bg-white p-1 shadow-sm" />
+                    <img src={storeLogo} alt="โลโก้บริษัท" className="w-24 h-24 object-contain rounded-xl border-2 border-blue-200 bg-white p-1 shadow-sm" />
                     <button
                       type="button"
                       onClick={() => setStoreLogo("")}
@@ -279,34 +265,6 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
                   </label>
                   <p className="text-[10px] text-muted-foreground">รองรับ JPG, PNG, SVG ขนาดไม่เกิน 5MB</p>
                 </div>
-              </div>
-            </div>
-
-            {/* ราคา kg */}
-            <div className="rounded-xl border-2 border-green-200/60 bg-gradient-to-r from-green-50/50 to-emerald-50/30 p-4 space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-100">
-                  <Weight className="h-4 w-4 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-green-800">ราคารับซื้อแบตเตอรี่เก่า (ต่อ kg)</p>
-                  <p className="text-[11px] text-green-600/80">กำหนดราคาต่อกิโลกรัม สำหรับคำนวณมูลค่าน้ำหนักที่ขายไป</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="relative flex-1 max-w-[200px]">
-                  <Input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    value={kgPrice || ""}
-                    onChange={(e) => setKgPrice(Number(e.target.value))}
-                    placeholder="0.00"
-                    className="h-10 pl-9 text-base font-semibold border-green-200 focus:border-green-400 bg-white"
-                  />
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-500 font-bold text-sm">฿</span>
-                </div>
-                <span className="text-sm font-medium text-green-700">บาท / kg</span>
               </div>
             </div>
 
@@ -387,44 +345,10 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
               </div>
               <div>
                 <h2 className="text-base sm:text-lg font-bold tracking-tight">ตั้งค่าการแจ้งเตือน</h2>
-                <p className="text-xs text-muted-foreground">เปิด/ปิดการแจ้งเตือนสินค้าและคำสั่งซื้อผ่าน LINE</p>
+                <p className="text-xs text-muted-foreground">เปิด/ปิดการแจ้งเตือนคำสั่งซื้อผ่าน LINE</p>
               </div>
             </div>
             <div className="p-4 sm:p-6 space-y-4">
-              {/* แจ้งเตือนสินค้าใกล้หมด */}
-              <div className="flex items-center justify-between p-4 rounded-xl border border-blue-100 bg-blue-50/30 transition-all hover:bg-blue-50/50">
-                <div className="space-y-0.5">
-                  <Label className="text-sm font-semibold text-gray-700">แจ้งเตือนสินค้าใกล้หมด</Label>
-                  <p className="text-[11px] text-muted-foreground">ส่งแจ้งเตือนเมื่อสินค้าในสต็อกต่ำกว่าที่กำหนด</p>
-                </div>
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" checked={lowStockAlertEnabled} onChange={(e) => setLowStockAlertEnabled(e.target.checked)} className="sr-only peer" />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
-                </label>
-              </div>
-
-              {/* จำนวนขั้นต่ำ */}
-              <div className={`space-y-1.5 transition-opacity ${!lowStockAlertEnabled ? "opacity-50 pointer-events-none" : ""}`}>
-                <Label className="text-sm font-semibold flex items-center gap-1.5 text-gray-700">จำนวนขั้นต่ำที่ต้องแจ้งเตือน</Label>
-                <div className="relative">
-                  <Input type="number" value={lowStockThreshold} onChange={(e) => setLowStockThreshold(Number(e.target.value))} className="border-blue-200/60 focus:border-blue-400 pl-9" min="0" />
-                  <Package className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-400" />
-                </div>
-                <p className="text-[10px] text-muted-foreground">ระบบจะแสดงไอคอนเตือนเมื่อสินค้าเหลือเท่ากับหรือน้อยกว่าค่านี้</p>
-              </div>
-
-              {/* แจ้งเตือนสินค้าหมดสต๊อก */}
-              <div className="flex items-center justify-between p-4 rounded-xl border border-red-100 bg-red-50/30 transition-all hover:bg-red-50/50">
-                <div className="space-y-0.5">
-                  <Label className="text-sm font-semibold text-gray-700">แจ้งเตือนสินค้าหมดสต๊อก</Label>
-                  <p className="text-[11px] text-muted-foreground">ส่งแจ้งเตือนผ่าน LINE เมื่อสินค้าหมดสต๊อก (เหลือ 0)</p>
-                </div>
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" checked={outOfStockAlertEnabled} onChange={(e) => setOutOfStockAlertEnabled(e.target.checked)} className="sr-only peer" />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
-                </label>
-              </div>
-
               {/* แจ้งเตือนคำสั่งซื้อใหม่ */}
               <div className="flex items-center justify-between p-4 rounded-xl border border-blue-100 bg-blue-50/30 transition-all hover:bg-blue-50/50">
                 <div className="space-y-0.5">
@@ -493,10 +417,6 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
                   <label className="flex items-center gap-2.5 p-3 rounded-xl border border-blue-100 hover:border-blue-300 hover:bg-blue-50/50 cursor-pointer text-sm transition-all">
                     <Checkbox checked={showProducts} onCheckedChange={(v) => setShowProducts(!!v)} className="border-blue-300 data-[state=checked]:bg-blue-500" />
                     <Package className="h-3.5 w-3.5 text-blue-400" /> ชื่อสินค้า
-                  </label>
-                  <label className="flex items-center gap-2.5 p-3 rounded-xl border border-blue-100 hover:border-blue-300 hover:bg-blue-50/50 cursor-pointer text-sm transition-all">
-                    <Checkbox checked={showModel} onCheckedChange={(v) => setShowModel(!!v)} className="border-blue-300 data-[state=checked]:bg-blue-500" />
-                    <Package className="h-3.5 w-3.5 text-blue-400" /> ชื่อรุ่น (ยี่ห้อ/รุ่น)
                   </label>
                 </div>
               </div>

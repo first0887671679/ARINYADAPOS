@@ -23,7 +23,9 @@ export async function POST(request: NextRequest) {
     const result = await db.insert(customers).values({
       name: data.name,
       phone: data.phone || null,
-      licensePlate: data.licensePlate || null,
+      companyName: data.companyName || null,
+      industry: data.industry || null,
+      contactPerson: data.contactPerson || null,
       address: data.address || null,
       taxId: data.taxId || null,
     }).returning();

@@ -352,7 +352,7 @@ export default function LineChannelsPage() {
                     onChange={(e) => setFormName(e.target.value)}
                     required
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="เช่น FIRSTBATTERY Official"
+                    placeholder="เช่น ARINYADA Marketing Official"
                   />
                 </div>
                 <div>
