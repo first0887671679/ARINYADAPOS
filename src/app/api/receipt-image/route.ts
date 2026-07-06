@@ -159,7 +159,7 @@ body{font-family:'Sarabun',sans-serif;background:#e8e8e8;min-height:100vh;displa
 /* Top toolbar — sticky, outside receipt card */
 .toolbar{
   position:sticky;top:0;z-index:100;width:100%;
-  background:linear-gradient(135deg,#ea580c,#f97316);
+  background:linear-gradient(135deg,#2563eb,#2563eb);
   color:#fff;padding:10px 14px;
   display:flex;align-items:center;justify-content:space-between;
   box-shadow:0 2px 8px rgba(0,0,0,0.15);
@@ -169,11 +169,11 @@ body{font-family:'Sarabun',sans-serif;background:#e8e8e8;min-height:100vh;displa
 .toolbar-actions{display:flex;gap:6px;flex-shrink:0}
 .btn-toolbar{
   display:inline-flex;align-items:center;gap:5px;
-  background:#fff;color:#ea580c;border:none;border-radius:8px;
+  background:#fff;color:#2563eb;border:none;border-radius:8px;
   padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;
   white-space:nowrap;transition:all .15s;
 }
-.btn-toolbar:active{background:#fed7aa;transform:scale(0.96)}
+.btn-toolbar:active{background:#bfdbfe;transform:scale(0.96)}
 .btn-toolbar.share{background:#22c55e;color:#fff}
 .btn-toolbar.share:active{background:#16a34a}
 
@@ -187,7 +187,7 @@ body{font-family:'Sarabun',sans-serif;background:#e8e8e8;min-height:100vh;displa
 
 /* Header — matches desktop buildReceiptHtml exactly */
 .header-bar{
-  background:linear-gradient(135deg,#ea580c 0%,#f97316 100%);
+  background:linear-gradient(135deg,#2563eb 0%,#2563eb 100%);
   color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;
   display:flex;align-items:center;gap:14px;
 }
@@ -217,7 +217,7 @@ body{font-family:'Sarabun',sans-serif;background:#e8e8e8;min-height:100vh;displa
   border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;
   margin-bottom:10px;font-size:10.5px;background:#fefefe;
 }
-.buyer-title{font-weight:700;font-size:11px;color:#ea580c;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
+.buyer-title{font-weight:700;font-size:11px;color:#2563eb;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
 .buyer-grid{display:flex;flex-wrap:wrap;gap:4px 20px}
 .buyer-item{min-width:45%}
 .buyer-item .bl{color:#888;font-size:9.5px}
@@ -225,7 +225,7 @@ body{font-family:'Sarabun',sans-serif;background:#e8e8e8;min-height:100vh;displa
 /* Items Table */
 table.items{width:100%;border-collapse:collapse;margin-bottom:10px}
 table.items th{
-  background:#fff7ed;border-top:2px solid #ea580c;border-bottom:2px solid #ea580c;
+  background:#eff6ff;border-top:2px solid #2563eb;border-bottom:2px solid #2563eb;
   padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;
   color:#92400e;letter-spacing:0.3px;
 }
@@ -233,7 +233,7 @@ table.items td{padding:5px;border-bottom:1px solid #f0f0f0;font-size:10.5px}
 table.items .tc{text-align:center}
 table.items .tr{text-align:right}
 table.items tr.svc td{color:#b45309;font-style:italic}
-table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
+table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
 
 /* Summary */
 .summary-section{display:flex;justify-content:flex-end;margin-bottom:10px}
@@ -241,16 +241,16 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 .s-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}
 .s-row.disc{color:#dc2626}
 .s-row.tax{color:#2563eb}
-.s-row.total{font-weight:700;font-size:15px;border-top:3px double #ea580c;padding-top:8px;margin-top:4px}
-.s-row.total .amt{color:#ea580c}
+.s-row.total{font-weight:700;font-size:15px;border-top:3px double #2563eb;padding-top:8px;margin-top:4px}
+.s-row.total .amt{color:#2563eb}
 
 /* Payment */
 .pay-section{
   display:flex;justify-content:space-between;align-items:center;
-  background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;
+  background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;
   padding:8px 12px;margin-bottom:10px;font-size:11px;
 }
-.pay-method{font-weight:700;color:#ea580c}
+.pay-method{font-weight:700;color:#2563eb}
 
 /* Note */
 .note-section{
@@ -268,7 +268,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 
 /* Footer */
 .footer{text-align:center;margin-top:12px;padding-top:8px;border-top:1px solid #eee}
-.footer-thanks{font-size:12px;font-weight:600;color:#ea580c}
+.footer-thanks{font-size:12px;font-weight:600;color:#2563eb}
 .footer-sub{font-size:9px;color:#aaa;margin-top:2px}
 
 /* Watermark */

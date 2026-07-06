@@ -357,8 +357,8 @@ export default function CustomersPage() {
             <span style="border:1px solid #666;padding:2px 8px;border-radius:4px;">${label}</span>
             <span style="margin-left:8px;color:#888;font-size:10px;">(${idx+1}/3)</span>
           </div>
-          <div style="text-align:center;border-bottom:2px solid #ea580c;padding-bottom:12px;margin-bottom:12px;">
-            <div style="font-size:18px;font-weight:bold;color:#ea580c;">${sale.isTaxInvoice ? "ใบกำกับภาษี" : "ใบเสร็จรับเงิน"}</div>
+          <div style="text-align:center;border-bottom:2px solid #2563eb;padding-bottom:12px;margin-bottom:12px;">
+            <div style="font-size:18px;font-weight:bold;color:#2563eb;">${sale.isTaxInvoice ? "ใบกำกับภาษี" : "ใบเสร็จรับเงิน"}</div>
             <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "ร้านแบตเตอรี่"}</div>
             ${store.branchName ? `<div style="font-size:11px;color:#666;">${store.branchName}</div>` : ""}
             ${store.address ? `<div style="font-size:11px;color:#666;">ที่อยู่: ${store.address}</div>` : ""}
@@ -392,7 +392,7 @@ export default function CustomersPage() {
               <div style="display:flex;justify-content:space-between;"><span>มูลค่าก่อนภาษี</span><span>${formatCurrency(parseFloat(sale.total) - parseFloat(sale.taxAmount || "0"))}</span></div>
               <div style="display:flex;justify-content:space-between;color:#2563eb;"><span>ภาษีมูลค่าเพิ่ม ${sale.vatType === "vat_in" ? "(รวมในราคา)" : ""} ${sale.taxRate}%</span><span>${formatCurrency(parseFloat(sale.taxAmount || "0"))}</span></div>
             ` : ""}
-            <div style="display:flex;justify-content:space-between;font-weight:bold;font-size:16px;padding-top:8px;border-top:2px solid #999;margin-top:8px;"><span>จำนวนเงินรวมทั้งสิ้น</span><span style="color:#ea580c;">${formatCurrency(parseFloat(sale.total))}</span></div>
+            <div style="display:flex;justify-content:space-between;font-weight:bold;font-size:16px;padding-top:8px;border-top:2px solid #999;margin-top:8px;"><span>จำนวนเงินรวมทั้งสิ้น</span><span style="color:#2563eb;">${formatCurrency(parseFloat(sale.total))}</span></div>
           </div>
           <div style="border-bottom:1px dashed #ccc;padding-bottom:8px;margin-bottom:8px;">
             <div style="display:flex;justify-content:space-between;"><span>วิธีชำระ:</span><span style="font-weight:600;">${payLabel}</span></div>
@@ -445,7 +445,7 @@ export default function CustomersPage() {
     const isConverted = qt.status === "converted";
     const isReceipt = isConverted;
     const docTitle = isReceipt ? (qt.includeVat ? "ใบกำกับภาษี" : "ใบเสร็จรับเงิน") : "ใบเสนอราคา / Quotation";
-    const accentColor = isReceipt ? "#ea580c" : "#2563eb";
+    const accentColor = isReceipt ? "#2563eb" : "#2563eb";
     const printTitle = isReceipt ? "พิมพ์ใบเสร็จ" : "พิมพ์ใบเสนอราคา";
 
     const copyLabels = ["สำหรับลูกค้า", "สำหรับบริษัท", "สำหรับบัญชี"];
@@ -621,14 +621,14 @@ export default function CustomersPage() {
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight">จัดการลูกค้า</h1>
           <p className="text-xs sm:text-sm text-muted-foreground">เพิ่ม แก้ไข และจัดการข้อมูลลูกค้า</p>
         </div>
-        <button onClick={() => setShowForm(true)} className="flex items-center gap-2 rounded-xl gradient-orange px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] w-fit"><Plus className="h-4 w-4" /> เพิ่มลูกค้า</button>
+        <button onClick={() => setShowForm(true)} className="flex items-center gap-2 rounded-xl gradient-blue px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] w-fit"><Plus className="h-4 w-4" /> เพิ่มลูกค้า</button>
       </div>
 
       {showForm && (
-        <div className="rounded-2xl bg-white border border-orange-100/60 shadow-luxury overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-orange-100/60 bg-gradient-to-r from-orange-50/80 to-white">
+        <div className="rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white">
             <h2 className="text-lg font-bold tracking-tight">{editId ? "แก้ไขลูกค้า" : "เพิ่มลูกค้าใหม่"}</h2>
-            <button onClick={resetForm} className="rounded-lg p-1.5 hover:bg-orange-100 transition-colors"><X className="h-4 w-4 text-muted-foreground" /></button>
+            <button onClick={resetForm} className="rounded-lg p-1.5 hover:bg-blue-100 transition-colors"><X className="h-4 w-4 text-muted-foreground" /></button>
           </div>
           <div className="p-6">
             <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -653,7 +653,7 @@ export default function CustomersPage() {
                 <Input value={form.taxId} onChange={(e) => setForm({ ...form, taxId: e.target.value })} placeholder="xxx-xxx-xxx-xxx" />
               </div>
               <div className="md:col-span-3">
-                <button type="submit" className="rounded-xl gradient-orange px-6 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all">{editId ? "บันทึกการแก้ไข" : "เพิ่มลูกค้า"}</button>
+                <button type="submit" className="rounded-xl gradient-blue px-6 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all">{editId ? "บันทึกการแก้ไข" : "เพิ่มลูกค้า"}</button>
               </div>
             </form>
           </div>
@@ -664,9 +664,9 @@ export default function CustomersPage() {
       {showEditModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 overflow-hidden">
-            <div className="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-orange-50/80 to-white">
+            <div className="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-blue-50/80 to-white">
               <h2 className="text-lg font-bold">แก้ไขใบเสร็จ</h2>
-              <button onClick={closeEditModal} className="rounded-lg p-1.5 hover:bg-orange-100 transition-colors">
+              <button onClick={closeEditModal} className="rounded-lg p-1.5 hover:bg-blue-100 transition-colors">
                 <X className="h-4 w-4 text-muted-foreground" />
               </button>
             </div>
@@ -696,7 +696,7 @@ export default function CustomersPage() {
               </div>
               <div className="flex gap-2 pt-2">
                 <button onClick={closeEditModal} className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors">ยกเลิก</button>
-                <button onClick={handleSaveEdit} disabled={saving} className="flex-1 rounded-xl gradient-orange px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all disabled:opacity-50">
+                <button onClick={handleSaveEdit} disabled={saving} className="flex-1 rounded-xl gradient-blue px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all disabled:opacity-50">
                   {saving ? "กำลังบันทึก..." : "บันทึก"}
                 </button>
               </div>
@@ -706,14 +706,14 @@ export default function CustomersPage() {
       )}
 
       {/* Search Filter */}
-      <div className="bg-white rounded-xl border border-orange-100/60 p-3 shadow-sm">
+      <div className="bg-white rounded-xl border border-blue-100/60 p-3 shadow-sm">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-orange-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-400" />
           <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="ค้นหาลูกค้า... ชื่อ, เบอร์โทร, ทะเบียนรถ, ที่อยู่"
-            className="pl-10 h-10 border-orange-200/60 focus:border-orange-400"
+            className="pl-10 h-10 border-blue-200/60 focus:border-blue-400"
           />
           {searchQuery && (
             <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
@@ -727,7 +727,7 @@ export default function CustomersPage() {
       <div className="sm:hidden space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-orange-500" />
+            <Users className="h-4 w-4 text-blue-500" />
             <span className="text-sm font-bold">รายชื่อลูกค้า</span>
             <span className="text-xs text-muted-foreground">({filteredCustomers.length} ราย{searchQuery ? ` จาก ${customers.length}` : ""})</span>
           </div>
@@ -736,31 +736,31 @@ export default function CustomersPage() {
               "ชื่อลูกค้า": c.name, "เบอร์โทร": c.phone || "-", "ทะเบียนรถ": c.licensePlate || "-", "ที่อยู่": c.address || "-", "เลขประจำตัวผู้เสียภาษี": c.taxId || "-",
             }));
             const { exportToExcel } = await loadExportExcel(); exportToExcel(rows, `รายชื่อลูกค้า_${new Date().toLocaleDateString("th-TH")}`, "ลูกค้า");
-          }} className="h-7 text-[11px] border-orange-200 hover:bg-orange-50 text-orange-700 gap-1 rounded-lg">
+          }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
             <Download className="h-3 w-3" /> Excel
           </Button>
         </div>
         {filteredCustomers.map((c: any) => (
-          <div key={c.id} className="rounded-2xl bg-white border border-orange-100/60 shadow-sm overflow-hidden">
+          <div key={c.id} className="rounded-2xl bg-white border border-blue-100/60 shadow-sm overflow-hidden">
             <div className="p-4">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-bold text-gray-800 truncate">{c.name}</h3>
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-xs text-muted-foreground">
                     {c.phone && <span className="flex items-center gap-1">📞 {c.phone}</span>}
-                    {c.licensePlate && <span className="flex items-center gap-1 text-orange-600 font-medium">🚗 {c.licensePlate}</span>}
+                    {c.licensePlate && <span className="flex items-center gap-1 text-blue-600 font-medium">🚗 {c.licensePlate}</span>}
                   </div>
                   {c.address && <p className="text-[11px] text-muted-foreground mt-1 truncate">📍 {c.address}</p>}
                   {c.taxId && <p className="text-[11px] text-blue-600 mt-0.5">TAX: {c.taxId}</p>}
                 </div>
               </div>
             </div>
-            <div className="flex items-center border-t border-orange-100/60 divide-x divide-orange-100/60">
+            <div className="flex items-center border-t border-blue-100/60 divide-x divide-blue-100/60">
               <button onClick={() => toggleCustomerSales(c.id)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors">
                 {expandedCustomer === c.id ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
                 ประวัติ
               </button>
-              <button onClick={() => startEdit(c)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-orange-600 hover:bg-orange-50 transition-colors">
+              <button onClick={() => startEdit(c)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors">
                 <Pencil className="h-3.5 w-3.5" /> แก้ไข
               </button>
               <button onClick={() => handleDelete(c.id)} className="flex items-center justify-center h-10 w-12 text-red-500 hover:bg-red-50 transition-colors">
@@ -768,7 +768,7 @@ export default function CustomersPage() {
               </button>
             </div>
             {expandedCustomer === c.id && (
-              <div className="border-t border-orange-100/60 bg-gray-50/50 p-3 space-y-3">
+              <div className="border-t border-blue-100/60 bg-gray-50/50 p-3 space-y-3">
                 {loadingSales || loadingQuotations ? (
                   <div className="text-center py-4 text-xs text-muted-foreground">กำลังโหลด...</div>
                 ) : (
@@ -780,7 +780,7 @@ export default function CustomersPage() {
                           const qt = q.quotations;
                           return (
                             <div key={qt.id} className="rounded-lg border border-blue-200 bg-white p-3 mb-2 text-xs">
-                              <div className="flex justify-between items-center"><span className="font-semibold text-blue-600">{qt.quotationNumber}</span><span className="font-bold text-orange-600">{formatCurrency(parseFloat(qt.total))}</span></div>
+                              <div className="flex justify-between items-center"><span className="font-semibold text-blue-600">{qt.quotationNumber}</span><span className="font-bold text-blue-600">{formatCurrency(parseFloat(qt.total))}</span></div>
                               <div className="text-muted-foreground mt-1">{new Date(qt.createdAt).toLocaleDateString("th-TH")}</div>
                             </div>
                           );
@@ -789,12 +789,12 @@ export default function CustomersPage() {
                     )}
                     {customerSales.length > 0 ? (
                       <div>
-                        <div className="flex items-center gap-1.5 mb-2"><Receipt className="h-3.5 w-3.5 text-orange-500" /><span className="text-xs font-bold text-orange-700">ประวัติซื้อ ({customerSales.length})</span></div>
+                        <div className="flex items-center gap-1.5 mb-2"><Receipt className="h-3.5 w-3.5 text-blue-500" /><span className="text-xs font-bold text-blue-700">ประวัติซื้อ ({customerSales.length})</span></div>
                         {customerSales.map((s: any) => {
                           const sale = s.sales;
                           return (
-                            <div key={sale.id} className="rounded-lg border border-orange-200 bg-white p-3 mb-2 text-xs">
-                              <div className="flex justify-between items-center"><span className="font-semibold">{sale.isTaxInvoice ? sale.taxInvoiceNumber : sale.billNumber}</span><span className="font-bold text-orange-600">{formatCurrency(parseFloat(sale.total))}</span></div>
+                            <div key={sale.id} className="rounded-lg border border-blue-200 bg-white p-3 mb-2 text-xs">
+                              <div className="flex justify-between items-center"><span className="font-semibold">{sale.isTaxInvoice ? sale.taxInvoiceNumber : sale.billNumber}</span><span className="font-bold text-blue-600">{formatCurrency(parseFloat(sale.total))}</span></div>
                               <div className="flex justify-between items-center mt-1 text-muted-foreground"><span>{new Date(sale.createdAt).toLocaleDateString("th-TH")}</span><PaymentBadge paymentMethod={sale.paymentMethod} /></div>
                             </div>
                           );
@@ -810,17 +810,17 @@ export default function CustomersPage() {
           </div>
         ))}
         {customers.length === 0 && (
-          <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-orange-100/60">
-            <Users className="h-8 w-8 mx-auto mb-2 text-orange-200" />ยังไม่มีลูกค้า
+          <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-blue-100/60">
+            <Users className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีลูกค้า
           </div>
         )}
       </div>
 
       {/* Desktop Table View */}
-      <div className="hidden sm:block rounded-2xl bg-white border border-orange-100/60 shadow-luxury overflow-hidden">
-        <div className="px-3 sm:px-5 py-3 border-b border-orange-100/60 bg-gradient-to-r from-orange-50/80 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div className="hidden sm:block rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden">
+        <div className="px-3 sm:px-5 py-3 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-orange-500" />
+            <Users className="h-4 w-4 text-blue-500" />
             <span className="text-sm font-bold">รายชื่อลูกค้า</span>
             <span className="text-xs text-muted-foreground">({filteredCustomers.length} ราย{searchQuery ? ` จาก ${customers.length}` : ""})</span>
           </div>
@@ -833,14 +833,14 @@ export default function CustomersPage() {
               "เลขประจำตัวผู้เสียภาษี": c.taxId || "-",
             }));
             const { exportToExcel } = await loadExportExcel(); exportToExcel(rows, `รายชื่อลูกค้า_${new Date().toLocaleDateString("th-TH")}`, "ลูกค้า");
-          }} className="h-7 text-[11px] border-orange-200 hover:bg-orange-50 text-orange-700 gap-1 rounded-lg">
+          }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
             <Download className="h-3 w-3" /> ส่งออก Excel
           </Button>
         </div>
         <div className="p-0 overflow-x-auto">
           <Table className="min-w-[800px]">
             <TableHeader>
-              <TableRow className="bg-orange-50/50 hover:bg-orange-50/50">
+              <TableRow className="bg-blue-50/50 hover:bg-blue-50/50">
                 <TableHead className="font-semibold w-8"></TableHead>
                 <TableHead className="font-semibold">ชื่อลูกค้า</TableHead>
                 <TableHead className="font-semibold">เบอร์โทร</TableHead>
@@ -853,23 +853,23 @@ export default function CustomersPage() {
             <TableBody>
               {filteredCustomers.map((c: any) => (
                 <>
-                  <TableRow key={c.id} className="hover:bg-orange-50/30">
+                  <TableRow key={c.id} className="hover:bg-blue-50/30">
                     <TableCell>
                       <button
                         onClick={() => toggleCustomerSales(c.id)}
-                        className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-orange-100 transition-colors"
+                        className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-100 transition-colors"
                         title="ดูประวัติการซื้อ"
                       >
-                        {expandedCustomer === c.id ? <ChevronUp className="h-4 w-4 text-orange-500" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+                        {expandedCustomer === c.id ? <ChevronUp className="h-4 w-4 text-blue-500" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
                       </button>
                     </TableCell>
                     <TableCell className="font-semibold">{c.name}</TableCell>
                     <TableCell>{c.phone || "-"}</TableCell>
-                    <TableCell className="text-orange-700 font-medium">{c.licensePlate || "-"}</TableCell>
+                    <TableCell className="text-blue-700 font-medium">{c.licensePlate || "-"}</TableCell>
                     <TableCell className="text-muted-foreground">{c.address || "-"}</TableCell>
                     <TableCell className="text-blue-600 font-medium">{c.taxId || "-"}</TableCell>
                     <TableCell className="text-right">
-                      <button onClick={() => startEdit(c)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-orange-50 transition-colors"><Pencil className="h-4 w-4 text-muted-foreground" /></button>
+                      <button onClick={() => startEdit(c)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors"><Pencil className="h-4 w-4 text-muted-foreground" /></button>
                       <button onClick={() => handleDelete(c.id)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-red-50 transition-colors"><Trash2 className="h-4 w-4 text-red-400" /></button>
                     </TableCell>
                   </TableRow>
@@ -1026,11 +1026,11 @@ export default function CustomersPage() {
 
                       {/* Sales Section - แสดงหลัง */}
                       <TableRow key={`sales-${c.id}`}>
-                        <TableCell colSpan={7} className="p-0 bg-gradient-to-r from-orange-50/30 to-blue-50/20">
+                        <TableCell colSpan={7} className="p-0 bg-gradient-to-r from-blue-50/30 to-blue-50/20">
                           <div className="px-6 py-4">
                             <div className="flex items-center gap-2 mb-3">
-                              <Receipt className="h-4 w-4 text-orange-500" />
-                              <h3 className="text-sm font-bold text-orange-700">ประวัติใบเสร็จ / ใบกำกับภาษี ของ {c.name}</h3>
+                              <Receipt className="h-4 w-4 text-blue-500" />
+                              <h3 className="text-sm font-bold text-blue-700">ประวัติใบเสร็จ / ใบกำกับภาษี ของ {c.name}</h3>
                             </div>
                             {loadingSales ? (
                               <div className="text-center py-4 text-sm text-muted-foreground">กำลังโหลด...</div>
@@ -1047,8 +1047,8 @@ export default function CustomersPage() {
                                         className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors text-left"
                                       >
                                         <div className="flex items-center gap-3">
-                                          <div className={`rounded-lg p-1.5 ${sale.isTaxInvoice ? 'bg-blue-100' : 'bg-orange-100'}`}>
-                                            <FileText className={`h-4 w-4 ${sale.isTaxInvoice ? 'text-blue-600' : 'text-orange-600'}`} />
+                                          <div className={`rounded-lg p-1.5 ${sale.isTaxInvoice ? 'bg-blue-100' : 'bg-blue-100'}`}>
+                                            <FileText className={`h-4 w-4 ${sale.isTaxInvoice ? 'text-blue-600' : 'text-blue-600'}`} />
                                           </div>
                                           <div>
                                             <div className="flex items-center gap-2">
@@ -1069,17 +1069,17 @@ export default function CustomersPage() {
                                           </div>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                          <span className="text-sm font-bold text-orange-600">{formatCurrency(parseFloat(sale.total))}</span>
+                                          <span className="text-sm font-bold text-blue-600">{formatCurrency(parseFloat(sale.total))}</span>
                                           <button
                                             onClick={(e) => { e.stopPropagation(); openEditModal(sale); }}
-                                            className="inline-flex h-6 w-6 items-center justify-center rounded-lg hover:bg-orange-100 transition-colors"
+                                            className="inline-flex h-6 w-6 items-center justify-center rounded-lg hover:bg-blue-100 transition-colors"
                                             title="แก้ไข"
                                           >
                                             <Pencil className="h-3 w-3 text-muted-foreground" />
                                           </button>
                                           <button
                                             onClick={(e) => { e.stopPropagation(); handlePrintReceipt(sale); }}
-                                            className="inline-flex h-6 w-6 items-center justify-center rounded-lg hover:bg-orange-100 transition-colors"
+                                            className="inline-flex h-6 w-6 items-center justify-center rounded-lg hover:bg-blue-100 transition-colors"
                                             title="พิมพ์ใบเสร็จ"
                                           >
                                             <Printer className="h-3 w-3 text-green-600" />
@@ -1138,7 +1138,7 @@ export default function CustomersPage() {
                                                 )}
                                                 <div className="flex justify-between font-bold pt-1 border-t border-gray-200">
                                                   <span>ยอดสุทธิ</span>
-                                                  <span className="text-orange-600">{formatCurrency(parseFloat(sale.total))}</span>
+                                                  <span className="text-blue-600">{formatCurrency(parseFloat(sale.total))}</span>
                                                 </div>
                                                 {sale.note && (
                                                   <div className="text-muted-foreground mt-1">หมายเหตุ: {sale.note}</div>
@@ -1161,7 +1161,7 @@ export default function CustomersPage() {
                 </>
               ))}
               {customers.length === 0 && (
-                <TableRow><TableCell colSpan={7} className="text-center text-muted-foreground py-12"><Users className="h-8 w-8 mx-auto mb-2 text-orange-200" />ยังไม่มีลูกค้า</TableCell></TableRow>
+                <TableRow><TableCell colSpan={7} className="text-center text-muted-foreground py-12"><Users className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีลูกค้า</TableCell></TableRow>
               )}
             </TableBody>
           </Table>

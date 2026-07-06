@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
           width: s,
           height: s,
           borderRadius: radius,
-          background: "#f97316",
+          background: "#2563eb",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

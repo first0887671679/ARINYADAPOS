@@ -398,7 +398,7 @@ body{font-family:'Sarabun',sans-serif}
 .copy-label{text-align:right;margin-bottom:8px;font-size:10px}
 .copy-tag{border:1px solid #666;padding:2px 10px;border-radius:4px;font-weight:700;font-size:11px}
 .copy-num{margin-left:6px;color:#888}
-.header-bar{background:linear-gradient(135deg,#ea580c,#f97316);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
+.header-bar{background:linear-gradient(135deg,#2563eb,#2563eb);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
 .logo-box{width:72px;height:72px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 .logo-box img{width:100%;height:100%;object-fit:contain}
 .logo-ph{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.3)}
@@ -413,26 +413,26 @@ body{font-family:'Sarabun',sans-serif}
 .info-val{font-weight:600;color:#1a1a1a}
 .info-row{margin-bottom:4px}
 .buyer-section{border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;margin-bottom:10px;font-size:10.5px;background:#fefefe}
-.buyer-title{font-weight:700;font-size:11px;color:#ea580c;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
+.buyer-title{font-weight:700;font-size:11px;color:#2563eb;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
 .buyer-grid{display:flex;flex-wrap:wrap;gap:4px 20px}
 .buyer-item{min-width:45%}
 .buyer-item .bl{color:#888;font-size:9.5px}
 table.items{width:100%;border-collapse:collapse;margin-bottom:10px}
-table.items th{background:#fff7ed;border-top:2px solid #ea580c;border-bottom:2px solid #ea580c;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:.3px}
+table.items th{background:#eff6ff;border-top:2px solid #2563eb;border-bottom:2px solid #2563eb;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:.3px}
 table.items td{padding:5px;border-bottom:1px solid #f0f0f0;font-size:10.5px}
 table.items .tc{text-align:center}
 table.items .tr{text-align:right}
 table.items tr.svc td{color:#b45309;font-style:italic}
-table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
+table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
 .summary-section{display:flex;justify-content:flex-end;margin-bottom:10px}
 .summary-box{width:260px}
 .s-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}
 .s-row.disc{color:#dc2626}
 .s-row.tax{color:#2563eb}
-.s-row.total{font-weight:700;font-size:15px;border-top:3px double #ea580c;padding-top:8px;margin-top:4px}
-.s-row.total .amt{color:#ea580c}
-.pay-section{display:flex;justify-content:space-between;align-items:center;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px}
-.pay-method{font-weight:700;color:#ea580c}
+.s-row.total{font-weight:700;font-size:15px;border-top:3px double #2563eb;padding-top:8px;margin-top:4px}
+.s-row.total .amt{color:#2563eb}
+.pay-section{display:flex;justify-content:space-between;align-items:center;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px}
+.pay-method{font-weight:700;color:#2563eb}
 .note-section{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 12px;font-size:10px;color:#555;margin-bottom:10px}
 .note-section strong{color:#333}
 .sig-section{display:flex;justify-content:space-around;margin-top:24px;padding-top:12px;border-top:1px solid #e0e0e0}
@@ -441,7 +441,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 .sig-label{font-size:10px;font-weight:600;color:#333}
 .sig-sub{font-size:8.5px;color:#999;margin-top:1px}
 .footer{text-align:center;margin-top:12px;padding-top:8px;border-top:1px solid #eee}
-.footer-thanks{font-size:12px;font-weight:600;color:#ea580c}
+.footer-thanks{font-size:12px;font-weight:600;color:#2563eb}
 .footer-sub{font-size:9px;color:#aaa;margin-top:2px}
 @media print{body{margin:0;padding:0}.header-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}table.items th{-webkit-print-color-adjust:exact;print-color-adjust:exact}.pay-section{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style></head><body>${allPages}</body></html>`);
@@ -576,7 +576,7 @@ body{font-family:'Sarabun',sans-serif}
 .page:last-child{page-break-after:auto}
 .copy-label{text-align:right;margin-bottom:8px;font-size:10px}
 .copy-tag{border:1px solid #666;padding:2px 10px;border-radius:4px;font-weight:700;font-size:11px}
-.header-bar{background:linear-gradient(135deg,#ea580c,#f97316);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
+.header-bar{background:linear-gradient(135deg,#2563eb,#2563eb);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
 .logo-box{width:72px;height:72px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 .logo-box img{width:100%;height:100%;object-fit:contain}
 .logo-ph{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.3)}
@@ -591,26 +591,26 @@ body{font-family:'Sarabun',sans-serif}
 .info-val{font-weight:600;color:#1a1a1a}
 .info-row{margin-bottom:4px}
 .buyer-section{border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;margin-bottom:10px;font-size:10.5px;background:#fefefe}
-.buyer-title{font-weight:700;font-size:11px;color:#ea580c;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
+.buyer-title{font-weight:700;font-size:11px;color:#2563eb;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
 .buyer-grid{display:flex;flex-wrap:wrap;gap:4px 20px}
 .buyer-item{min-width:45%}
 .buyer-item .bl{color:#888;font-size:9.5px}
 table.items{width:100%;border-collapse:collapse;margin-bottom:10px}
-table.items th{background:#fff7ed;border-top:2px solid #ea580c;border-bottom:2px solid #ea580c;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:.3px}
+table.items th{background:#eff6ff;border-top:2px solid #2563eb;border-bottom:2px solid #2563eb;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:.3px}
 table.items td{padding:5px;border-bottom:1px solid #f0f0f0;font-size:10.5px}
 table.items .tc{text-align:center}
 table.items .tr{text-align:right}
 table.items tr.svc td{color:#b45309;font-style:italic}
-table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
+table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
 .summary-section{display:flex;justify-content:flex-end;margin-bottom:10px}
 .summary-box{width:260px}
 .s-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}
 .s-row.disc{color:#dc2626}
 .s-row.tax{color:#2563eb}
-.s-row.total{font-weight:700;font-size:15px;border-top:3px double #ea580c;padding-top:8px;margin-top:4px}
-.s-row.total .amt{color:#ea580c}
-.pay-section{display:flex;justify-content:space-between;align-items:center;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px}
-.pay-method{font-weight:700;color:#ea580c}
+.s-row.total{font-weight:700;font-size:15px;border-top:3px double #2563eb;padding-top:8px;margin-top:4px}
+.s-row.total .amt{color:#2563eb}
+.pay-section{display:flex;justify-content:space-between;align-items:center;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px}
+.pay-method{font-weight:700;color:#2563eb}
 .note-section{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 12px;font-size:10px;color:#555;margin-bottom:10px}
 .note-section strong{color:#333}
 .sig-section{display:flex;justify-content:space-around;margin-top:24px;padding-top:12px;border-top:1px solid #e0e0e0}
@@ -619,7 +619,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 .sig-label{font-size:10px;font-weight:600;color:#333}
 .sig-sub{font-size:8.5px;color:#999;margin-top:1px}
 .footer{text-align:center;margin-top:12px;padding-top:8px;border-top:1px solid #eee}
-.footer-thanks{font-size:12px;font-weight:600;color:#ea580c}
+.footer-thanks{font-size:12px;font-weight:600;color:#2563eb}
 .footer-sub{font-size:9px;color:#aaa;margin-top:2px}
 @media print{body{margin:0;padding:0}.header-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}table.items th{-webkit-print-color-adjust:exact;print-color-adjust:exact}.pay-section{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style></head><body>${allPagesHtml}</body></html>`;
@@ -703,19 +703,19 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
       </div>
 
       {/* Date Filter */}
-      <div className="bg-white rounded-xl border border-orange-100/60 p-3 sm:p-4 shadow-sm">
+      <div className="bg-white rounded-xl border border-blue-100/60 p-3 sm:p-4 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-3">
           <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-orange-500" />
+            <Calendar className="h-4 w-4 text-blue-500" />
             <span className="text-sm font-medium">ช่วงวันที่:</span>
           </div>
           
           {/* Quick filters */}
           <div className="flex flex-wrap gap-1.5 sm:gap-2">
-            <Button variant="outline" size="sm" onClick={setToday} className="h-7 sm:h-8 text-[11px] sm:text-xs border-orange-200 hover:bg-orange-50">วันนี้</Button>
-            <Button variant="outline" size="sm" onClick={setThisMonth} className="h-7 sm:h-8 text-[11px] sm:text-xs border-orange-200 hover:bg-orange-50">เดือนนี้</Button>
-            <Button variant="outline" size="sm" onClick={setLastMonth} className="h-7 sm:h-8 text-[11px] sm:text-xs border-orange-200 hover:bg-orange-50">เดือนก่อน</Button>
-            <Button variant="outline" size="sm" onClick={setThisYear} className="h-7 sm:h-8 text-[11px] sm:text-xs border-orange-200 hover:bg-orange-50">ปีนี้</Button>
+            <Button variant="outline" size="sm" onClick={setToday} className="h-7 sm:h-8 text-[11px] sm:text-xs border-blue-200 hover:bg-blue-50">วันนี้</Button>
+            <Button variant="outline" size="sm" onClick={setThisMonth} className="h-7 sm:h-8 text-[11px] sm:text-xs border-blue-200 hover:bg-blue-50">เดือนนี้</Button>
+            <Button variant="outline" size="sm" onClick={setLastMonth} className="h-7 sm:h-8 text-[11px] sm:text-xs border-blue-200 hover:bg-blue-50">เดือนก่อน</Button>
+            <Button variant="outline" size="sm" onClick={setThisYear} className="h-7 sm:h-8 text-[11px] sm:text-xs border-blue-200 hover:bg-blue-50">ปีนี้</Button>
           </div>
 
           {/* Date inputs */}
@@ -724,14 +724,14 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
               type="date"
               value={dateFrom}
               onChange={(e) => setDateFrom(e.target.value)}
-              className="flex-1 sm:w-36 h-8 text-sm border-orange-200"
+              className="flex-1 sm:w-36 h-8 text-sm border-blue-200"
             />
             <span className="text-muted-foreground text-xs">ถึง</span>
             <Input
               type="date"
               value={dateTo}
               onChange={(e) => setDateTo(e.target.value)}
-              className="flex-1 sm:w-36 h-8 text-sm border-orange-200"
+              className="flex-1 sm:w-36 h-8 text-sm border-blue-200"
             />
           </div>
         </div>
@@ -741,14 +741,14 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
       {showEditModal && editSale && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-auto py-2 sm:py-4">
           <div className="bg-white rounded-none sm:rounded-2xl shadow-xl w-full sm:max-w-2xl sm:mx-4 overflow-hidden my-auto min-h-screen sm:min-h-0">
-            <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b bg-gradient-to-r from-orange-50/80 to-white">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b bg-gradient-to-r from-blue-50/80 to-white">
               <div>
                 <h2 className="text-base sm:text-lg font-bold">แก้ไขใบเสร็จ</h2>
                 <span className="text-xs text-muted-foreground">
                   เลขที่: {editSale.isTaxInvoice ? editSale.taxInvoiceNumber : editSale.billNumber}
                 </span>
               </div>
-              <button onClick={closeEditModal} className="rounded-lg p-1.5 hover:bg-orange-100 transition-colors">
+              <button onClick={closeEditModal} className="rounded-lg p-1.5 hover:bg-blue-100 transition-colors">
                 <X className="h-4 w-4 text-muted-foreground" />
               </button>
             </div>
@@ -798,9 +798,9 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                       {productResults.map((p: any) => {
                         const prod = p.products || p;
                         return (
-                          <button key={prod.id} onClick={() => addProductToEdit(p)} className="w-full text-left px-3 py-2 hover:bg-orange-50 text-xs flex justify-between">
+                          <button key={prod.id} onClick={() => addProductToEdit(p)} className="w-full text-left px-3 py-2 hover:bg-blue-50 text-xs flex justify-between">
                             <span>{prod.name}</span>
-                            <span className="text-orange-600 font-medium">{formatCurrency(parseFloat(prod.price))}</span>
+                            <span className="text-blue-600 font-medium">{formatCurrency(parseFloat(prod.price))}</span>
                           </button>
                         );
                       })}
@@ -913,14 +913,14 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                   {parseFloat(editForm.serviceFee) > 0 && <div className="flex justify-between text-amber-600"><span>ค่าบริการ</span><span>+{formatCurrency(parseFloat(editForm.serviceFee))}</span></div>}
                   {parseFloat(editForm.discount) > 0 && <div className="flex justify-between text-red-500"><span>ส่วนลด</span><span>-{formatCurrency(parseFloat(editForm.discount))}</span></div>}
                   {editForm.isTaxInvoice && t.tax > 0 && <div className="flex justify-between text-blue-600"><span>ภาษี {editForm.taxRate}%</span><span>{formatCurrency(t.tax)}</span></div>}
-                  <div className="flex justify-between font-bold text-sm pt-1 border-t border-gray-200"><span>ยอดสุทธิ</span><span className="text-orange-600">{formatCurrency(t.total)}</span></div>
+                  <div className="flex justify-between font-bold text-sm pt-1 border-t border-gray-200"><span>ยอดสุทธิ</span><span className="text-blue-600">{formatCurrency(t.total)}</span></div>
                 </div>
               ); })()}
 
               {/* ปุ่ม */}
               <div className="flex gap-2 pt-2">
                 <button onClick={closeEditModal} className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors">ยกเลิก</button>
-                <button onClick={handleSaveEdit} disabled={saving} className="flex-1 rounded-xl gradient-orange px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all disabled:opacity-50">
+                <button onClick={handleSaveEdit} disabled={saving} className="flex-1 rounded-xl gradient-blue px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all disabled:opacity-50">
                   {saving ? "กำลังบันทึก..." : "บันทึกการแก้ไข"}
                 </button>
               </div>
@@ -933,14 +933,14 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
       <div className="sm:hidden space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Receipt className="h-4 w-4 text-orange-500" />
+            <Receipt className="h-4 w-4 text-blue-500" />
             <span className="text-sm font-bold">รายการขาย</span>
             <span className="text-xs text-muted-foreground">({sales.length})</span>
           </div>
           <div className="flex items-center gap-1.5">
             <Button variant="outline" size="sm" onClick={async () => {
               const { exportSalesExcel } = await loadExportExcel(); exportSalesExcel(sales, storeSettings?.storeName || "ร้านแบตเตอรี่");
-            }} className="h-7 text-[11px] border-orange-200 hover:bg-orange-50 text-orange-700 gap-1 rounded-lg">
+            }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
               <Download className="h-3 w-3" /> Excel</Button>
             <Button variant="outline" size="sm" onClick={async () => {
               const { exportSalesReportExcel } = await loadExportExcel(); await exportSalesReportExcel(sales, storeSettings?.storeName || "ร้านแบตเตอรี่", dateFrom, dateTo, customers);
@@ -951,38 +951,38 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
               size="sm" 
               onClick={() => setShowBatchPrintModal(true)} 
               disabled={selectedBills.size === 0}
-              className="h-7 text-[11px] bg-orange-600 hover:bg-orange-700 text-white gap-1 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-7 text-[11px] bg-blue-600 hover:bg-blue-700 text-white gap-1 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Printer className="h-3 w-3" /> พิมพ์ ({selectedBills.size})
             </Button>
           </div>
         </div>
         {loading ? (
-          <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-orange-100/60">กำลังโหลด...</div>
+          <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-blue-100/60">กำลังโหลด...</div>
         ) : sales.length === 0 ? (
-          <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-orange-100/60">
-            <Receipt className="h-8 w-8 mx-auto mb-2 text-orange-200" />ยังไม่มีรายการขาย
+          <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-blue-100/60">
+            <Receipt className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีรายการขาย
           </div>
         ) : (
           sales.map((row: any) => {
             const sale = row.sales;
             const payLabel = sale.paymentMethod === "cash" ? "เงินสด" : sale.paymentMethod === "transfer" ? "โอน" : "เครดิต";
             return (
-              <div key={sale.id} className="rounded-2xl bg-white border border-orange-100/60 shadow-sm overflow-hidden">
+              <div key={sale.id} className="rounded-2xl bg-white border border-blue-100/60 shadow-sm overflow-hidden">
                 <div className="p-4">
                   <div className="flex items-start gap-2">
                     <input 
                       type="checkbox" 
                       checked={selectedBills.has(sale.id)}
                       onChange={() => toggleSelectBill(sale.id)}
-                      className="mt-1 rounded border-gray-300 text-orange-600 focus:ring-orange-500 flex-shrink-0"
+                      className="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500 flex-shrink-0"
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <div className={`rounded-lg p-1 ${sale.isTaxInvoice ? "bg-blue-100" : "bg-orange-100"}`}>
-                          <FileText className={`h-3.5 w-3.5 ${sale.isTaxInvoice ? "text-blue-600" : "text-orange-600"}`} />
+                        <div className={`rounded-lg p-1 ${sale.isTaxInvoice ? "bg-blue-100" : "bg-blue-100"}`}>
+                          <FileText className={`h-3.5 w-3.5 ${sale.isTaxInvoice ? "text-blue-600" : "text-blue-600"}`} />
                         </div>
-                        <span className={`font-mono text-xs font-semibold ${sale.status === "voided" ? "text-red-400 line-through" : "text-orange-700"}`}>{sale.isTaxInvoice ? sale.taxInvoiceNumber : sale.billNumber}</span>
+                        <span className={`font-mono text-xs font-semibold ${sale.status === "voided" ? "text-red-400 line-through" : "text-blue-700"}`}>{sale.isTaxInvoice ? sale.taxInvoiceNumber : sale.billNumber}</span>
                         {sale.status === "voided" && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 border border-red-300 font-bold">❌ ยกเลิกแล้ว</span>}
                       </div>
                       <div className="flex flex-wrap items-center gap-1.5 mt-2">
@@ -995,7 +995,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                       </div>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <div className="text-base font-bold text-orange-600">{formatCurrency(parseFloat(sale.total))}</div>
+                      <div className="text-base font-bold text-blue-600">{formatCurrency(parseFloat(sale.total))}</div>
                       <div className="text-[10px] text-muted-foreground">{formatDate(sale.createdAt)}</div>
                     </div>
                   </div>
@@ -1004,12 +1004,12 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                     <span>🛒 {row.customers?.name || sale.buyerName || "ลูกค้าทั่วไป"}</span>
                   </div>
                 </div>
-                <div className="flex items-center border-t border-orange-100/60 divide-x divide-orange-100/60">
+                <div className="flex items-center border-t border-blue-100/60 divide-x divide-blue-100/60">
                   <button onClick={() => toggleSaleDetails(sale.id)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors">
                     {expandedSale === sale.id ? <ChevronUp className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                     รายละเอียด
                   </button>
-                  <button onClick={() => handlePrintReceipt(row)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-orange-600 hover:bg-orange-50 transition-colors">
+                  <button onClick={() => handlePrintReceipt(row)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors">
                     <Printer className="h-3.5 w-3.5" /> พิมพ์
                   </button>
                   <button onClick={() => handleSendLine(sale.id)} disabled={sendingLineId === sale.id} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-green-600 hover:bg-green-50 transition-colors disabled:opacity-50">
@@ -1028,7 +1028,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                   </button>
                 </div>
                 {expandedSale === sale.id && (
-                  <div className="border-t border-orange-100/60 bg-gray-50/50 p-3">
+                  <div className="border-t border-blue-100/60 bg-gray-50/50 p-3">
                     {loadingItems ? (
                       <div className="text-center py-3 text-xs text-muted-foreground">กำลังโหลด...</div>
                     ) : (
@@ -1048,7 +1048,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                         )}
                         <div className="flex justify-between items-center text-xs font-bold pt-1.5 border-t border-gray-200">
                           <span>ยอดรวม</span>
-                          <span className="text-orange-600">{formatCurrency(parseFloat(sale.total))}</span>
+                          <span className="text-blue-600">{formatCurrency(parseFloat(sale.total))}</span>
                         </div>
                       </div>
                     )}
@@ -1061,17 +1061,17 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
       </div>
 
       {/* Desktop Table View */}
-      <div className="hidden sm:block rounded-2xl bg-white border border-orange-100/60 shadow-luxury overflow-hidden">
-        <div className="px-3 sm:px-5 py-3 border-b border-orange-100/60 bg-gradient-to-r from-orange-50/80 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div className="hidden sm:block rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden">
+        <div className="px-3 sm:px-5 py-3 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2 flex-wrap">
-            <Receipt className="h-4 w-4 text-orange-500" />
+            <Receipt className="h-4 w-4 text-blue-500" />
             <span className="text-sm font-bold">รายการขาย</span>
             <span className="text-xs text-muted-foreground">({sales.length} รายการ)</span>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <Button variant="outline" size="sm" onClick={async () => {
               const { exportSalesExcel } = await loadExportExcel(); exportSalesExcel(sales, storeSettings?.storeName || "ร้านแบตเตอรี่");
-            }} className="h-7 text-[11px] border-orange-200 hover:bg-orange-50 text-orange-700 gap-1 rounded-lg">
+            }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
               <Download className="h-3 w-3" /> ส่งออก Excel</Button>
             <Button variant="outline" size="sm" onClick={async () => {
               const { exportSalesReportExcel } = await loadExportExcel(); await exportSalesReportExcel(sales, storeSettings?.storeName || "ร้านแบตเตอรี่", dateFrom, dateTo, customers);
@@ -1082,7 +1082,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
               size="sm" 
               onClick={() => setShowBatchPrintModal(true)} 
               disabled={selectedBills.size === 0}
-              className="h-7 text-[11px] bg-orange-600 hover:bg-orange-700 text-white gap-1 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-7 text-[11px] bg-blue-600 hover:bg-blue-700 text-white gap-1 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Printer className="h-3 w-3" /> พิมพ์หลายรายการ ({selectedBills.size})
             </Button>
@@ -1091,13 +1091,13 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
         <div className="p-0 overflow-x-auto">
           <Table className="min-w-[900px]">
             <TableHeader>
-              <TableRow className="bg-orange-50/50 hover:bg-orange-50/50">
+              <TableRow className="bg-blue-50/50 hover:bg-blue-50/50">
                 <TableHead className="font-semibold w-10">
                   <input 
                     type="checkbox" 
                     checked={sales.length > 0 && selectedBills.size === sales.length}
                     onChange={toggleSelectAll}
-                    className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
                 </TableHead>
                 <TableHead className="font-semibold w-8"></TableHead>
@@ -1123,31 +1123,31 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                   {sales.map((row: any) => {
                     return (
                     <>
-                      <TableRow key={row.sales.id} className="hover:bg-orange-50/30">
+                      <TableRow key={row.sales.id} className="hover:bg-blue-50/30">
                         <TableCell>
                           <input 
                             type="checkbox" 
                             checked={selectedBills.has(row.sales.id)}
                             onChange={() => toggleSelectBill(row.sales.id)}
-                            className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                           />
                         </TableCell>
                         <TableCell>
                           <button
                             onClick={() => toggleSaleDetails(row.sales.id)}
-                            className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-orange-100 transition-colors"
+                            className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-100 transition-colors"
                             title="ดูรายละเอียด"
                           >
-                            {expandedSale === row.sales.id ? <ChevronUp className="h-4 w-4 text-orange-500" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+                            {expandedSale === row.sales.id ? <ChevronUp className="h-4 w-4 text-blue-500" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
                           </button>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <div className={`rounded-lg p-1 ${row.sales.isTaxInvoice ? 'bg-blue-100' : 'bg-orange-100'}`}>
-                              <FileText className={`h-3.5 w-3.5 ${row.sales.isTaxInvoice ? 'text-blue-600' : 'text-orange-600'}`} />
+                            <div className={`rounded-lg p-1 ${row.sales.isTaxInvoice ? 'bg-blue-100' : 'bg-blue-100'}`}>
+                              <FileText className={`h-3.5 w-3.5 ${row.sales.isTaxInvoice ? 'text-blue-600' : 'text-blue-600'}`} />
                             </div>
                             <div>
-                              <div className={`font-mono text-xs font-medium ${row.sales.status === "voided" ? "text-red-400 line-through" : "text-orange-700"}`}>
+                              <div className={`font-mono text-xs font-medium ${row.sales.status === "voided" ? "text-red-400 line-through" : "text-blue-700"}`}>
                                 {row.sales.isTaxInvoice ? row.sales.taxInvoiceNumber : row.sales.billNumber}
                               </div>
                               <div className="flex items-center gap-1 flex-wrap">
@@ -1207,13 +1207,13 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                         <TableCell className="text-muted-foreground">{formatDate(row.sales.createdAt)}</TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-1">
-                            <button onClick={() => handlePrintReceipt(row)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-orange-50 transition-colors" title="พิมพ์ใบเสร็จ">
-                              <Printer className="h-4 w-4 text-orange-500" />
+                            <button onClick={() => handlePrintReceipt(row)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors" title="พิมพ์ใบเสร็จ">
+                              <Printer className="h-4 w-4 text-blue-500" />
                             </button>
                             <button onClick={() => handleSendLine(row.sales.id)} disabled={sendingLineId === row.sales.id} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-green-50 transition-colors disabled:opacity-50" title="ส่งผ่าน LINE">
                               {sendingLineId === row.sales.id ? <Loader2 className="h-4 w-4 animate-spin text-green-500" /> : <MessageCircle className="h-4 w-4 text-green-500" />}
                             </button>
-                            <button onClick={() => openEditModal(row.sales)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-orange-50 transition-colors" title="แก้ไข">
+                            <button onClick={() => openEditModal(row.sales)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors" title="แก้ไข">
                               <Pencil className="h-4 w-4 text-muted-foreground" />
                             </button>
                             {row.sales.status === "completed" && (
@@ -1229,7 +1229,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                       </TableRow>
                       {expandedSale === row.sales.id && (
                         <TableRow key={`details-${row.sales.id}`}>
-                          <TableCell colSpan={12} className="p-0 bg-gradient-to-r from-orange-50/30 to-blue-50/20">
+                          <TableCell colSpan={12} className="p-0 bg-gradient-to-r from-blue-50/30 to-blue-50/20">
                             <div className="px-6 py-4">
                               {loadingItems ? (
                                 <div className="text-center py-4 text-sm text-muted-foreground">กำลังโหลด...</div>
@@ -1274,7 +1274,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                   })}
                   {sales.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={13} className="text-center text-muted-foreground py-12"><Receipt className="h-8 w-8 mx-auto mb-2 text-orange-200" />ยังไม่มีรายการขาย</TableCell>
+                      <TableCell colSpan={13} className="text-center text-muted-foreground py-12"><Receipt className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีรายการขาย</TableCell>
                     </TableRow>
                   )}
                 </>
@@ -1288,53 +1288,53 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
       {showBatchPrintModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 overflow-hidden">
-            <div className="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-orange-50/80 to-white">
+            <div className="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-blue-50/80 to-white">
               <div className="flex items-center gap-2">
-                <Printer className="h-5 w-5 text-orange-600" />
+                <Printer className="h-5 w-5 text-blue-600" />
                 <h2 className="text-lg font-bold">พิมพ์หลายรายการ</h2>
               </div>
-              <button onClick={() => setShowBatchPrintModal(false)} className="rounded-lg p-1.5 hover:bg-orange-100 transition-colors">
+              <button onClick={() => setShowBatchPrintModal(false)} className="rounded-lg p-1.5 hover:bg-blue-100 transition-colors">
                 <X className="h-4 w-4 text-muted-foreground" />
               </button>
             </div>
             <div className="p-6 space-y-4">
               <div className="text-sm text-muted-foreground">
-                เลือกจำนวน <span className="font-semibold text-orange-600">{selectedBills.size} รายการ</span> ที่จะพิมพ์
+                เลือกจำนวน <span className="font-semibold text-blue-600">{selectedBills.size} รายการ</span> ที่จะพิมพ์
               </div>
               
               <div>
                 <Label className="text-sm font-semibold mb-2 block">ประเภทสำเนา</Label>
                 <div className="space-y-2">
-                  <label className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-orange-50 cursor-pointer transition-colors">
+                  <label className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-blue-50 cursor-pointer transition-colors">
                     <input 
                       type="radio" 
                       name="copyType" 
                       value="customer" 
                       checked={batchPrintType === "customer"} 
                       onChange={() => setBatchPrintType("customer")}
-                      className="text-orange-600 focus:ring-orange-500"
+                      className="text-blue-600 focus:ring-blue-500"
                     />
                     <span className="text-sm">สำหรับลูกค้า</span>
                   </label>
-                  <label className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-orange-50 cursor-pointer transition-colors">
+                  <label className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-blue-50 cursor-pointer transition-colors">
                     <input 
                       type="radio" 
                       name="copyType" 
                       value="accounting" 
                       checked={batchPrintType === "accounting"} 
                       onChange={() => setBatchPrintType("accounting")}
-                      className="text-orange-600 focus:ring-orange-500"
+                      className="text-blue-600 focus:ring-blue-500"
                     />
                     <span className="text-sm">สำหรับบัญชี</span>
                   </label>
-                  <label className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-orange-50 cursor-pointer transition-colors">
+                  <label className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-blue-50 cursor-pointer transition-colors">
                     <input 
                       type="radio" 
                       name="copyType" 
                       value="company" 
                       checked={batchPrintType === "company"} 
                       onChange={() => setBatchPrintType("company")}
-                      className="text-orange-600 focus:ring-orange-500"
+                      className="text-blue-600 focus:ring-blue-500"
                     />
                     <span className="text-sm">สำหรับบริษัท</span>
                   </label>
@@ -1351,7 +1351,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 <button 
                   onClick={handleBatchPrint} 
                   disabled={batchPrinting}
-                  className="flex-1 rounded-xl gradient-orange px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="flex-1 rounded-xl gradient-blue px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {batchPrinting ? (
                     <>

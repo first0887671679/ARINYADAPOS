@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     const timestamp = Math.round(Date.now() / 1000).toString();
     const ALLOWED_FOLDERS = ["products", "employees", "logos"];
     const rawFolder = (formData.get("folder") as string) || "products";
-    const folder = ALLOWED_FOLDERS.includes(rawFolder) ? rawFolder : "products";
+    const folder = ALLOWED_FOLDERS.includes(rawFolder) ? `arinyadapos/${rawFolder}` : "arinyadapos/products";
     const transformation = folder === "logos" ? "c_limit,w_400,h_400,q_auto:best" : "c_limit,w_2000,h_2000,q_auto";
     const paramsToSign = `folder=${folder}&timestamp=${timestamp}&transformation=${transformation}${apiSecret}`;
     const signature = crypto.createHash("sha1").update(paramsToSign).digest("hex");

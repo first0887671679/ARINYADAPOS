@@ -143,7 +143,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
   }
 
   const tabs = [
-    { key: "store" as const, label: "ข้อมูลร้าน", icon: Store, color: "orange" },
+    { key: "store" as const, label: "ข้อมูลร้าน", icon: Store, color: "blue" },
     { key: "line" as const, label: "LINE แจ้งเตือน", icon: MessageSquare, color: "green" },
   ];
 
@@ -153,7 +153,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-md">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-md">
               <Settings className="h-5 w-5 text-white" />
             </div>
             ตั้งค่าร้าน
@@ -172,7 +172,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
       )}
 
       {/* Tab Navigation */}
-      <div className="flex gap-1.5 bg-white/80 backdrop-blur-sm rounded-xl p-1.5 border border-orange-100/60 shadow-sm overflow-x-auto">
+      <div className="flex gap-1.5 bg-white/80 backdrop-blur-sm rounded-xl p-1.5 border border-blue-100/60 shadow-sm overflow-x-auto">
         {tabs.map(tab => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.key;
@@ -182,7 +182,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
               onClick={() => setActiveTab(tab.key)}
               className={`flex items-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap flex-1 justify-center ${
                 isActive
-                  ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md"
+                  ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
                   : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
               }`}
             >
@@ -196,9 +196,9 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
 
       {/* ========== TAB: Store Info ========== */}
       {activeTab === "store" && (
-        <div className="rounded-2xl bg-white border border-orange-100/60 shadow-luxury overflow-hidden">
-          <div className="flex items-center gap-3 px-4 sm:px-6 py-4 border-b border-orange-100/60 bg-gradient-to-r from-orange-50/80 to-white">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-sm">
+        <div className="rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden">
+          <div className="flex items-center gap-3 px-4 sm:px-6 py-4 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-sm">
               <Store className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -209,37 +209,37 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
           <div className="p-4 sm:p-6 space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <Label className="text-sm font-semibold flex items-center gap-1.5"><Zap className="h-3.5 w-3.5 text-orange-500" /> ชื่อร้าน *</Label>
-                <Input value={storeName} onChange={(e) => setStoreName(e.target.value)} placeholder="ร้านแบตเตอรี่" className="border-orange-200/60 focus:border-orange-400" />
+                <Label className="text-sm font-semibold flex items-center gap-1.5"><Zap className="h-3.5 w-3.5 text-blue-500" /> ชื่อร้าน *</Label>
+                <Input value={storeName} onChange={(e) => setStoreName(e.target.value)} placeholder="ร้านแบตเตอรี่" className="border-blue-200/60 focus:border-blue-400" />
               </div>
               <div className="space-y-1.5">
                 <Label className="text-sm font-semibold">สาขา</Label>
-                <Input value={branchName} onChange={(e) => setBranchName(e.target.value)} placeholder="สาขาหลัก" className="border-orange-200/60 focus:border-orange-400" />
+                <Input value={branchName} onChange={(e) => setBranchName(e.target.value)} placeholder="สาขาหลัก" className="border-blue-200/60 focus:border-blue-400" />
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <Label className="text-sm font-semibold flex items-center gap-1.5"><Phone className="h-3.5 w-3.5 text-orange-500" /> เบอร์โทร</Label>
-                <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="08x-xxx-xxxx" className="border-orange-200/60 focus:border-orange-400" />
+                <Label className="text-sm font-semibold flex items-center gap-1.5"><Phone className="h-3.5 w-3.5 text-blue-500" /> เบอร์โทร</Label>
+                <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="08x-xxx-xxxx" className="border-blue-200/60 focus:border-blue-400" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-sm font-semibold flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-orange-500" /> เลขประจำตัวผู้เสียภาษี</Label>
-                <Input value={taxId} onChange={(e) => setTaxId(e.target.value)} placeholder="เลข 13 หลัก" className="border-orange-200/60 focus:border-orange-400" />
+                <Label className="text-sm font-semibold flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-blue-500" /> เลขประจำตัวผู้เสียภาษี</Label>
+                <Input value={taxId} onChange={(e) => setTaxId(e.target.value)} placeholder="เลข 13 หลัก" className="border-blue-200/60 focus:border-blue-400" />
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-sm font-semibold flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-orange-500" /> ที่อยู่</Label>
-              <Input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="ที่อยู่ร้านค้า" className="border-orange-200/60 focus:border-orange-400" />
+              <Label className="text-sm font-semibold flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-blue-500" /> ที่อยู่</Label>
+              <Input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="ที่อยู่ร้านค้า" className="border-blue-200/60 focus:border-blue-400" />
             </div>
 
             {/* โลโก้ร้าน */}
             <div className="space-y-2">
-              <Label className="text-sm font-semibold flex items-center gap-1.5"><ImagePlus className="h-3.5 w-3.5 text-orange-500" /> โลโก้ร้าน</Label>
+              <Label className="text-sm font-semibold flex items-center gap-1.5"><ImagePlus className="h-3.5 w-3.5 text-blue-500" /> โลโก้ร้าน</Label>
               <p className="text-xs text-muted-foreground">โลโก้จะแสดงในใบเสร็จ ใบเสนอราคา และเอกสารทุกประเภท</p>
               <div className="flex items-start gap-4">
                 {storeLogo ? (
                   <div className="relative group">
-                    <img src={storeLogo} alt="โลโก้ร้าน" className="w-24 h-24 object-contain rounded-xl border-2 border-orange-200 bg-white p-1 shadow-sm" />
+                    <img src={storeLogo} alt="โลโก้ร้าน" className="w-24 h-24 object-contain rounded-xl border-2 border-blue-200 bg-white p-1 shadow-sm" />
                     <button
                       type="button"
                       onClick={() => setStoreLogo("")}
@@ -249,12 +249,12 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
                     </button>
                   </div>
                 ) : (
-                  <div className="w-24 h-24 rounded-xl border-2 border-dashed border-orange-200 bg-orange-50/50 flex items-center justify-center">
-                    <ImagePlus className="h-8 w-8 text-orange-300" />
+                  <div className="w-24 h-24 rounded-xl border-2 border-dashed border-blue-200 bg-blue-50/50 flex items-center justify-center">
+                    <ImagePlus className="h-8 w-8 text-blue-300" />
                   </div>
                 )}
                 <div className="flex-1 space-y-2">
-                  <label className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 border-dashed border-orange-300 bg-orange-50/50 hover:bg-orange-100/50 cursor-pointer transition-colors text-sm font-semibold text-orange-700 ${uploadingLogo ? 'opacity-50 pointer-events-none' : ''}`}>
+                  <label className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 border-dashed border-blue-300 bg-blue-50/50 hover:bg-blue-100/50 cursor-pointer transition-colors text-sm font-semibold text-blue-700 ${uploadingLogo ? 'opacity-50 pointer-events-none' : ''}`}>
                     {uploadingLogo ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
                     {uploadingLogo ? 'กำลังอัปโหลด...' : (storeLogo ? 'เปลี่ยนโลโก้' : 'อัปโหลดโลโก้')}
                     <input
@@ -266,7 +266,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
                         if (!file) return;
                         setUploadingLogo(true);
                         try {
-                          const result = await uploadToCloudinary(file, "logos");
+                          const result = await uploadToCloudinary(file, "arinyadapos/logos");
                           setStoreLogo(result.secureUrl || result.url);
                           setResult({ type: 'success', msg: 'อัปโหลดโลโก้สำเร็จ' });
                         } catch {
@@ -380,9 +380,9 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
           </div>
 
           {/* Alert Settings Card */}
-          <div className="rounded-2xl bg-white border border-orange-100/60 shadow-luxury overflow-hidden">
-            <div className="flex items-center gap-3 px-4 sm:px-6 py-4 border-b border-orange-100/60 bg-gradient-to-r from-orange-50/80 to-white">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-sm">
+          <div className="rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden">
+            <div className="flex items-center gap-3 px-4 sm:px-6 py-4 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-sm">
                 <Package className="h-5 w-5 text-white" />
               </div>
               <div>
@@ -392,14 +392,14 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
             </div>
             <div className="p-4 sm:p-6 space-y-4">
               {/* แจ้งเตือนสินค้าใกล้หมด */}
-              <div className="flex items-center justify-between p-4 rounded-xl border border-orange-100 bg-orange-50/30 transition-all hover:bg-orange-50/50">
+              <div className="flex items-center justify-between p-4 rounded-xl border border-blue-100 bg-blue-50/30 transition-all hover:bg-blue-50/50">
                 <div className="space-y-0.5">
                   <Label className="text-sm font-semibold text-gray-700">แจ้งเตือนสินค้าใกล้หมด</Label>
                   <p className="text-[11px] text-muted-foreground">ส่งแจ้งเตือนเมื่อสินค้าในสต็อกต่ำกว่าที่กำหนด</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" checked={lowStockAlertEnabled} onChange={(e) => setLowStockAlertEnabled(e.target.checked)} className="sr-only peer" />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
                 </label>
               </div>
 
@@ -407,8 +407,8 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
               <div className={`space-y-1.5 transition-opacity ${!lowStockAlertEnabled ? "opacity-50 pointer-events-none" : ""}`}>
                 <Label className="text-sm font-semibold flex items-center gap-1.5 text-gray-700">จำนวนขั้นต่ำที่ต้องแจ้งเตือน</Label>
                 <div className="relative">
-                  <Input type="number" value={lowStockThreshold} onChange={(e) => setLowStockThreshold(Number(e.target.value))} className="border-orange-200/60 focus:border-orange-400 pl-9" min="0" />
-                  <Package className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-orange-400" />
+                  <Input type="number" value={lowStockThreshold} onChange={(e) => setLowStockThreshold(Number(e.target.value))} className="border-blue-200/60 focus:border-blue-400 pl-9" min="0" />
+                  <Package className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-400" />
                 </div>
                 <p className="text-[10px] text-muted-foreground">ระบบจะแสดงไอคอนเตือนเมื่อสินค้าเหลือเท่ากับหรือน้อยกว่าค่านี้</p>
               </div>
@@ -454,21 +454,21 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
               {/* Per-sale */}
               <div className="space-y-3">
                 <p className="text-sm font-bold flex items-center gap-2">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-orange-100 text-orange-600 text-xs font-bold">1</span>
+                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-100 text-blue-600 text-xs font-bold">1</span>
                   แจ้งเตือนเมื่อขายสินค้า (แต่ละบิล)
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <label className="flex items-center gap-2.5 p-3 rounded-xl border border-orange-100 hover:border-orange-300 hover:bg-orange-50/50 cursor-pointer text-sm transition-all">
-                    <Checkbox checked={saleShowProducts} onCheckedChange={(v) => setSaleShowProducts(!!v)} className="border-orange-300 data-[state=checked]:bg-orange-500" />
-                    <Package className="h-3.5 w-3.5 text-orange-400" /> ชื่อสินค้า
+                  <label className="flex items-center gap-2.5 p-3 rounded-xl border border-blue-100 hover:border-blue-300 hover:bg-blue-50/50 cursor-pointer text-sm transition-all">
+                    <Checkbox checked={saleShowProducts} onCheckedChange={(v) => setSaleShowProducts(!!v)} className="border-blue-300 data-[state=checked]:bg-blue-500" />
+                    <Package className="h-3.5 w-3.5 text-blue-400" /> ชื่อสินค้า
                   </label>
-                  <label className="flex items-center gap-2.5 p-3 rounded-xl border border-orange-100 hover:border-orange-300 hover:bg-orange-50/50 cursor-pointer text-sm transition-all">
-                    <Checkbox checked={saleShowQuantity} onCheckedChange={(v) => setSaleShowQuantity(!!v)} className="border-orange-300 data-[state=checked]:bg-orange-500" />
-                    <span className="text-orange-400 text-xs font-bold">x</span> จำนวน
+                  <label className="flex items-center gap-2.5 p-3 rounded-xl border border-blue-100 hover:border-blue-300 hover:bg-blue-50/50 cursor-pointer text-sm transition-all">
+                    <Checkbox checked={saleShowQuantity} onCheckedChange={(v) => setSaleShowQuantity(!!v)} className="border-blue-300 data-[state=checked]:bg-blue-500" />
+                    <span className="text-blue-400 text-xs font-bold">x</span> จำนวน
                   </label>
-                  <label className="flex items-center gap-2.5 p-3 rounded-xl border border-orange-100 hover:border-orange-300 hover:bg-orange-50/50 cursor-pointer text-sm transition-all">
-                    <Checkbox checked={saleShowPrice} onCheckedChange={(v) => setSaleShowPrice(!!v)} className="border-orange-300 data-[state=checked]:bg-orange-500" />
-                    <span className="text-orange-400 text-xs font-bold">฿</span> ราคา
+                  <label className="flex items-center gap-2.5 p-3 rounded-xl border border-blue-100 hover:border-blue-300 hover:bg-blue-50/50 cursor-pointer text-sm transition-all">
+                    <Checkbox checked={saleShowPrice} onCheckedChange={(v) => setSaleShowPrice(!!v)} className="border-blue-300 data-[state=checked]:bg-blue-500" />
+                    <span className="text-blue-400 text-xs font-bold">฿</span> ราคา
                   </label>
                 </div>
               </div>
@@ -545,7 +545,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: a
           <button
             onClick={handleSave}
             disabled={saving}
-            className="w-full flex items-center justify-center gap-2 rounded-xl gradient-orange px-6 py-3.5 text-sm sm:text-base font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all active:scale-[0.98] disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 rounded-xl gradient-blue px-6 py-3.5 text-sm sm:text-base font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all active:scale-[0.98] disabled:opacity-50"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             {saving ? "กำลังบันทึก..." : "บันทึกการตั้งค่าทั้งหมด"}

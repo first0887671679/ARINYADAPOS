@@ -33,22 +33,22 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-white to-orange-100" />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-orange-200/40 to-transparent rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-orange-300/20 to-transparent rounded-full blur-3xl" />
-      <div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-orange-200/20 rounded-full blur-2xl animate-pulse" />
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100" />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-blue-200/40 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-blue-300/20 to-transparent rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-blue-200/20 rounded-full blur-2xl animate-pulse" />
 
       {/* Pattern overlay */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, #f97316 1px, transparent 0)", backgroundSize: "40px 40px" }} />
+      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, #2563eb 1px, transparent 0)", backgroundSize: "40px 40px" }} />
 
       <div className="relative z-10 w-full max-w-md px-4">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl gradient-orange shadow-luxury-lg animate-glow mb-4">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl gradient-blue shadow-luxury-lg animate-glow mb-4">
             <Zap className="h-10 w-10 text-white" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">
-            VidCode <span className="text-orange-500">Battery</span>
+            ARINYADA <span className="text-blue-500">POS</span>
           </h1>
           <p className="text-sm text-muted-foreground mt-1">ระบบจัดการร้านแบตเตอรี่</p>
         </div>
@@ -70,34 +70,34 @@ export default function LoginPage() {
             <div className="space-y-2">
               <Label htmlFor="username" className="text-sm font-semibold">ชื่อผู้ใช้</Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-orange-400" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-400" />
                 <Input
                   id="username"
                   name="username"
                   placeholder="กรอกชื่อผู้ใช้"
                   required
                   autoFocus
-                  className="pl-10 h-12 rounded-xl border-orange-200/60 bg-orange-50/30 focus:border-orange-400 focus:ring-orange-400/20 transition-all"
+                  className="pl-10 h-12 rounded-xl border-blue-200/60 bg-blue-50/30 focus:border-blue-400 focus:ring-blue-400/20 transition-all"
                 />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password" className="text-sm font-semibold">รหัสผ่าน</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-orange-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-400" />
                 <Input
                   id="password"
                   name="password"
                   type="password"
                   placeholder="••••••••"
                   required
-                  className="pl-10 h-12 rounded-xl border-orange-200/60 bg-orange-50/30 focus:border-orange-400 focus:ring-orange-400/20 transition-all"
+                  className="pl-10 h-12 rounded-xl border-blue-200/60 bg-blue-50/30 focus:border-blue-400 focus:ring-blue-400/20 transition-all"
                 />
               </div>
             </div>
             <Button
               type="submit"
-              className="w-full h-12 rounded-xl gradient-orange text-white font-semibold text-base shadow-luxury hover:shadow-luxury-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] gap-2"
+              className="w-full h-12 rounded-xl gradient-blue text-white font-semibold text-base shadow-luxury hover:shadow-luxury-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] gap-2"
               disabled={loading}
             >
               {loading ? (
@@ -114,7 +114,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <p className="text-center text-xs text-muted-foreground/60 mt-6">
-          Powered by VidCode &middot; ARINYADA POS System
+          ARINYADA POS System
         </p>
       </div>
     </div>

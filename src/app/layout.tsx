@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="th" className={`${sarabun.variable}`}>
       <head>
-        <meta name="theme-color" content="#f97316" />
+        <meta name="theme-color" content="#2563eb" />
         <meta httpEquiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />

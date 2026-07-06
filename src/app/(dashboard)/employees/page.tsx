@@ -112,7 +112,7 @@ export default function EmployeesPage() {
       try {
         const fd = new FormData();
         fd.append("file", file);
-        fd.append("folder", "employees");
+        fd.append("folder", "arinyadapos/employees");
         const res = await fetch("/api/upload", { method: "POST", body: fd });
         const data = await res.json();
         if (data.secureUrl) {
@@ -160,7 +160,7 @@ export default function EmployeesPage() {
   }
 
   function getRoleBadgeClass(role: string) {
-    if (role === "admin") return "bg-orange-50 text-orange-700 border border-orange-200";
+    if (role === "admin") return "bg-blue-50 text-blue-700 border border-blue-200";
     if (role === "service") return "bg-blue-50 text-blue-700 border border-blue-200";
     return "bg-amber-50 text-amber-700 border border-amber-200";
   }
@@ -176,7 +176,7 @@ export default function EmployeesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-md">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-md">
             <Users className="h-5 w-5 text-white" />
           </div>
           <div>
@@ -184,23 +184,23 @@ export default function EmployeesPage() {
             <p className="text-xs sm:text-sm text-muted-foreground">{employees.length} คน</p>
           </div>
         </div>
-        <button onClick={() => { resetForm(); setShowForm(true); }} className="flex items-center gap-2 rounded-xl gradient-orange px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] w-fit">
+        <button onClick={() => { resetForm(); setShowForm(true); }} className="flex items-center gap-2 rounded-xl gradient-blue px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] w-fit">
           <Plus className="h-4 w-4" /> เพิ่มพนักงาน
         </button>
       </div>
 
       {/* Employee Form */}
       {showForm && (
-        <div className="rounded-2xl bg-white border border-orange-100/60 shadow-luxury overflow-hidden">
-          <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-orange-100/60 bg-gradient-to-r from-orange-50/80 to-white">
+        <div className="rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden">
+          <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white">
             <h2 className="text-base sm:text-lg font-bold tracking-tight">{editId ? "แก้ไขพนักงาน" : "เพิ่มพนักงานใหม่"}</h2>
-            <button onClick={resetForm} className="rounded-lg p-1.5 hover:bg-orange-100 transition-colors"><X className="h-4 w-4 text-muted-foreground" /></button>
+            <button onClick={resetForm} className="rounded-lg p-1.5 hover:bg-blue-100 transition-colors"><X className="h-4 w-4 text-muted-foreground" /></button>
           </div>
           <div className="p-4 sm:p-6">
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Basic Info */}
               <div>
-                <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2"><UserCog className="h-4 w-4 text-orange-500" /> ข้อมูลพื้นฐาน</h3>
+                <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2"><UserCog className="h-4 w-4 text-blue-500" /> ข้อมูลพื้นฐาน</h3>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div className="space-y-1">
                     <Label className="text-xs sm:text-sm">ชื่อพนักงาน *</Label>
@@ -216,7 +216,7 @@ export default function EmployeesPage() {
                   </div>
                   <div className="space-y-1">
                     <Label className="text-xs sm:text-sm">ตำแหน่ง</Label>
-                    <select className="w-full h-10 rounded-xl border border-orange-200/60 bg-orange-50/30 px-3 text-sm focus:border-orange-400 outline-none transition-all" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as "admin" | "cashier" | "service" })}>
+                    <select className="w-full h-10 rounded-xl border border-blue-200/60 bg-blue-50/30 px-3 text-sm focus:border-blue-400 outline-none transition-all" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as "admin" | "cashier" | "service" })}>
                       <option value="cashier">พนักงานขาย</option>
                       <option value="service">พนักงานบริการ</option>
                       <option value="admin">ผู้ดูแลระบบ</option>
@@ -227,7 +227,7 @@ export default function EmployeesPage() {
 
               {/* Contact Info */}
               <div>
-                <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2"><Phone className="h-4 w-4 text-orange-500" /> ข้อมูลติดต่อ</h3>
+                <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2"><Phone className="h-4 w-4 text-blue-500" /> ข้อมูลติดต่อ</h3>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div className="space-y-1">
                     <Label className="text-xs sm:text-sm">เบอร์โทรศัพท์</Label>
@@ -247,7 +247,7 @@ export default function EmployeesPage() {
 
               {/* Document Images */}
               <div>
-                <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2"><CreditCard className="h-4 w-4 text-orange-500" /> เอกสารและรูปภาพ</h3>
+                <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2"><CreditCard className="h-4 w-4 text-blue-500" /> เอกสารและรูปภาพ</h3>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {/* Profile Image */}
                   <div>
@@ -255,15 +255,15 @@ export default function EmployeesPage() {
                     <div className="mt-1.5 flex items-center gap-3">
                       {form.profileImage ? (
                         <div className="relative group">
-                          <img src={form.profileImage} alt="Profile" className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl object-cover border-2 border-orange-200 shadow-md" />
+                          <img src={form.profileImage} alt="Profile" className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl object-cover border-2 border-blue-200 shadow-md" />
                           <button type="button" onClick={() => setForm({ ...form, profileImage: "" })} className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-red-500 text-white flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"><X className="h-3 w-3" /></button>
                         </div>
                       ) : (
-                        <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl border-2 border-dashed border-orange-200 flex items-center justify-center bg-orange-50/30">
-                          <ImageIcon className="h-5 w-5 sm:h-6 sm:w-6 text-orange-300" />
+                        <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl border-2 border-dashed border-blue-200 flex items-center justify-center bg-blue-50/30">
+                          <ImageIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-300" />
                         </div>
                       )}
-                      <button type="button" onClick={() => handleImageUpload("profileImage")} disabled={uploading === "profileImage"} className="flex items-center gap-1.5 rounded-xl border border-orange-200 bg-white px-2.5 py-2 text-[11px] sm:text-xs font-semibold text-orange-700 hover:bg-orange-50 transition-all disabled:opacity-50">
+                      <button type="button" onClick={() => handleImageUpload("profileImage")} disabled={uploading === "profileImage"} className="flex items-center gap-1.5 rounded-xl border border-blue-200 bg-white px-2.5 py-2 text-[11px] sm:text-xs font-semibold text-blue-700 hover:bg-blue-50 transition-all disabled:opacity-50">
                         <Upload className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                         {uploading === "profileImage" ? "อัพโหลด..." : "อัพโหลดรูป"}
                       </button>
@@ -275,15 +275,15 @@ export default function EmployeesPage() {
                     <div className="mt-1.5 flex items-center gap-3">
                       {form.idCardImage ? (
                         <div className="relative group">
-                          <img src={form.idCardImage} alt="ID Card" className="h-16 w-24 sm:h-20 sm:w-32 rounded-xl object-cover border-2 border-orange-200 shadow-md" />
+                          <img src={form.idCardImage} alt="ID Card" className="h-16 w-24 sm:h-20 sm:w-32 rounded-xl object-cover border-2 border-blue-200 shadow-md" />
                           <button type="button" onClick={() => setForm({ ...form, idCardImage: "" })} className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-red-500 text-white flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"><X className="h-3 w-3" /></button>
                         </div>
                       ) : (
-                        <div className="h-16 w-24 sm:h-20 sm:w-32 rounded-xl border-2 border-dashed border-orange-200 flex items-center justify-center bg-orange-50/30">
-                          <CreditCard className="h-5 w-5 sm:h-6 sm:w-6 text-orange-300" />
+                        <div className="h-16 w-24 sm:h-20 sm:w-32 rounded-xl border-2 border-dashed border-blue-200 flex items-center justify-center bg-blue-50/30">
+                          <CreditCard className="h-5 w-5 sm:h-6 sm:w-6 text-blue-300" />
                         </div>
                       )}
-                      <button type="button" onClick={() => handleImageUpload("idCardImage")} disabled={uploading === "idCardImage"} className="flex items-center gap-1.5 rounded-xl border border-orange-200 bg-white px-2.5 py-2 text-[11px] sm:text-xs font-semibold text-orange-700 hover:bg-orange-50 transition-all disabled:opacity-50">
+                      <button type="button" onClick={() => handleImageUpload("idCardImage")} disabled={uploading === "idCardImage"} className="flex items-center gap-1.5 rounded-xl border border-blue-200 bg-white px-2.5 py-2 text-[11px] sm:text-xs font-semibold text-blue-700 hover:bg-blue-50 transition-all disabled:opacity-50">
                         <Upload className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                         {uploading === "idCardImage" ? "อัพโหลด..." : "อัพโหลดรูป"}
                       </button>
@@ -299,7 +299,7 @@ export default function EmployeesPage() {
               )}
 
               <div className="flex gap-2">
-                <button type="submit" className="rounded-xl gradient-orange px-5 sm:px-6 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all">{editId ? "บันทึกการแก้ไข" : "เพิ่มพนักงาน"}</button>
+                <button type="submit" className="rounded-xl gradient-blue px-5 sm:px-6 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all">{editId ? "บันทึกการแก้ไข" : "เพิ่มพนักงาน"}</button>
                 <button type="button" onClick={resetForm} className="rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-500 hover:bg-gray-50 transition-all">ยกเลิก</button>
               </div>
             </form>
@@ -310,17 +310,17 @@ export default function EmployeesPage() {
       {/* View Employee Detail Modal */}
       {viewEmp && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={() => setViewEmp(null)}>
-          <div className="w-full max-w-lg rounded-2xl bg-white shadow-2xl border border-orange-100 overflow-hidden max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-orange-100 bg-gradient-to-r from-orange-50/80 to-white sticky top-0">
+          <div className="w-full max-w-lg rounded-2xl bg-white shadow-2xl border border-blue-100 overflow-hidden max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-blue-100 bg-gradient-to-r from-blue-50/80 to-white sticky top-0">
               <h2 className="text-base sm:text-lg font-bold">ข้อมูลพนักงาน</h2>
-              <button onClick={() => setViewEmp(null)} className="rounded-lg p-1.5 hover:bg-orange-100 transition-colors"><X className="h-4 w-4" /></button>
+              <button onClick={() => setViewEmp(null)} className="rounded-lg p-1.5 hover:bg-blue-100 transition-colors"><X className="h-4 w-4" /></button>
             </div>
             <div className="p-4 sm:p-6 space-y-4">
               <div className="flex items-center gap-4">
                 {viewEmp.profileImage ? (
-                  <img src={viewEmp.profileImage} alt="Profile" className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl object-cover border-2 border-orange-200 shadow-md" />
+                  <img src={viewEmp.profileImage} alt="Profile" className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl object-cover border-2 border-blue-200 shadow-md" />
                 ) : (
-                  <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white text-lg sm:text-xl font-bold shadow-md">{viewEmp.name?.charAt(0)}</div>
+                  <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-lg sm:text-xl font-bold shadow-md">{viewEmp.name?.charAt(0)}</div>
                 )}
                 <div>
                   <div className="text-base sm:text-lg font-bold text-gray-800">{viewEmp.name}</div>
@@ -336,7 +336,7 @@ export default function EmployeesPage() {
               {viewEmp.idCardImage && (
                 <div>
                   <div className="text-xs text-gray-400 mb-2 flex items-center gap-1"><CreditCard className="h-3.5 w-3.5" /> รูปบัตรประชาชน</div>
-                  <img src={viewEmp.idCardImage} alt="ID Card" className="w-full max-h-48 rounded-xl object-contain border border-orange-200 bg-gray-50" />
+                  <img src={viewEmp.idCardImage} alt="ID Card" className="w-full max-h-48 rounded-xl object-contain border border-blue-200 bg-gray-50" />
                 </div>
               )}
             </div>
@@ -347,13 +347,13 @@ export default function EmployeesPage() {
       {/* Employee Cards (Mobile) */}
       <div className="grid grid-cols-1 gap-3 sm:hidden">
         {employees.map((emp: any) => (
-          <div key={emp.id} className="rounded-2xl bg-white border border-orange-100/60 shadow-sm p-4 hover:shadow-md transition-all">
+          <div key={emp.id} className="rounded-2xl bg-white border border-blue-100/60 shadow-sm p-4 hover:shadow-md transition-all">
             <div className="flex items-start gap-3">
               {/* Avatar */}
               {emp.profileImage ? (
-                <img src={emp.profileImage} alt="" className="h-12 w-12 rounded-xl object-cover border border-orange-200 flex-shrink-0" />
+                <img src={emp.profileImage} alt="" className="h-12 w-12 rounded-xl object-cover border border-blue-200 flex-shrink-0" />
               ) : (
-                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center text-white text-base font-bold flex-shrink-0">{emp.name?.charAt(0)}</div>
+                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center text-white text-base font-bold flex-shrink-0">{emp.name?.charAt(0)}</div>
               )}
               {/* Info */}
               <div className="flex-1 min-w-0">
@@ -385,7 +385,7 @@ export default function EmployeesPage() {
               <button onClick={() => setViewEmp(emp)} className="flex-1 flex items-center justify-center gap-1.5 h-9 rounded-lg bg-blue-50 text-blue-600 text-xs font-semibold hover:bg-blue-100 transition-colors">
                 <Eye className="h-3.5 w-3.5" /> ดูข้อมูล
               </button>
-              <button onClick={() => startEdit(emp)} className="flex-1 flex items-center justify-center gap-1.5 h-9 rounded-lg bg-orange-50 text-orange-600 text-xs font-semibold hover:bg-orange-100 transition-colors">
+              <button onClick={() => startEdit(emp)} className="flex-1 flex items-center justify-center gap-1.5 h-9 rounded-lg bg-blue-50 text-blue-600 text-xs font-semibold hover:bg-blue-100 transition-colors">
                 <Pencil className="h-3.5 w-3.5" /> แก้ไข
               </button>
               <button onClick={() => handleDelete(emp.id)} className="flex items-center justify-center h-9 w-9 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors flex-shrink-0">
@@ -395,19 +395,19 @@ export default function EmployeesPage() {
           </div>
         ))}
         {employees.length === 0 && (
-          <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-orange-100/60">
-            <UserCog className="h-8 w-8 mx-auto mb-2 text-orange-200" />
+          <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-blue-100/60">
+            <UserCog className="h-8 w-8 mx-auto mb-2 text-blue-200" />
             ยังไม่มีพนักงาน
           </div>
         )}
       </div>
 
       {/* Employee Table (Desktop) */}
-      <div className="hidden sm:block rounded-2xl bg-white border border-orange-100/60 shadow-luxury overflow-hidden">
+      <div className="hidden sm:block rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-orange-50/50 hover:bg-orange-50/50">
+              <TableRow className="bg-blue-50/50 hover:bg-blue-50/50">
                 <TableHead className="font-semibold">พนักงาน</TableHead>
                 <TableHead className="font-semibold">ชื่อผู้ใช้</TableHead>
                 <TableHead className="font-semibold hidden md:table-cell">เบอร์โทร</TableHead>
@@ -418,13 +418,13 @@ export default function EmployeesPage() {
             </TableHeader>
             <TableBody>
               {employees.map((emp: any) => (
-                <TableRow key={emp.id} className="hover:bg-orange-50/30">
+                <TableRow key={emp.id} className="hover:bg-blue-50/30">
                   <TableCell>
                     <div className="flex items-center gap-3">
                       {emp.profileImage ? (
-                        <img src={emp.profileImage} alt="" className="h-9 w-9 rounded-xl object-cover border border-orange-200" />
+                        <img src={emp.profileImage} alt="" className="h-9 w-9 rounded-xl object-cover border border-blue-200" />
                       ) : (
-                        <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center text-white text-sm font-bold">{emp.name?.charAt(0)}</div>
+                        <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center text-white text-sm font-bold">{emp.name?.charAt(0)}</div>
                       )}
                       <div>
                         <span className="font-semibold text-sm">{emp.name}</span>
@@ -448,14 +448,14 @@ export default function EmployeesPage() {
                   <TableCell>
                     <div className="flex gap-1 justify-end">
                       <button onClick={() => setViewEmp(emp)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors" title="ดูข้อมูล"><Eye className="h-4 w-4 text-blue-500" /></button>
-                      <button onClick={() => startEdit(emp)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-orange-50 transition-colors" title="แก้ไข"><Pencil className="h-4 w-4 text-muted-foreground" /></button>
+                      <button onClick={() => startEdit(emp)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors" title="แก้ไข"><Pencil className="h-4 w-4 text-muted-foreground" /></button>
                       <button onClick={() => handleDelete(emp.id)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-red-50 transition-colors" title="ลบ"><Trash2 className="h-4 w-4 text-red-400" /></button>
                     </div>
                   </TableCell>
                 </TableRow>
               ))}
               {employees.length === 0 && (
-                <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground py-12"><UserCog className="h-8 w-8 mx-auto mb-2 text-orange-200" />ยังไม่มีพนักงาน</TableCell></TableRow>
+                <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground py-12"><UserCog className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีพนักงาน</TableCell></TableRow>
               )}
             </TableBody>
           </Table>
@@ -589,7 +589,7 @@ export default function EmployeesPage() {
                             <button onClick={() => handleJobStatus(app.id, "rejected")} className="h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-lg hover:bg-red-50 transition-colors" title="ไม่รับ"><XCircle className="h-3.5 w-3.5 text-red-400" /></button>
                           </>
                         )}
-                        <button onClick={() => startEditJob(app)} className="h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-lg hover:bg-orange-50 transition-colors" title="แก้ไข"><Pencil className="h-3.5 w-3.5 text-muted-foreground" /></button>
+                        <button onClick={() => startEditJob(app)} className="h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-lg hover:bg-blue-50 transition-colors" title="แก้ไข"><Pencil className="h-3.5 w-3.5 text-muted-foreground" /></button>
                         <button onClick={() => handleDeleteJob(app.id)} className="h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-lg hover:bg-red-50 transition-colors" title="ลบ"><Trash2 className="h-3.5 w-3.5 text-red-400" /></button>
                       </div>
                     </div>

@@ -233,7 +233,7 @@ export default function ProductsPage() {
         <div className="flex flex-wrap items-center gap-2">
           {/* Category Filter */}
           <select
-            className="h-10 rounded-xl border border-orange-200 bg-white px-3 text-sm focus:border-orange-400 outline-none"
+            className="h-10 rounded-xl border border-blue-200 bg-white px-3 text-sm focus:border-blue-400 outline-none"
             value={categoryFilter}
             onChange={(e) => { setCategoryFilter(e.target.value); setSelectedIds([]); }}
           >
@@ -245,7 +245,7 @@ export default function ProductsPage() {
             className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all ${
               filterLowStock
                 ? "bg-red-500 text-white shadow-luxury"
-                : "bg-white border border-orange-200 text-orange-700 hover:bg-orange-50"
+                : "bg-white border border-blue-200 text-blue-700 hover:bg-blue-50"
             }`}
           >
             <AlertTriangle className="h-4 w-4" />
@@ -262,22 +262,22 @@ export default function ProductsPage() {
             <Package className="h-4 w-4" />
             {filterOutOfStock ? "แสดงเฉพาะหมดแล้ว" : "สินค้าหมด"}
           </button>
-          <button onClick={() => setShowForm(true)} className="flex items-center gap-2 rounded-xl gradient-orange px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto justify-center"><Plus className="h-4 w-4" /> เพิ่มสินค้า</button>
+          <button onClick={() => setShowForm(true)} className="flex items-center gap-2 rounded-xl gradient-blue px-4 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto justify-center"><Plus className="h-4 w-4" /> เพิ่มสินค้า</button>
         </div>
       </div>
 
       {showForm && (
-        <div className="rounded-2xl bg-white border border-orange-100/60 shadow-luxury overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-orange-100/60 bg-gradient-to-r from-orange-50/80 to-white">
+        <div className="rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white">
             <h2 className="text-lg font-bold tracking-tight">{editId ? "แก้ไขสินค้า" : "เพิ่มสินค้าใหม่"}</h2>
-            <button onClick={resetForm} className="rounded-lg p-1.5 hover:bg-orange-100 transition-colors"><X className="h-4 w-4 text-muted-foreground" /></button>
+            <button onClick={resetForm} className="rounded-lg p-1.5 hover:bg-blue-100 transition-colors"><X className="h-4 w-4 text-muted-foreground" /></button>
           </div>
           <div className="p-6">
             <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div><Label>ชื่อสินค้า *</Label><Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required /></div>
               <div>
                 <Label>หมวดหมู่</Label>
-                <select className="w-full rounded-xl border border-orange-200/60 bg-orange-50/30 p-2 text-sm focus:border-orange-400 outline-none transition-all" value={form.categoryId} onChange={(e) => setForm({ ...form, categoryId: e.target.value })}>
+                <select className="w-full rounded-xl border border-blue-200/60 bg-blue-50/30 p-2 text-sm focus:border-blue-400 outline-none transition-all" value={form.categoryId} onChange={(e) => setForm({ ...form, categoryId: e.target.value })}>
                   <option value="">-- ไม่ระบุ --</option>
                   {categories.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
@@ -297,16 +297,16 @@ export default function ProductsPage() {
                 <div className="mt-2 space-y-3">
                   {/* Upload Button */}
                   <div className="flex items-center gap-3">
-                    <label className="flex items-center gap-2 rounded-xl border-2 border-dashed border-orange-200 bg-orange-50/30 px-4 py-2.5 cursor-pointer hover:border-orange-400 hover:bg-orange-50 transition-all">
+                    <label className="flex items-center gap-2 rounded-xl border-2 border-dashed border-blue-200 bg-blue-50/30 px-4 py-2.5 cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all">
                       {uploading ? (
                         <>
-                          <Loader2 className="h-4 w-4 animate-spin text-orange-500" />
-                          <span className="text-sm text-orange-600">กำลังอัพโหลด... {uploadProgress?.percentage}%</span>
+                          <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
+                          <span className="text-sm text-blue-600">กำลังอัพโหลด... {uploadProgress?.percentage}%</span>
                         </>
                       ) : (
                         <>
-                          <Upload className="h-4 w-4 text-orange-500" />
-                          <span className="text-sm text-orange-600">เลือกรูปภาพ</span>
+                          <Upload className="h-4 w-4 text-blue-500" />
+                          <span className="text-sm text-blue-600">เลือกรูปภาพ</span>
                         </>
                       )}
                       <input
@@ -325,9 +325,9 @@ export default function ProductsPage() {
                   {/* Progress Bar */}
                   {uploading && uploadProgress && (
                     <div className="w-full">
-                      <div className="h-2 w-full rounded-full bg-orange-100 overflow-hidden">
+                      <div className="h-2 w-full rounded-full bg-blue-100 overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-orange-400 to-orange-500 transition-all duration-300"
+                          className="h-full bg-gradient-to-r from-blue-400 to-blue-500 transition-all duration-300"
                           style={{ width: `${uploadProgress.percentage}%` }}
                         />
                       </div>
@@ -340,7 +340,7 @@ export default function ProductsPage() {
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                       {images.map((img, index) => (
                         <div key={img.publicId} className="relative group">
-                          <div className={`aspect-square rounded-xl overflow-hidden border-2 transition-all ${img.isMain ? "border-orange-500 ring-2 ring-orange-200" : "border-orange-100"}`}>
+                          <div className={`aspect-square rounded-xl overflow-hidden border-2 transition-all ${img.isMain ? "border-blue-500 ring-2 ring-blue-200" : "border-blue-100"}`}>
                             <img src={img.url} alt={`Image ${index + 1}`} className="w-full h-full object-cover" />
                           </div>
                           {/* Actions */}
@@ -348,7 +348,7 @@ export default function ProductsPage() {
                             <button
                               type="button"
                               onClick={() => setMainImage(index)}
-                              className={`p-1 rounded-lg transition-colors ${img.isMain ? "bg-orange-500 text-white" : "bg-white/90 text-orange-500 hover:bg-orange-100"}`}
+                              className={`p-1 rounded-lg transition-colors ${img.isMain ? "bg-blue-500 text-white" : "bg-white/90 text-blue-500 hover:bg-blue-100"}`}
                               title="ตั้งเป็นรูปหลัก"
                             >
                               <Star className="h-3.5 w-3.5" fill={img.isMain ? "currentColor" : "none"} />
@@ -364,7 +364,7 @@ export default function ProductsPage() {
                           </div>
                           {img.isMain && (
                             <div className="absolute bottom-1 left-1 right-1">
-                              <span className="block text-center text-[10px] font-medium bg-orange-500 text-white rounded-md py-0.5">หลัก</span>
+                              <span className="block text-center text-[10px] font-medium bg-blue-500 text-white rounded-md py-0.5">หลัก</span>
                             </div>
                           )}
                         </div>
@@ -375,7 +375,7 @@ export default function ProductsPage() {
               </div>
 
               <div className="md:col-span-3">
-                <button type="submit" disabled={uploading} className="rounded-xl gradient-orange px-6 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all disabled:opacity-50">{editId ? "บันทึกการแก้ไข" : "เพิ่มสินค้า"}</button>
+                <button type="submit" disabled={uploading} className="rounded-xl gradient-blue px-6 py-2.5 text-sm font-semibold text-white shadow-luxury hover:shadow-luxury-lg transition-all disabled:opacity-50">{editId ? "บันทึกการแก้ไข" : "เพิ่มสินค้า"}</button>
               </div>
             </form>
           </div>
@@ -386,14 +386,14 @@ export default function ProductsPage() {
       <div className="sm:hidden space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Package className="h-4 w-4 text-orange-500" />
+            <Package className="h-4 w-4 text-blue-500" />
             <span className="text-sm font-bold">สินค้า</span>
             <span className="text-xs text-muted-foreground">({getDisplayProducts().length})</span>
           </div>
           <Button variant="outline" size="sm" onClick={async () => {
             const rows = getDisplayProducts().map((row: any) => { const p = row.products || row; const cat = row.categories; return { "ชื่อสินค้า": p.name, "หมวดหมู่": cat?.name || "-", "ยี่ห้อ": p.brand || "-", "รุ่น": p.model || "-", "ราคาขาย": parseFloat(p.sellPrice), "สต็อก": p.stock }; });
             const { exportToExcel } = await loadExportExcel(); exportToExcel(rows, `รายการสินค้า_${new Date().toLocaleDateString("th-TH")}`, "สินค้า");
-          }} className="h-7 text-[11px] border-orange-200 hover:bg-orange-50 text-orange-700 gap-1 rounded-lg">
+          }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
             <Download className="h-3 w-3" /> Excel
           </Button>
         </div>
@@ -403,26 +403,26 @@ export default function ProductsPage() {
           const isLowStock = lowStockAlertEnabled && p.stock <= lowStockThreshold;
           const isOutOfStock = p.stock === 0;
           return (
-            <div key={p.id} className={`rounded-2xl bg-white border shadow-sm overflow-hidden ${isOutOfStock ? "border-red-200 bg-red-50/30" : isLowStock ? "border-red-200/60" : "border-orange-100/60"}`}>
+            <div key={p.id} className={`rounded-2xl bg-white border shadow-sm overflow-hidden ${isOutOfStock ? "border-red-200 bg-red-50/30" : isLowStock ? "border-red-200/60" : "border-blue-100/60"}`}>
               <div className="p-3">
                 <div className="flex items-start gap-3">
                   {p.imageUrl ? (
-                    <img src={p.imageUrl} alt={p.name} className="h-14 w-14 rounded-xl object-cover border border-orange-100 flex-shrink-0" />
+                    <img src={p.imageUrl} alt={p.name} className="h-14 w-14 rounded-xl object-cover border border-blue-100 flex-shrink-0" />
                   ) : (
-                    <div className="h-14 w-14 rounded-xl bg-orange-50 flex items-center justify-center border border-orange-100 flex-shrink-0">
-                      <ImageIcon className="h-6 w-6 text-orange-200" />
+                    <div className="h-14 w-14 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100 flex-shrink-0">
+                      <ImageIcon className="h-6 w-6 text-blue-200" />
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-bold text-gray-800 truncate">{p.name}</h3>
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1 text-xs text-muted-foreground">
-                      {cat?.name && <span className="px-1.5 py-0.5 rounded bg-orange-50 text-orange-600 text-[10px]">{cat.name}</span>}
+                      {cat?.name && <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 text-[10px]">{cat.name}</span>}
                       {(p.brand || p.model) && <span>{[p.brand, p.model].filter(Boolean).join(" ")}</span>}
                       {p.size && <span>{p.size}</span>}
                     </div>
                     <div className="flex items-center justify-between mt-2">
-                      <span className="text-sm font-bold text-orange-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
-                      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${isOutOfStock ? "bg-red-600 text-white" : isLowStock ? "bg-red-50 text-red-700 border border-red-200" : "bg-orange-50 text-orange-700 border border-orange-200"}`}>
+                      <span className="text-sm font-bold text-blue-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
+                      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${isOutOfStock ? "bg-red-600 text-white" : isLowStock ? "bg-red-50 text-red-700 border border-red-200" : "bg-blue-50 text-blue-700 border border-blue-200"}`}>
                         {(isOutOfStock || isLowStock) && <AlertTriangle className="h-3 w-3" />}
                         คงเหลือ {p.stock}
                       </span>
@@ -430,8 +430,8 @@ export default function ProductsPage() {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center border-t border-orange-100/60 divide-x divide-orange-100/60">
-                <button onClick={() => startEdit(row)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-orange-600 hover:bg-orange-50 transition-colors">
+              <div className="flex items-center border-t border-blue-100/60 divide-x divide-blue-100/60">
+                <button onClick={() => startEdit(row)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors">
                   <Pencil className="h-3.5 w-3.5" /> แก้ไข
                 </button>
                 <button onClick={async () => { await duplicateProduct(p.id); load(); }} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors">
@@ -445,17 +445,17 @@ export default function ProductsPage() {
           );
         })}
         {getDisplayProducts().length === 0 && (
-          <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-orange-100/60">
-            <Package className="h-8 w-8 mx-auto mb-2 text-orange-200" />ยังไม่มีสินค้า
+          <div className="text-center text-muted-foreground py-12 bg-white rounded-2xl border border-blue-100/60">
+            <Package className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีสินค้า
           </div>
         )}
       </div>
 
       {/* Desktop Table View */}
-      <div className="hidden sm:block rounded-2xl bg-white border border-orange-100/60 shadow-luxury overflow-hidden">
-        <div className="px-3 sm:px-5 py-3 border-b border-orange-100/60 bg-gradient-to-r from-orange-50/80 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div className="hidden sm:block rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden">
+        <div className="px-3 sm:px-5 py-3 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <Package className="h-4 w-4 text-orange-500" />
+            <Package className="h-4 w-4 text-blue-500" />
             <span className="text-sm font-bold">รายการสินค้า</span>
             <span className="text-xs text-muted-foreground">({getDisplayProducts().length} รายการ)</span>
             {selectedIds.length > 0 && (
@@ -510,7 +510,7 @@ export default function ProductsPage() {
                 };
               });
               const { exportToExcel } = await loadExportExcel(); exportToExcel(rows, `รายการสินค้า_${new Date().toLocaleDateString("th-TH")}`, "สินค้า");
-            }} className="h-7 text-[11px] border-orange-200 hover:bg-orange-50 text-orange-700 gap-1 rounded-lg">
+            }} className="h-7 text-[11px] border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
               <Download className="h-3 w-3" /> ส่งออก Excel
             </Button>
           </div>
@@ -518,11 +518,11 @@ export default function ProductsPage() {
         <div className="p-0 overflow-x-auto">
           <Table className="min-w-[700px]">
             <TableHeader>
-              <TableRow className="bg-orange-50/50 hover:bg-orange-50/50">
+              <TableRow className="bg-blue-50/50 hover:bg-blue-50/50">
                 <TableHead className="w-10">
-                  <button onClick={toggleSelectAll} className="p-1 hover:bg-orange-100 rounded">
+                  <button onClick={toggleSelectAll} className="p-1 hover:bg-blue-100 rounded">
                     {selectedIds.length === getDisplayProducts().length && getDisplayProducts().length > 0
-                      ? <CheckSquare className="h-4 w-4 text-orange-600" />
+                      ? <CheckSquare className="h-4 w-4 text-blue-600" />
                       : <Square className="h-4 w-4 text-gray-400" />}
                   </button>
                 </TableHead>
@@ -543,9 +543,9 @@ export default function ProductsPage() {
                 const isOutOfStock = p.stock === 0;
                 const isSelected = selectedIds.includes(p.id);
                 return (
-                  <TableRow key={p.id} className={`hover:bg-orange-50/30 ${isLowStock ? "bg-red-50/20" : ""} ${isOutOfStock ? "bg-red-100/40" : ""} ${isSelected ? "bg-blue-50/30" : ""}`}>
+                  <TableRow key={p.id} className={`hover:bg-blue-50/30 ${isLowStock ? "bg-red-50/20" : ""} ${isOutOfStock ? "bg-red-100/40" : ""} ${isSelected ? "bg-blue-50/30" : ""}`}>
                     <TableCell>
-                      <button onClick={() => toggleSelect(p.id)} className="p-1 hover:bg-orange-100 rounded">
+                      <button onClick={() => toggleSelect(p.id)} className="p-1 hover:bg-blue-100 rounded">
                         {isSelected
                           ? <CheckSquare className="h-4 w-4 text-blue-600" />
                           : <Square className="h-4 w-4 text-gray-300" />}
@@ -554,10 +554,10 @@ export default function ProductsPage() {
                     <TableCell>
                       <div className="flex items-center gap-3">
                         {p.imageUrl ? (
-                          <img src={p.imageUrl} alt={p.name} className="h-10 w-10 rounded-lg object-cover border border-orange-100" />
+                          <img src={p.imageUrl} alt={p.name} className="h-10 w-10 rounded-lg object-cover border border-blue-100" />
                         ) : (
-                          <div className="h-10 w-10 rounded-lg bg-orange-50 flex items-center justify-center border border-orange-100">
-                            <ImageIcon className="h-5 w-5 text-orange-200" />
+                          <div className="h-10 w-10 rounded-lg bg-blue-50 flex items-center justify-center border border-blue-100">
+                            <ImageIcon className="h-5 w-5 text-blue-200" />
                           </div>
                         )}
                         <span className="font-semibold">{p.name}</span>
@@ -566,26 +566,26 @@ export default function ProductsPage() {
                     <TableCell>{cat?.name || "-"}</TableCell>
                     <TableCell>{[p.brand, p.model].filter(Boolean).join(" ") || "-"}</TableCell>
                     <TableCell>{p.size || "-"}</TableCell>
-                    <TableCell className="text-right font-semibold text-orange-700">{formatCurrency(parseFloat(p.sellPrice))}</TableCell>
+                    <TableCell className="text-right font-semibold text-blue-700">{formatCurrency(parseFloat(p.sellPrice))}</TableCell>
                     <TableCell className="text-right">
-                      <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${isOutOfStock ? "bg-red-600 text-white border border-red-700" : isLowStock ? "bg-red-50 text-red-700 border border-red-200" : "bg-orange-50 text-orange-700 border border-orange-200"}`}>
+                      <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${isOutOfStock ? "bg-red-600 text-white border border-red-700" : isLowStock ? "bg-red-50 text-red-700 border border-red-200" : "bg-blue-50 text-blue-700 border border-blue-200"}`}>
                         {isOutOfStock && <AlertTriangle className="h-3 w-3" />}
                         {isLowStock && !isOutOfStock && <AlertTriangle className="h-3 w-3" />}
                         {p.stock}
                       </span>
                     </TableCell>
                     <TableCell className="text-right whitespace-nowrap">
-                      <button title="เลื่อนขึ้น" disabled={rowIdx === 0} onClick={async () => { const prev = (arr[rowIdx - 1].products || arr[rowIdx - 1]); await swapProductOrder(p.id, prev.id); load(); }} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-orange-50 transition-colors disabled:opacity-30"><ChevronUp className="h-4 w-4 text-muted-foreground" /></button>
-                      <button title="เลื่อนลง" disabled={rowIdx === arr.length - 1} onClick={async () => { const next = (arr[rowIdx + 1].products || arr[rowIdx + 1]); await swapProductOrder(p.id, next.id); load(); }} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-orange-50 transition-colors disabled:opacity-30"><ChevronDown className="h-4 w-4 text-muted-foreground" /></button>
+                      <button title="เลื่อนขึ้น" disabled={rowIdx === 0} onClick={async () => { const prev = (arr[rowIdx - 1].products || arr[rowIdx - 1]); await swapProductOrder(p.id, prev.id); load(); }} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-30"><ChevronUp className="h-4 w-4 text-muted-foreground" /></button>
+                      <button title="เลื่อนลง" disabled={rowIdx === arr.length - 1} onClick={async () => { const next = (arr[rowIdx + 1].products || arr[rowIdx + 1]); await swapProductOrder(p.id, next.id); load(); }} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-30"><ChevronDown className="h-4 w-4 text-muted-foreground" /></button>
                       <button title="คัดลอกสินค้า" onClick={async () => { await duplicateProduct(p.id); load(); }} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors"><Copy className="h-4 w-4 text-blue-500" /></button>
-                      <button title="แก้ไข" onClick={() => startEdit(row)} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-orange-50 transition-colors"><Pencil className="h-4 w-4 text-muted-foreground" /></button>
+                      <button title="แก้ไข" onClick={() => startEdit(row)} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-blue-50 transition-colors"><Pencil className="h-4 w-4 text-muted-foreground" /></button>
                       <button title="ลบ" onClick={() => handleDelete(p.id)} className="inline-flex h-7 w-7 items-center justify-center rounded-lg hover:bg-red-50 transition-colors"><Trash2 className="h-4 w-4 text-red-400" /></button>
                     </TableCell>
                   </TableRow>
                 );
               })}
               {getDisplayProducts().length === 0 && (
-                <TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-12"><Package className="h-8 w-8 mx-auto mb-2 text-orange-200" />ยังไม่มีสินค้า</TableCell></TableRow>
+                <TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-12"><Package className="h-8 w-8 mx-auto mb-2 text-blue-200" />ยังไม่มีสินค้า</TableCell></TableRow>
               )}
             </TableBody>
           </Table>

@@ -68,8 +68,8 @@ export function generateReceiptPdf(data: ReceiptData): Buffer {
   const contentWidth = pageWidth - margin * 2;
   let y = 12;
 
-  // ============= HEADER BAR (orange gradient simulated) =============
-  doc.setFillColor(234, 88, 12); // #ea580c
+  // ============= HEADER BAR (blue gradient simulated) =============
+  doc.setFillColor(37, 99, 235); // #2563eb
   doc.roundedRect(margin, y, contentWidth, 22, 3, 3, "F");
 
   // Title

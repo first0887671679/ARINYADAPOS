@@ -146,15 +146,15 @@ export default function SmsRemindersPage() {
   return (
     <div className="p-2 sm:p-4 md:p-6 max-w-6xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2 text-orange-600"><Smartphone className="h-5 sm:h-6 w-5 sm:w-6" /> SMS แจ้งเตือนลูกค้า</h1>
+        <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2 text-blue-600"><Smartphone className="h-5 sm:h-6 w-5 sm:w-6" /> SMS แจ้งเตือนลูกค้า</h1>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1.5 bg-white/80 backdrop-blur-sm rounded-xl p-1.5 border border-orange-100/60 shadow-sm overflow-x-auto">
-        <button onClick={() => setTab("reminders")} className={`flex items-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap flex-1 justify-center ${tab === "reminders" ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md" : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"}`}>
+      <div className="flex gap-1.5 bg-white/80 backdrop-blur-sm rounded-xl p-1.5 border border-blue-100/60 shadow-sm overflow-x-auto">
+        <button onClick={() => setTab("reminders")} className={`flex items-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap flex-1 justify-center ${tab === "reminders" ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md" : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"}`}>
           <MessageSquare className="h-4 w-4" /> <span className="hidden sm:inline">แจ้งเตือนลูกค้า</span><span className="sm:hidden">ลูกค้า</span>
         </button>
-        <button onClick={() => setTab("templates")} className={`flex items-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap flex-1 justify-center ${tab === "templates" ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md" : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"}`}>
+        <button onClick={() => setTab("templates")} className={`flex items-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap flex-1 justify-center ${tab === "templates" ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md" : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"}`}>
           <FileText className="h-4 w-4" /> <span className="hidden sm:inline">เทมเพลต</span><span className="sm:hidden">เทมเพลต</span>
         </button>
       </div>
@@ -164,13 +164,13 @@ export default function SmsRemindersPage() {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <p className="text-sm text-muted-foreground">จัดการเทมเพลตข้อความ SMS สำหรับแจ้งเตือนลูกค้า</p>
-            <Button onClick={() => { resetTemplateForm(); setShowTemplateForm(true); }} className="gap-2 rounded-xl gradient-orange text-white"><Plus className="h-4 w-4" /> เพิ่มเทมเพลต</Button>
+            <Button onClick={() => { resetTemplateForm(); setShowTemplateForm(true); }} className="gap-2 rounded-xl gradient-blue text-white"><Plus className="h-4 w-4" /> เพิ่มเทมเพลต</Button>
           </div>
 
           {showTemplateForm && (
-            <form onSubmit={handleTemplateSubmit} className="rounded-xl border-2 border-orange-200 bg-orange-50/30 p-4 space-y-4">
+            <form onSubmit={handleTemplateSubmit} className="rounded-xl border-2 border-blue-200 bg-blue-50/30 p-4 space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-orange-700">{editTemplateId ? "แก้ไขเทมเพลต" : "เพิ่มเทมเพลตใหม่"}</h3>
+                <h3 className="text-sm font-bold text-blue-700">{editTemplateId ? "แก้ไขเทมเพลต" : "เพิ่มเทมเพลตใหม่"}</h3>
                 <button type="button" onClick={resetTemplateForm}><X className="h-4 w-4 text-gray-400" /></button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -185,7 +185,7 @@ export default function SmsRemindersPage() {
                     <span className="text-xs text-muted-foreground">เดือน</span>
                     <div className="flex gap-1 ml-2">
                       {[6, 12, 18, 24, 36].map((m) => (
-                        <button key={m} type="button" onClick={() => setTForm({ ...tForm, durationMonths: m })} className={`text-xs px-2 py-1 rounded-lg border transition-all ${tForm.durationMonths === m ? "bg-orange-500 text-white border-orange-500" : "bg-white border-gray-200 hover:border-orange-300"}`}>{m}</button>
+                        <button key={m} type="button" onClick={() => setTForm({ ...tForm, durationMonths: m })} className={`text-xs px-2 py-1 rounded-lg border transition-all ${tForm.durationMonths === m ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-200 hover:border-blue-300"}`}>{m}</button>
                       ))}
                     </div>
                   </div>
@@ -193,12 +193,12 @@ export default function SmsRemindersPage() {
               </div>
               <div>
                 <Label>ข้อความ SMS *</Label>
-                <textarea className="w-full rounded-lg border border-gray-200 p-3 text-sm focus:border-orange-400 outline-none" rows={4} value={tForm.message} onChange={(e) => setTForm({ ...tForm, message: e.target.value })} placeholder="สวัสดีครับ คุณ{{name}} แบตเตอรี่ {{product}} ที่ซื้อไปครบกำหนดแล้ว..." required />
+                <textarea className="w-full rounded-lg border border-gray-200 p-3 text-sm focus:border-blue-400 outline-none" rows={4} value={tForm.message} onChange={(e) => setTForm({ ...tForm, message: e.target.value })} placeholder="สวัสดีครับ คุณ{{name}} แบตเตอรี่ {{product}} ที่ซื้อไปครบกำหนดแล้ว..." required />
                 <p className="text-[10px] text-muted-foreground mt-1">ตัวแปรที่ใช้ได้: {"{{name}}"} = ชื่อลูกค้า, {"{{product}}"} = สินค้า, {"{{phone}}"} = เบอร์โทร, {"{{shopPhone}}"} = เบอร์ร้าน, {"{{date}}"} = วันที่แจ้งเตือน</p>
               </div>
               <div className="flex gap-2 justify-end">
                 <Button type="button" variant="outline" onClick={resetTemplateForm} className="rounded-xl">ยกเลิก</Button>
-                <Button type="submit" className="rounded-xl gradient-orange text-white">{editTemplateId ? "บันทึก" : "เพิ่ม"}</Button>
+                <Button type="submit" className="rounded-xl gradient-blue text-white">{editTemplateId ? "บันทึก" : "เพิ่ม"}</Button>
               </div>
             </form>
           )}
@@ -206,7 +206,7 @@ export default function SmsRemindersPage() {
           {/* Mobile Card View - Templates */}
           <div className="sm:hidden space-y-3">
             {templates.map((t) => (
-              <div key={t.id} className="rounded-2xl bg-white border border-orange-100/60 shadow-sm overflow-hidden">
+              <div key={t.id} className="rounded-2xl bg-white border border-blue-100/60 shadow-sm overflow-hidden">
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
@@ -221,8 +221,8 @@ export default function SmsRemindersPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center border-t border-orange-100/60 divide-x divide-orange-100/60">
-                  <button onClick={() => startEditTemplate(t)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-orange-600 hover:bg-orange-50 transition-colors">
+                <div className="flex items-center border-t border-blue-100/60 divide-x divide-blue-100/60">
+                  <button onClick={() => startEditTemplate(t)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors">
                     <Pencil className="h-3.5 w-3.5" /> แก้ไข
                   </button>
                   <button onClick={() => handleDeleteTemplate(t.id)} className="flex items-center justify-center h-10 w-12 text-red-500 hover:bg-red-50 transition-colors">
@@ -232,7 +232,7 @@ export default function SmsRemindersPage() {
               </div>
             ))}
             {templates.length === 0 && (
-              <div className="text-center text-muted-foreground py-8 bg-white rounded-2xl border border-orange-100/60">ยังไม่มีเทมเพลต</div>
+              <div className="text-center text-muted-foreground py-8 bg-white rounded-2xl border border-blue-100/60">ยังไม่มีเทมเพลต</div>
             )}
           </div>
 
@@ -274,18 +274,18 @@ export default function SmsRemindersPage() {
           <div className="flex flex-wrap justify-between items-center gap-2">
             <div className="flex gap-2">
               {(["pending", "sent", "all"] as const).map((f) => (
-                <button key={f} onClick={() => setReminderFilter(f)} className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-all ${reminderFilter === f ? "bg-orange-500 text-white border-orange-500" : "bg-white border-gray-200 hover:border-orange-300"}`}>
+                <button key={f} onClick={() => setReminderFilter(f)} className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-all ${reminderFilter === f ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-200 hover:border-blue-300"}`}>
                   {f === "pending" ? "รอส่ง" : f === "sent" ? "ส่งแล้ว" : "ทั้งหมด"}
                 </button>
               ))}
             </div>
-            <Button onClick={() => { resetReminderForm(); setShowReminderForm(true); }} className="gap-2 rounded-xl gradient-orange text-white"><Plus className="h-4 w-4" /> เพิ่มการแจ้งเตือน</Button>
+            <Button onClick={() => { resetReminderForm(); setShowReminderForm(true); }} className="gap-2 rounded-xl gradient-blue text-white"><Plus className="h-4 w-4" /> เพิ่มการแจ้งเตือน</Button>
           </div>
 
           {showReminderForm && (
-            <form onSubmit={handleReminderSubmit} className="rounded-xl border-2 border-orange-200 bg-orange-50/30 p-4 space-y-4">
+            <form onSubmit={handleReminderSubmit} className="rounded-xl border-2 border-blue-200 bg-blue-50/30 p-4 space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-orange-700">{editReminderId ? "แก้ไขการแจ้งเตือน" : "เพิ่มการแจ้งเตือนใหม่"}</h3>
+                <h3 className="text-sm font-bold text-blue-700">{editReminderId ? "แก้ไขการแจ้งเตือน" : "เพิ่มการแจ้งเตือนใหม่"}</h3>
                 <button type="button" onClick={resetReminderForm}><X className="h-4 w-4 text-gray-400" /></button>
               </div>
 
@@ -300,7 +300,7 @@ export default function SmsRemindersPage() {
                   {filteredCustomers.length > 0 && (
                     <div className="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg max-h-40 overflow-auto">
                       {filteredCustomers.map((c: any) => (
-                        <button key={c.id} type="button" onClick={() => selectCustomer(c)} className="w-full text-left px-3 py-2 text-xs hover:bg-orange-50 border-b last:border-0 flex justify-between">
+                        <button key={c.id} type="button" onClick={() => selectCustomer(c)} className="w-full text-left px-3 py-2 text-xs hover:bg-blue-50 border-b last:border-0 flex justify-between">
                           <span className="font-medium">{c.name}</span>
                           <span className="text-muted-foreground">{c.phone || "ไม่มีเบอร์"}</span>
                         </button>
@@ -330,7 +330,7 @@ export default function SmsRemindersPage() {
                   <div className="flex gap-1 mt-1.5">
                     {[{ label: "6 ด.", m: 6 }, { label: "12 ด.", m: 12 }, { label: "18 ด.", m: 18 }, { label: "24 ด.", m: 24 }, { label: "36 ด.", m: 36 }].map(({ label, m }) => {
                       const d = new Date(); d.setMonth(d.getMonth() + m);
-                      return <button key={m} type="button" onClick={() => setRForm({ ...rForm, scheduledDate: d.toISOString().split("T")[0] })} className="text-[10px] px-2 py-0.5 rounded border border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-all">{label}</button>;
+                      return <button key={m} type="button" onClick={() => setRForm({ ...rForm, scheduledDate: d.toISOString().split("T")[0] })} className="text-[10px] px-2 py-0.5 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all">{label}</button>;
                     })}
                   </div>
                 </div>
@@ -352,13 +352,13 @@ export default function SmsRemindersPage() {
 
               <div>
                 <Label>ข้อความ SMS *</Label>
-                <textarea className="w-full rounded-lg border border-gray-200 p-3 text-sm focus:border-orange-400 outline-none" rows={4} value={rForm.message} onChange={(e) => setRForm({ ...rForm, message: e.target.value })} placeholder="พิมพ์ข้อความ SMS ที่จะส่งให้ลูกค้า..." required />
+                <textarea className="w-full rounded-lg border border-gray-200 p-3 text-sm focus:border-blue-400 outline-none" rows={4} value={rForm.message} onChange={(e) => setRForm({ ...rForm, message: e.target.value })} placeholder="พิมพ์ข้อความ SMS ที่จะส่งให้ลูกค้า..." required />
                 <p className="text-[10px] text-muted-foreground mt-1">ข้อความนี้จะถูกส่งเมื่อถึงวันที่กำหนด (แก้ไขได้ตลอด)</p>
               </div>
 
               <div className="flex gap-2 justify-end">
                 <Button type="button" variant="outline" onClick={resetReminderForm} className="rounded-xl">ยกเลิก</Button>
-                <Button type="submit" className="rounded-xl gradient-orange text-white">{editReminderId ? "บันทึก" : "เพิ่มการแจ้งเตือน"}</Button>
+                <Button type="submit" className="rounded-xl gradient-blue text-white">{editReminderId ? "บันทึก" : "เพิ่มการแจ้งเตือน"}</Button>
               </div>
             </form>
           )}
@@ -368,7 +368,7 @@ export default function SmsRemindersPage() {
             {reminders.map((r) => {
               const isOverdue = r.status === "pending" && new Date(r.scheduledDate) <= new Date();
               return (
-                <div key={r.id} className={`rounded-2xl bg-white border shadow-sm overflow-hidden ${isOverdue ? "border-red-200 bg-red-50/30" : "border-orange-100/60"}`}>
+                <div key={r.id} className={`rounded-2xl bg-white border shadow-sm overflow-hidden ${isOverdue ? "border-red-200 bg-red-50/30" : "border-blue-100/60"}`}>
                   <div className="p-4">
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
@@ -388,10 +388,10 @@ export default function SmsRemindersPage() {
                     </div>
                     <p className="text-[11px] text-muted-foreground mt-2 line-clamp-2 bg-gray-50 rounded-lg p-2">{r.message}</p>
                   </div>
-                  <div className="flex items-center border-t border-orange-100/60 divide-x divide-orange-100/60">
+                  <div className="flex items-center border-t border-blue-100/60 divide-x divide-blue-100/60">
                     {r.status === "pending" && (
                       <>
-                        <button onClick={() => startEditReminder(r)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-orange-600 hover:bg-orange-50 transition-colors">
+                        <button onClick={() => startEditReminder(r)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors">
                           <Pencil className="h-3.5 w-3.5" /> แก้ไข
                         </button>
                         <button onClick={() => handleCancelReminder(r.id)} className="flex-1 flex items-center justify-center gap-1.5 h-10 text-xs font-semibold text-yellow-600 hover:bg-yellow-50 transition-colors">
@@ -407,15 +407,15 @@ export default function SmsRemindersPage() {
               );
             })}
             {reminders.length === 0 && (
-              <div className="text-center text-muted-foreground py-8 bg-white rounded-2xl border border-orange-100/60">ยังไม่มีรายการแจ้งเตือน</div>
+              <div className="text-center text-muted-foreground py-8 bg-white rounded-2xl border border-blue-100/60">ยังไม่มีรายการแจ้งเตือน</div>
             )}
           </div>
 
           {/* Desktop Table View - Reminders */}
-          <div className="hidden sm:block rounded-xl border border-orange-100 overflow-hidden overflow-x-auto">
+          <div className="hidden sm:block rounded-xl border border-blue-100 overflow-hidden overflow-x-auto">
             <Table className="min-w-[700px]">
               <TableHeader>
-                <TableRow className="bg-orange-50/50">
+                <TableRow className="bg-blue-50/50">
                   <TableHead>ลูกค้า</TableHead>
                   <TableHead>เบอร์โทร</TableHead>
                   <TableHead className="hidden md:table-cell">สินค้า</TableHead>

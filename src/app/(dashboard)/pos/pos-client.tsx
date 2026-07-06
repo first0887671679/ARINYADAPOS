@@ -670,7 +670,7 @@ body{font-family:'Sarabun',sans-serif}
 .copy-label{text-align:right;margin-bottom:8px;font-size:10px}
 .copy-tag{border:1px solid #666;padding:2px 10px;border-radius:4px;font-weight:700;font-size:11px}
 .copy-num{margin-left:6px;color:#888}
-.header-bar{background:linear-gradient(135deg,#ea580c,#f97316);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
+.header-bar{background:linear-gradient(135deg,#2563eb,#2563eb);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
 .logo-box{width:72px;height:72px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 .logo-box img{width:100%;height:100%;object-fit:contain}
 .logo-ph{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.3)}
@@ -685,26 +685,26 @@ body{font-family:'Sarabun',sans-serif}
 .info-val{font-weight:600;color:#1a1a1a}
 .info-row{margin-bottom:4px}
 .buyer-section{border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;margin-bottom:10px;font-size:10.5px;background:#fefefe}
-.buyer-title{font-weight:700;font-size:11px;color:#ea580c;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
+.buyer-title{font-weight:700;font-size:11px;color:#2563eb;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
 .buyer-grid{display:flex;flex-wrap:wrap;gap:4px 20px}
 .buyer-item{min-width:45%}
 .buyer-item .bl{color:#888;font-size:9.5px}
 table.items{width:100%;border-collapse:collapse;margin-bottom:10px}
-table.items th{background:#fff7ed;border-top:2px solid #ea580c;border-bottom:2px solid #ea580c;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:.3px}
+table.items th{background:#eff6ff;border-top:2px solid #2563eb;border-bottom:2px solid #2563eb;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:.3px}
 table.items td{padding:5px;border-bottom:1px solid #f0f0f0;font-size:10.5px}
 table.items .tc{text-align:center}
 table.items .tr{text-align:right}
 table.items tr.svc td{color:#b45309;font-style:italic}
-table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
+table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
 .summary-section{display:flex;justify-content:flex-end;margin-bottom:10px}
 .summary-box{width:260px}
 .s-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}
 .s-row.disc{color:#dc2626}
 .s-row.tax{color:#2563eb}
-.s-row.total{font-weight:700;font-size:15px;border-top:3px double #ea580c;padding-top:8px;margin-top:4px}
-.s-row.total .amt{color:#ea580c}
-.pay-section{display:flex;justify-content:space-between;align-items:center;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px}
-.pay-method{font-weight:700;color:#ea580c}
+.s-row.total{font-weight:700;font-size:15px;border-top:3px double #2563eb;padding-top:8px;margin-top:4px}
+.s-row.total .amt{color:#2563eb}
+.pay-section{display:flex;justify-content:space-between;align-items:center;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px}
+.pay-method{font-weight:700;color:#2563eb}
 .note-section{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 12px;font-size:10px;color:#555;margin-bottom:10px}
 .note-section strong{color:#333}
 .sig-section{display:flex;justify-content:space-around;margin-top:24px;padding-top:12px;border-top:1px solid #e0e0e0}
@@ -713,7 +713,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 .sig-label{font-size:10px;font-weight:600;color:#333}
 .sig-sub{font-size:8.5px;color:#999;margin-top:1px}
 .footer{text-align:center;margin-top:12px;padding-top:8px;border-top:1px solid #eee}
-.footer-thanks{font-size:12px;font-weight:600;color:#ea580c}
+.footer-thanks{font-size:12px;font-weight:600;color:#2563eb}
 .footer-sub{font-size:9px;color:#aaa;margin-top:2px}
 @media print{body{margin:0;padding:0}.header-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}table.items th{-webkit-print-color-adjust:exact;print-color-adjust:exact}.pay-section{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style></head><body>${allPages}</body></html>`);
@@ -743,7 +743,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
               placeholder="ค้นหาสินค้า... (ชื่อ, ยี่ห้อ, รุ่น)"
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
-              className="pl-10 h-11 rounded-xl border-orange-200/60 bg-white focus:border-orange-400 focus:ring-orange-400/20"
+              className="pl-10 h-11 rounded-xl border-blue-200/60 bg-white focus:border-blue-400 focus:ring-blue-400/20"
             />
           </div>
         </div>
@@ -754,8 +754,8 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
             onClick={() => setSelectedCategory(null)}
             className={`whitespace-nowrap flex-shrink-0 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
               selectedCategory === null
-                ? "bg-orange-500 text-white shadow-sm"
-                : "bg-white border border-orange-200 text-orange-700 hover:bg-orange-50"
+                ? "bg-blue-500 text-white shadow-sm"
+                : "bg-white border border-blue-200 text-blue-700 hover:bg-blue-50"
             }`}
           >
             ทั้งหมด
@@ -766,8 +766,8 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
               onClick={() => setSelectedCategory(cat.id)}
               className={`whitespace-nowrap flex-shrink-0 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                 selectedCategory === cat.id
-                  ? "bg-orange-500 text-white shadow-sm"
-                  : "bg-white border border-orange-200 text-orange-700 hover:bg-orange-50"
+                  ? "bg-blue-500 text-white shadow-sm"
+                  : "bg-white border border-blue-200 text-blue-700 hover:bg-blue-50"
               }`}
             >
               {cat.name}
@@ -775,7 +775,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
           ))}
         </div>
 
-        <div className="flex-1 overflow-auto bg-orange-50/20 rounded-xl p-2 border border-orange-100/50">
+        <div className="flex-1 overflow-auto bg-blue-50/20 rounded-xl p-2 border border-blue-100/50">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2">
             {productList
               .filter((item) => {
@@ -797,25 +797,25 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                     key={p.id}
                     onClick={() => addToCart(item)}
                     disabled={p.stock <= 0}
-                    className="group rounded-lg lg:rounded-xl border border-orange-100/60 bg-white px-2 py-2 lg:p-3 text-left shadow-sm transition-all duration-150 hover:shadow-md hover:border-orange-300 disabled:opacity-40 lg:hover:shadow-luxury lg:hover:-translate-y-0.5"
+                    className="group rounded-lg lg:rounded-xl border border-blue-100/60 bg-white px-2 py-2 lg:p-3 text-left shadow-sm transition-all duration-150 hover:shadow-md hover:border-blue-300 disabled:opacity-40 lg:hover:shadow-luxury lg:hover:-translate-y-0.5"
                   >
                     {/* Desktop: show image */}
                     <div className="hidden lg:block">
                       {p.imageUrl ? (
-                        <div className="mb-2 aspect-square w-full rounded-lg overflow-hidden bg-orange-50">
+                        <div className="mb-2 aspect-square w-full rounded-lg overflow-hidden bg-blue-50">
                           <img src={p.imageUrl} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       ) : (
-                        <div className="mb-2 aspect-square w-full rounded-lg bg-orange-50 flex items-center justify-center">
-                          <ImageIcon className="h-8 w-8 text-orange-200" />
+                        <div className="mb-2 aspect-square w-full rounded-lg bg-blue-50 flex items-center justify-center">
+                          <ImageIcon className="h-8 w-8 text-blue-200" />
                         </div>
                       )}
-                      <p className="text-sm font-semibold truncate group-hover:text-orange-700">{p.name}</p>
+                      <p className="text-sm font-semibold truncate group-hover:text-blue-700">{p.name}</p>
                       {p.brand && <p className="text-xs text-muted-foreground">{p.brand} {p.model}</p>}
                       {p.size && <p className="text-xs text-muted-foreground">{p.size}</p>}
                       <div className="mt-2 flex items-center justify-between">
-                        <span className="text-sm font-bold text-orange-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
-                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${p.stock > 0 ? "bg-orange-50 text-orange-600 border border-orange-200" : "bg-red-50 text-red-600 border border-red-200"}`}>
+                        <span className="text-sm font-bold text-blue-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${p.stock > 0 ? "bg-blue-50 text-blue-600 border border-blue-200" : "bg-red-50 text-red-600 border border-red-200"}`}>
                           คงเหลือ {p.stock}
                         </span>
                       </div>
@@ -823,10 +823,10 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                     {/* Mobile: compact - brand, name, price, stock */}
                     <div className="lg:hidden">
                       {p.brand && <p className="text-[10px] text-muted-foreground truncate">{p.brand}</p>}
-                      <p className="text-xs font-semibold truncate group-hover:text-orange-700">{p.name}</p>
+                      <p className="text-xs font-semibold truncate group-hover:text-blue-700">{p.name}</p>
                       <div className="mt-1 flex items-center justify-between">
-                        <span className="text-xs font-bold text-orange-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${p.stock > 0 ? "bg-orange-50 text-orange-600" : "bg-red-50 text-red-600"}`}>
+                        <span className="text-xs font-bold text-blue-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${p.stock > 0 ? "bg-blue-50 text-blue-600" : "bg-red-50 text-red-600"}`}>
                           {p.stock}
                         </span>
                       </div>
@@ -840,38 +840,38 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 
       {/* Right: Cart - hidden on mobile, shown on lg+ */}
       <div ref={cartSectionRef} className="hidden lg:flex flex-col w-full lg:w-[45%] min-h-0 overflow-hidden order-2">
-        <div className="flex flex-col rounded-2xl bg-white border border-orange-100/60 shadow-luxury overflow-hidden h-full">
-          <div className="flex items-center gap-2 px-5 py-4 border-b border-orange-100/60 bg-gradient-to-r from-orange-50/80 to-white">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-orange-600">
+        <div className="flex flex-col rounded-2xl bg-white border border-blue-100/60 shadow-luxury overflow-hidden h-full">
+          <div className="flex items-center gap-2 px-5 py-4 border-b border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600">
               <ShoppingCart className="h-4 w-4 text-white" />
             </div>
             <h2 className="text-lg font-bold tracking-tight">ตะกร้าสินค้า</h2>
-            {cart.length > 0 && <span className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">{cart.length}</span>}
+            {cart.length > 0 && <span className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-xs font-bold text-white">{cart.length}</span>}
           </div>
           <div className="flex flex-1 flex-col gap-3 overflow-y-auto p-4">
             {/* Cart items */}
             <div className="flex-1 space-y-2 overflow-auto">
               {cart.length === 0 ? (
                 <div className="py-12 text-center">
-                  <ShoppingCart className="h-10 w-10 mx-auto mb-2 text-orange-200" />
+                  <ShoppingCart className="h-10 w-10 mx-auto mb-2 text-blue-200" />
                   <p className="text-muted-foreground">ยังไม่มีสินค้าในตะกร้า</p>
                 </div>
               ) : (
                 cart.map((item) => (
-                  <div key={item.productId} className="rounded-xl border border-orange-100 bg-orange-50/30 p-2.5 transition-all hover:bg-orange-50">
+                  <div key={item.productId} className="rounded-xl border border-blue-100 bg-blue-50/30 p-2.5 transition-all hover:bg-blue-50">
                     <div className="flex items-center gap-2">
                       {item.imageUrl ? (
                         <img src={item.imageUrl} alt={item.name} loading="lazy" decoding="async" className="h-10 w-10 rounded-lg object-cover flex-shrink-0" />
                       ) : (
-                        <div className="h-10 w-10 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
-                          <ImageIcon className="h-5 w-5 text-orange-300" />
+                        <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                          <ImageIcon className="h-5 w-5 text-blue-300" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold truncate">{item.name}</p>
                         <p className="text-xs text-muted-foreground">
                           {formatCurrency(item.unitPrice)} x {item.quantity}
-                          {item.weight && <span className="ml-2 text-orange-600">{item.weight}kg x{item.quantity} = {(item.weight * item.quantity).toFixed(3)}kg</span>}
+                          {item.weight && <span className="ml-2 text-blue-600">{item.weight}kg x{item.quantity} = {(item.weight * item.quantity).toFixed(3)}kg</span>}
                         </p>
                       </div>
                       <Button size="icon" variant="ghost" className="h-7 w-7 text-red-400 hover:text-red-600 hover:bg-red-50 flex-shrink-0" onClick={() => removeFromCart(item.productId)}>
@@ -880,15 +880,15 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                     </div>
                     <div className="flex items-center justify-between mt-1.5 pl-12">
                       <div className="flex items-center gap-1">
-                        <Button size="icon" variant="outline" className="h-7 w-7 rounded-lg border-orange-200 hover:bg-orange-50" onClick={() => updateQuantity(item.productId, item.quantity - 1)}>
+                        <Button size="icon" variant="outline" className="h-7 w-7 rounded-lg border-blue-200 hover:bg-blue-50" onClick={() => updateQuantity(item.productId, item.quantity - 1)}>
                           <Minus className="h-3 w-3" />
                         </Button>
                         <span className="w-8 text-center text-sm font-bold">{item.quantity}</span>
-                        <Button size="icon" variant="outline" className="h-7 w-7 rounded-lg border-orange-200 hover:bg-orange-50" onClick={() => updateQuantity(item.productId, item.quantity + 1)}>
+                        <Button size="icon" variant="outline" className="h-7 w-7 rounded-lg border-blue-200 hover:bg-blue-50" onClick={() => updateQuantity(item.productId, item.quantity + 1)}>
                           <Plus className="h-3 w-3" />
                         </Button>
                       </div>
-                      <span className="text-sm font-bold text-orange-700">
+                      <span className="text-sm font-bold text-blue-700">
                         {formatCurrency(item.unitPrice * item.quantity)}
                       </span>
                     </div>
@@ -903,10 +903,10 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 {/* Searchable customer dropdown */}
                 <div className="flex-1 relative">
                   <div className="relative">
-                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-orange-400" />
+                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-blue-400" />
                     <input
                       type="text"
-                      className="w-full rounded-xl border border-orange-200/60 bg-orange-50/30 pl-8 pr-10 p-2.5 text-sm focus:border-orange-400 focus:ring-1 focus:ring-orange-400/20 outline-none transition-all"
+                      className="w-full rounded-xl border border-blue-200/60 bg-blue-50/30 pl-8 pr-10 p-2.5 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 outline-none transition-all"
                       placeholder={selectedCustomer ? customers.find(c => c.id === selectedCustomer)?.name : "ค้นหาลูกค้า..."}
                       value={customerSearch}
                       onChange={(e) => {
@@ -927,11 +927,11 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                   </div>
                   {/* Dropdown list */}
                   {showCustomerDropdown && (
-                    <div className="absolute z-50 top-full left-0 right-0 mt-1 max-h-48 overflow-auto rounded-xl border border-orange-200 bg-white shadow-lg">
+                    <div className="absolute z-50 top-full left-0 right-0 mt-1 max-h-48 overflow-auto rounded-xl border border-blue-200 bg-white shadow-lg">
                       {/* Default option */}
                       <button
                         type="button"
-                        className={`w-full text-left px-3 py-2 text-sm hover:bg-orange-50 flex items-center gap-2 ${!selectedCustomer ? "bg-orange-100 font-semibold" : ""}`}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center gap-2 ${!selectedCustomer ? "bg-blue-100 font-semibold" : ""}`}
                         onClick={() => {
                           setSelectedCustomer(null);
                           setCustomerSearch("");
@@ -956,7 +956,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                           <button
                             key={c.id}
                             type="button"
-                            className={`w-full text-left px-3 py-2 text-sm hover:bg-orange-50 flex items-center justify-between ${selectedCustomer === c.id ? "bg-orange-100 font-semibold" : ""}`}
+                            className={`w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center justify-between ${selectedCustomer === c.id ? "bg-blue-100 font-semibold" : ""}`}
                             onClick={() => {
                               setSelectedCustomer(c.id);
                               setCustomerSearch("");
@@ -1026,7 +1026,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
             </div>
 
             {/* Service Fee Section */}
-            <div className="rounded-xl border border-amber-200/60 bg-gradient-to-r from-amber-50/50 to-orange-50/30 p-3 space-y-2">
+            <div className="rounded-xl border border-amber-200/60 bg-gradient-to-r from-amber-50/50 to-blue-50/30 p-3 space-y-2">
               <div className="flex items-center gap-2 mb-2">
                 <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-amber-100">
                   <Wrench className="h-3.5 w-3.5 text-amber-600" />
@@ -1059,8 +1059,8 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                   onClick={() => setPaymentMethod(m)}
                   className={`flex-1 rounded-xl py-2 text-sm font-semibold transition-all duration-200 ${
                     paymentMethod === m
-                      ? "gradient-orange text-white shadow-luxury"
-                      : "bg-orange-50 text-orange-700 border border-orange-200 hover:bg-orange-100"
+                      ? "gradient-blue text-white shadow-luxury"
+                      : "bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100"
                   }`}
                 >
                   {m === "cash" ? "เงินสด" : m === "transfer" ? "โอน" : "เครดิต"}
@@ -1071,10 +1071,10 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
             {/* Discount + Note */}
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium">ส่วนลด:</span>
-              <Input type="number" value={discount} onChange={(e) => setDiscount(Number(e.target.value))} className="h-9 w-28 rounded-lg border-orange-200/60" />
+              <Input type="number" value={discount} onChange={(e) => setDiscount(Number(e.target.value))} className="h-9 w-28 rounded-lg border-blue-200/60" />
               <span className="text-sm">บาท</span>
             </div>
-            <Input placeholder="หมายเหตุ..." value={note} onChange={(e) => setNote(e.target.value)} className="h-9 rounded-lg border-orange-200/60" />
+            <Input placeholder="หมายเหตุ..." value={note} onChange={(e) => setNote(e.target.value)} className="h-9 rounded-lg border-blue-200/60" />
 
             {/* Tax Invoice Option */}
             <div className="rounded-xl border border-blue-200/60 bg-gradient-to-r from-blue-50/50 to-sky-50/30 p-3 space-y-2">
@@ -1137,7 +1137,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
             </div>
 
             {/* Summary */}
-            <div className="space-y-1.5 rounded-xl bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/40 p-3">
+            <div className="space-y-1.5 rounded-xl bg-gradient-to-r from-blue-50 to-amber-50 border border-blue-200/40 p-3">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">รวมสินค้า</span>
                 <span className="font-medium">{formatCurrency(subtotal)}</span>
@@ -1175,14 +1175,14 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                   <span className="font-medium">{formatCurrency(taxAmount)}</span>
                 </div>
               )}
-              <div className="border-t border-orange-200/40 pt-1.5 flex justify-between text-lg font-bold">
+              <div className="border-t border-blue-200/40 pt-1.5 flex justify-between text-lg font-bold">
                 <span>ยอดสุทธิ</span>
-                <span className="text-orange-600">{formatCurrency(total)}</span>
+                <span className="text-blue-600">{formatCurrency(total)}</span>
               </div>
             </div>
 
             <button
-              className="w-full h-12 rounded-xl gradient-orange text-white font-bold text-base shadow-luxury hover:shadow-luxury-lg transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-40 disabled:hover:scale-100"
+              className="w-full h-12 rounded-xl gradient-blue text-white font-bold text-base shadow-luxury hover:shadow-luxury-lg transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-40 disabled:hover:scale-100"
               disabled={(cart.length === 0 && serviceFee <= 0) || loading || isServiceRole}
               onClick={handleCheckout}
             >
@@ -1194,7 +1194,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 
       {/* ===== Mobile: Sticky Bottom Cart Bar ===== */}
       <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
-          <div className="bg-white border-t-2 border-orange-300 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] px-4 py-3 pb-[max(12px,env(safe-area-inset-bottom))]">
+          <div className="bg-white border-t-2 border-blue-300 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] px-4 py-3 pb-[max(12px,env(safe-area-inset-bottom))]">
             {cart.length === 0 && serviceFee <= 0 ? (
               <button
                 onClick={() => setShowCartDrawer(true)}
@@ -1208,25 +1208,25 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 {/* Cart info - tap to open drawer */}
                 <button
                   onClick={() => setShowCartDrawer(true)}
-                  className="flex-1 flex items-center gap-3 bg-orange-50 rounded-xl px-3 py-2.5 border border-orange-200 active:bg-orange-100 transition-colors"
+                  className="flex-1 flex items-center gap-3 bg-blue-50 rounded-xl px-3 py-2.5 border border-blue-200 active:bg-blue-100 transition-colors"
                 >
                   <div className="relative">
-                    <ShoppingCart className="h-6 w-6 text-orange-600" />
-                    <span className="absolute -top-1.5 -right-1.5 h-5 w-5 flex items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
+                    <ShoppingCart className="h-6 w-6 text-blue-600" />
+                    <span className="absolute -top-1.5 -right-1.5 h-5 w-5 flex items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white">
                       {cart.reduce((sum, i) => sum + i.quantity, 0)}
                     </span>
                   </div>
                   <div className="flex-1 text-left">
-                    <p className="text-sm font-bold text-orange-800">{cart.length} รายการ</p>
-                    <p className="text-xs text-orange-600">{formatCurrency(total)}</p>
+                    <p className="text-sm font-bold text-blue-800">{cart.length} รายการ</p>
+                    <p className="text-xs text-blue-600">{formatCurrency(total)}</p>
                   </div>
-                  <svg className="h-5 w-5 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
+                  <svg className="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
                 </button>
                 {/* Pay button */}
                 <button
                   onClick={handleCheckout}
                   disabled={loading || isServiceRole}
-                  className="h-12 px-5 rounded-xl gradient-orange text-white font-bold text-sm shadow-luxury active:scale-95 transition-transform disabled:opacity-40"
+                  className="h-12 px-5 rounded-xl gradient-blue text-white font-bold text-sm shadow-luxury active:scale-95 transition-transform disabled:opacity-40"
                 >
                   {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "ชำระเงิน"}
                 </button>
@@ -1247,12 +1247,12 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Drawer Header */}
-              <div className="flex items-center justify-between px-5 py-3 border-b border-orange-100 sticky top-0 bg-white rounded-t-2xl z-10">
+              <div className="flex items-center justify-between px-5 py-3 border-b border-blue-100 sticky top-0 bg-white rounded-t-2xl z-10">
                 <div className="flex items-center gap-2">
-                  <ShoppingCart className="h-5 w-5 text-orange-600" />
+                  <ShoppingCart className="h-5 w-5 text-blue-600" />
                   <h3 className="text-lg font-bold">ตะกร้าสินค้า</h3>
                   {cart.length > 0 && (
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-xs font-bold text-white">
                       {cart.reduce((sum, i) => sum + i.quantity, 0)}
                     </span>
                   )}
@@ -1267,13 +1267,13 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 {/* Cart items */}
                 {cart.length === 0 ? (
                   <div className="py-8 text-center">
-                    <ShoppingCart className="h-10 w-10 mx-auto mb-2 text-orange-200" />
+                    <ShoppingCart className="h-10 w-10 mx-auto mb-2 text-blue-200" />
                     <p className="text-muted-foreground">ยังไม่มีสินค้าในตะกร้า</p>
                   </div>
                 ) : (
                   <div className="space-y-2">
                     {cart.map((item) => (
-                      <div key={item.productId} className="rounded-xl border border-orange-100 bg-orange-50/30 p-2.5">
+                      <div key={item.productId} className="rounded-xl border border-blue-100 bg-blue-50/30 p-2.5">
                         <div className="flex items-center gap-2">
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold truncate">{item.name}</p>
@@ -1285,15 +1285,15 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                         </div>
                         <div className="flex items-center justify-between mt-1.5">
                           <div className="flex items-center gap-1">
-                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-orange-200" onClick={() => updateQuantity(item.productId, item.quantity - 1)}>
+                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-blue-200" onClick={() => updateQuantity(item.productId, item.quantity - 1)}>
                               <Minus className="h-3 w-3" />
                             </Button>
                             <span className="w-8 text-center text-sm font-bold">{item.quantity}</span>
-                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-orange-200" onClick={() => updateQuantity(item.productId, item.quantity + 1)}>
+                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-blue-200" onClick={() => updateQuantity(item.productId, item.quantity + 1)}>
                               <Plus className="h-3 w-3" />
                             </Button>
                           </div>
-                          <span className="text-sm font-bold text-orange-700">{formatCurrency(item.unitPrice * item.quantity)}</span>
+                          <span className="text-sm font-bold text-blue-700">{formatCurrency(item.unitPrice * item.quantity)}</span>
                         </div>
                       </div>
                     ))}
@@ -1305,10 +1305,10 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                   <div className="flex gap-1.5 relative" ref={customerDropdownRef}>
                     <div className="flex-1 relative">
                       <div className="relative">
-                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-orange-400" />
+                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-blue-400" />
                         <input
                           type="text"
-                          className="w-full rounded-xl border border-orange-200/60 bg-orange-50/30 pl-8 pr-10 p-2.5 text-sm focus:border-orange-400 outline-none"
+                          className="w-full rounded-xl border border-blue-200/60 bg-blue-50/30 pl-8 pr-10 p-2.5 text-sm focus:border-blue-400 outline-none"
                           placeholder={selectedCustomer ? customers.find(c => c.id === selectedCustomer)?.name : "ค้นหาลูกค้า..."}
                           value={customerSearch}
                           onChange={(e) => { setCustomerSearch(e.target.value); setShowCustomerDropdown(true); }}
@@ -1321,12 +1321,12 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                         )}
                       </div>
                       {showCustomerDropdown && (
-                        <div className="absolute z-50 top-full left-0 right-0 mt-1 max-h-48 overflow-auto rounded-xl border border-orange-200 bg-white shadow-lg">
-                          <button type="button" className={`w-full text-left px-3 py-2 text-sm hover:bg-orange-50 flex items-center gap-2 ${!selectedCustomer ? "bg-orange-100 font-semibold" : ""}`} onClick={() => { setSelectedCustomer(null); setCustomerSearch(""); setShowCustomerDropdown(false); }}>
+                        <div className="absolute z-50 top-full left-0 right-0 mt-1 max-h-48 overflow-auto rounded-xl border border-blue-200 bg-white shadow-lg">
+                          <button type="button" className={`w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center gap-2 ${!selectedCustomer ? "bg-blue-100 font-semibold" : ""}`} onClick={() => { setSelectedCustomer(null); setCustomerSearch(""); setShowCustomerDropdown(false); }}>
                             <Users className="h-4 w-4 text-gray-400" /> ลูกค้าทั่วไป
                           </button>
                           {customers.filter((c: any) => !customerSearch || c.name?.toLowerCase().includes(customerSearch.toLowerCase()) || c.phone?.toLowerCase().includes(customerSearch.toLowerCase())).slice(0, 10).map((c: any) => (
-                            <button key={c.id} type="button" className={`w-full text-left px-3 py-2 text-sm hover:bg-orange-50 flex items-center justify-between ${selectedCustomer === c.id ? "bg-orange-100 font-semibold" : ""}`} onClick={() => { setSelectedCustomer(c.id); setCustomerSearch(""); setShowCustomerDropdown(false); }}>
+                            <button key={c.id} type="button" className={`w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center justify-between ${selectedCustomer === c.id ? "bg-blue-100 font-semibold" : ""}`} onClick={() => { setSelectedCustomer(c.id); setCustomerSearch(""); setShowCustomerDropdown(false); }}>
                               <span>{c.name}</span>
                               {c.phone && <span className="text-xs text-gray-400">{c.phone}</span>}
                             </button>
@@ -1398,7 +1398,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 {/* Payment method */}
                 <div className="flex gap-2">
                   {["cash", "transfer", "credit"].map((m) => (
-                    <button key={m} onClick={() => setPaymentMethod(m)} className={`flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all ${paymentMethod === m ? "gradient-orange text-white shadow-luxury" : "bg-orange-50 text-orange-700 border border-orange-200"}`}>
+                    <button key={m} onClick={() => setPaymentMethod(m)} className={`flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all ${paymentMethod === m ? "gradient-blue text-white shadow-luxury" : "bg-blue-50 text-blue-700 border border-blue-200"}`}>
                       {m === "cash" ? "💵 เงินสด" : m === "transfer" ? "📲 โอน" : "💳 เครดิต"}
                     </button>
                   ))}
@@ -1407,10 +1407,10 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 {/* Discount + Note */}
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium">ส่วนลด:</span>
-                  <Input type="number" value={discount} onChange={(e) => setDiscount(Number(e.target.value))} className="h-9 w-24 rounded-lg border-orange-200/60" />
+                  <Input type="number" value={discount} onChange={(e) => setDiscount(Number(e.target.value))} className="h-9 w-24 rounded-lg border-blue-200/60" />
                   <span className="text-sm">บาท</span>
                 </div>
-                <Input placeholder="หมายเหตุ..." value={note} onChange={(e) => setNote(e.target.value)} className="h-9 rounded-lg border-orange-200/60" />
+                <Input placeholder="หมายเหตุ..." value={note} onChange={(e) => setNote(e.target.value)} className="h-9 rounded-lg border-blue-200/60" />
 
                 {/* Tax Invoice / VAT Option */}
                 <div className="rounded-xl border border-blue-200/60 bg-gradient-to-r from-blue-50/50 to-sky-50/30 p-3 space-y-2">
@@ -1471,7 +1471,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 </div>
 
                 {/* Summary */}
-                <div className="space-y-1.5 rounded-xl bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/40 p-3">
+                <div className="space-y-1.5 rounded-xl bg-gradient-to-r from-blue-50 to-amber-50 border border-blue-200/40 p-3">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">รวมสินค้า</span>
                     <span className="font-medium">{formatCurrency(subtotal)}</span>
@@ -1509,17 +1509,17 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                       <span className="font-medium">{formatCurrency(taxAmount)}</span>
                     </div>
                   )}
-                  <div className="border-t border-orange-200/40 pt-1.5 flex justify-between text-lg font-bold">
+                  <div className="border-t border-blue-200/40 pt-1.5 flex justify-between text-lg font-bold">
                     <span>ยอดสุทธิ</span>
-                    <span className="text-orange-600">{formatCurrency(total)}</span>
+                    <span className="text-blue-600">{formatCurrency(total)}</span>
                   </div>
                 </div>
               </div>
 
               {/* Drawer Footer - Pay button */}
-              <div className="sticky bottom-0 bg-white border-t border-orange-100 p-4 space-y-2">
+              <div className="sticky bottom-0 bg-white border-t border-blue-100 p-4 space-y-2">
                 <button
-                  className="w-full h-14 rounded-xl gradient-orange text-white font-bold text-lg shadow-luxury active:scale-[0.98] transition-transform disabled:opacity-40"
+                  className="w-full h-14 rounded-xl gradient-blue text-white font-bold text-lg shadow-luxury active:scale-[0.98] transition-transform disabled:opacity-40"
                   disabled={(cart.length === 0 && serviceFee <= 0) || loading || isServiceRole}
                   onClick={() => { setShowCartDrawer(false); handleCheckout(); }}
                 >
@@ -1541,11 +1541,11 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
         {/* Success/Receipt modal */}
         {success && showReceipt && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-0 sm:p-4" style={{ touchAction: "none" }} onClick={(e) => e.target === e.currentTarget && undefined}>
-            <div className="w-full sm:w-[360px] h-full sm:h-auto sm:max-h-[90vh] bg-white shadow-luxury-lg border-0 sm:border border-orange-100 flex flex-col" style={{ WebkitOverflowScrolling: "touch" }}>
+            <div className="w-full sm:w-[360px] h-full sm:h-auto sm:max-h-[90vh] bg-white shadow-luxury-lg border-0 sm:border border-blue-100 flex flex-col" style={{ WebkitOverflowScrolling: "touch" }}>
              <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-5">
               {/* Header - Seller Info (editable) */}
-              <div className="border-b-2 border-orange-400 pb-3 mb-3 text-center">
-                <h2 className="text-xl font-bold text-orange-600">
+              <div className="border-b-2 border-blue-400 pb-3 mb-3 text-center">
+                <h2 className="text-xl font-bold text-blue-600">
                   {saleCancelled ? "❌ ยกเลิกแล้ว" : success.isTaxInvoice ? "ใบกำกับภาษี" : "ใบเสร็จรับเงิน"}
                 </h2>
                 {saleCancelled && (
@@ -1554,7 +1554,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                   </div>
                 )}
                 <div className="mt-2">
-                  <Input className="h-7 text-sm font-semibold text-center border-orange-200" value={storeSettings?.storeName || "ร้านแบตเตอรี่"} onChange={(e) => setStoreSettings({ ...storeSettings, storeName: e.target.value })} onBlur={() => autoSaveStoreSettings({ ...storeSettings })} placeholder="ชื่อร้าน" />
+                  <Input className="h-7 text-sm font-semibold text-center border-blue-200" value={storeSettings?.storeName || "ร้านแบตเตอรี่"} onChange={(e) => setStoreSettings({ ...storeSettings, storeName: e.target.value })} onBlur={() => autoSaveStoreSettings({ ...storeSettings })} placeholder="ชื่อร้าน" />
                 </div>
                 <div className="mt-1">
                   <Input className="h-6 text-xs text-center border-gray-200" value={storeSettings?.branchName || ""} onChange={(e) => setStoreSettings({ ...storeSettings, branchName: e.target.value })} onBlur={() => autoSaveStoreSettings({ ...storeSettings })} placeholder="สาขา" />
@@ -1624,7 +1624,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 <div className="flex justify-between"><span>รวมมูลค่าสินค้า/บริการ</span><span>{formatCurrency(parseFloat(success.subtotal) + parseFloat(success.serviceFee || "0"))}</span></div>
                 {parseFloat(success.discount) > 0 && (<div className="flex justify-between text-red-600"><span>ส่วนลด</span><span>-{formatCurrency(parseFloat(success.discount))}</span></div>)}
                 {success.isTaxInvoice && (<><div className="flex justify-between"><span>มูลค่าก่อนภาษี</span><span>{formatCurrency(parseFloat(success.total) - parseFloat(success.taxAmount || "0"))}</span></div><div className="flex justify-between text-blue-600"><span>ภาษีมูลค่าเพิ่ม {success.vatType === "vat_in" ? "(รวมในราคา)" : ""} {success.taxRate}%</span><span>{formatCurrency(parseFloat(success.taxAmount || "0"))}</span></div></>)}
-                <div className="flex justify-between font-bold text-lg pt-2 border-t-2 border-gray-400 mt-2"><span>จำนวนเงินรวมทั้งสิ้น</span><span className="text-orange-600">{formatCurrency(parseFloat(success.total))}</span></div>
+                <div className="flex justify-between font-bold text-lg pt-2 border-t-2 border-gray-400 mt-2"><span>จำนวนเงินรวมทั้งสิ้น</span><span className="text-blue-600">{formatCurrency(parseFloat(success.total))}</span></div>
               </div>
 
               {/* Payment */}
@@ -1635,7 +1635,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 
               <div className="text-xs text-muted-foreground text-center mb-3">
                 <p>ขอบคุณที่ใช้บริการ</p>
-                <p className="mt-2 text-orange-500 font-medium text-[10px]">* พิมพ์จะได้ 3 ฉบับ: สำหรับลูกค้า / บริษัท / บัญชี</p>
+                <p className="mt-2 text-blue-500 font-medium text-[10px]">* พิมพ์จะได้ 3 ฉบับ: สำหรับลูกค้า / บริษัท / บัญชี</p>
               </div>
 
               {/* LINE + SMS Send to Employee */}
@@ -1906,7 +1906,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 )}
                 <div className="flex gap-2.5">
                   {!saleCancelled && (
-                  <Button variant="outline" className="flex-1 gap-2 rounded-xl h-10 border-orange-200 hover:bg-orange-50 text-sm font-semibold" onClick={handlePrint}>
+                  <Button variant="outline" className="flex-1 gap-2 rounded-xl h-10 border-blue-200 hover:bg-blue-50 text-sm font-semibold" onClick={handlePrint}>
                     <Printer className="h-4 w-4" /> พิมพ์ (3 ฉบับ)
                   </Button>
                   )}

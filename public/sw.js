@@ -1,5 +1,5 @@
 // Self-destruct SW: clear all caches, unregister, and force refresh all clients
-const CACHE_NAME = "battery-pos-DESTROY";
+const CACHE_NAME = "arinyadapos-DESTROY";
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();

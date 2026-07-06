@@ -4,7 +4,7 @@
  * 1. SITE_URL env (explicit production URL)
  * 2. NEXT_PUBLIC_APP_URL env (client-side accessible)
  * 3. VERCEL_URL env (only if it's the production deployment, not preview)
- * 4. Hardcoded production fallback: https://videcodebattery.vercel.app
+ * 4. Hardcoded production fallback: https://arinyadapos.vercel.app
  *
  * NEVER returns preview deployment URLs or request-based origins
  * that might require Vercel login.
@@ -26,11 +26,11 @@ export function getPublicBaseUrl(requestOrigin?: string): string {
   if (process.env.VERCEL_URL) {
     const vercelUrl = `https://${process.env.VERCEL_URL}`;
     // Only trust if it's the production domain (no random prefix)
-    if (vercelUrl.includes("videcodebattery.vercel.app")) {
+    if (vercelUrl.includes("arinyadapos.vercel.app")) {
       return vercelUrl.replace(/\/+$/, "");
     }
   }
 
   // 4) Hardcoded production fallback — known working domain
-  return "https://videcodebattery.vercel.app";
+  return "https://arinyadapos.vercel.app";
 }

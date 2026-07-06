@@ -6,7 +6,7 @@ type PaymentBadgeProps = {
 
 const styles: Record<string, string> = {
   cash: "bg-green-100 text-green-700 font-bold border border-green-300",
-  transfer: "bg-orange-100 text-orange-600 font-medium border border-orange-200",
+  transfer: "bg-blue-100 text-blue-600 font-medium border border-blue-200",
   credit: "bg-blue-100 text-blue-700 font-medium border border-blue-200",
 };
 

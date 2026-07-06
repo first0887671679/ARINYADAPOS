@@ -56,7 +56,7 @@ function buildPdfViewerHtml(pdfBase64: string, filename: string, imageUrl?: stri
       top: 0;
       z-index: 100;
       width: 100%;
-      background: linear-gradient(135deg, #ea580c, #f97316);
+      background: linear-gradient(135deg, #2563eb, #2563eb);
       color: #fff;
       padding: 10px 14px;
       display: flex;
@@ -84,7 +84,7 @@ function buildPdfViewerHtml(pdfBase64: string, filename: string, imageUrl?: stri
       align-items: center;
       gap: 5px;
       background: #fff;
-      color: #ea580c;
+      color: #2563eb;
       border: none;
       border-radius: 8px;
       padding: 7px 12px;
@@ -94,7 +94,7 @@ function buildPdfViewerHtml(pdfBase64: string, filename: string, imageUrl?: stri
       text-decoration: none;
       white-space: nowrap;
     }
-    .btn-download:active { background: #fed7aa; }
+    .btn-download:active { background: #bfdbfe; }
     .btn-image-fallback {
       display: inline-flex;
       align-items: center;
@@ -130,11 +130,11 @@ function buildPdfViewerHtml(pdfBase64: string, filename: string, imageUrl?: stri
       padding: 40px 20px;
       color: #666;
     }
-    .fallback-msg h2 { color: #ea580c; margin-bottom: 12px; }
+    .fallback-msg h2 { color: #2563eb; margin-bottom: 12px; }
     .fallback-msg p { margin-bottom: 16px; line-height: 1.6; }
     .fallback-msg .btn-big {
       display: inline-block;
-      background: #ea580c;
+      background: #2563eb;
       color: #fff;
       padding: 14px 32px;
       border-radius: 10px;
@@ -259,7 +259,7 @@ function buildReceiptHtml(sale: any, items: any[], store: any, emp: any) {
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Sarabun',sans-serif;padding:10mm 12mm;font-size:11px;color:#1a1a1a;line-height:1.4}
 /* Header */
-.header-bar{background:linear-gradient(135deg,#ea580c 0%,#f97316 100%);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
+.header-bar{background:linear-gradient(135deg,#2563eb 0%,#2563eb 100%);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
 .logo-box{width:72px;height:72px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 .logo-box img{width:100%;height:100%;object-fit:contain}
 .logo-placeholder{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.3)}
@@ -276,29 +276,29 @@ body{font-family:'Sarabun',sans-serif;padding:10mm 12mm;font-size:11px;color:#1a
 .info-row{margin-bottom:4px}
 /* Buyer Section */
 .buyer-section{border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;margin-bottom:10px;font-size:10.5px;background:#fefefe}
-.buyer-title{font-weight:700;font-size:11px;color:#ea580c;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
+.buyer-title{font-weight:700;font-size:11px;color:#2563eb;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
 .buyer-grid{display:flex;flex-wrap:wrap;gap:4px 20px}
 .buyer-item{min-width:45%}
 .buyer-item .bl{color:#888;font-size:9.5px}
 /* Items Table */
 table.items{width:100%;border-collapse:collapse;margin-bottom:10px}
-table.items th{background:#fff7ed;border-top:2px solid #ea580c;border-bottom:2px solid #ea580c;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:0.3px}
+table.items th{background:#eff6ff;border-top:2px solid #2563eb;border-bottom:2px solid #2563eb;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:0.3px}
 table.items td{padding:5px;border-bottom:1px solid #f0f0f0;font-size:10.5px}
 table.items .tc{text-align:center}
 table.items .tr{text-align:right}
 table.items tr.svc td{color:#b45309;font-style:italic}
-table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
+table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
 /* Summary */
 .summary-section{display:flex;justify-content:flex-end;margin-bottom:10px}
 .summary-box{width:260px}
 .s-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}
 .s-row.disc{color:#dc2626}
 .s-row.tax{color:#2563eb}
-.s-row.total{font-weight:700;font-size:15px;border-top:3px double #ea580c;padding-top:8px;margin-top:4px}
-.s-row.total .amt{color:#ea580c}
+.s-row.total{font-weight:700;font-size:15px;border-top:3px double #2563eb;padding-top:8px;margin-top:4px}
+.s-row.total .amt{color:#2563eb}
 /* Payment */
-.pay-section{display:flex;justify-content:space-between;align-items:center;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px}
-.pay-method{font-weight:700;color:#ea580c}
+.pay-section{display:flex;justify-content:space-between;align-items:center;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px}
+.pay-method{font-weight:700;color:#2563eb}
 /* Note */
 .note-section{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 12px;font-size:10px;color:#555;margin-bottom:10px}
 .note-section strong{color:#333}
@@ -310,7 +310,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 .sig-sub{font-size:8.5px;color:#999;margin-top:1px}
 /* Footer */
 .footer{text-align:center;margin-top:12px;padding-top:8px;border-top:1px solid #eee}
-.footer-thanks{font-size:12px;font-weight:600;color:#ea580c}
+.footer-thanks{font-size:12px;font-weight:600;color:#2563eb}
 .footer-sub{font-size:9px;color:#aaa;margin-top:2px}
 </style>
 </head><body>
@@ -419,7 +419,7 @@ function buildQuotationHtml(quot: any, items: any[], store: any) {
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Sarabun',sans-serif;padding:10mm 12mm;font-size:11px;color:#1a1a1a;line-height:1.4}
-.header-bar{background:linear-gradient(135deg,#ea580c 0%,#f97316 100%);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
+.header-bar{background:linear-gradient(135deg,#2563eb 0%,#2563eb 100%);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
 .logo-box{width:72px;height:72px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 .logo-box img{width:100%;height:100%;object-fit:contain}
 .logo-placeholder{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.3)}
@@ -434,34 +434,34 @@ body{font-family:'Sarabun',sans-serif;padding:10mm 12mm;font-size:11px;color:#1a
 .info-val{font-weight:600;color:#1a1a1a}
 .info-row{margin-bottom:4px}
 .buyer-section{border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;margin-bottom:10px;font-size:10.5px;background:#fefefe}
-.buyer-title{font-weight:700;font-size:11px;color:#ea580c;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
+.buyer-title{font-weight:700;font-size:11px;color:#2563eb;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
 .buyer-grid{display:flex;flex-wrap:wrap;gap:4px 20px}
 .buyer-item{min-width:45%}
 .buyer-item .bl{color:#888;font-size:9.5px}
 table.items{width:100%;border-collapse:collapse;margin-bottom:10px}
-table.items th{background:#fff7ed;border-top:2px solid #ea580c;border-bottom:2px solid #ea580c;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:0.3px}
+table.items th{background:#eff6ff;border-top:2px solid #2563eb;border-bottom:2px solid #2563eb;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:0.3px}
 table.items td{padding:5px;border-bottom:1px solid #f0f0f0;font-size:10.5px}
 table.items .tc{text-align:center}
 table.items .tr{text-align:right}
 table.items tr.svc td{color:#b45309;font-style:italic}
-table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
+table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
 .summary-section{display:flex;justify-content:flex-end;margin-bottom:10px}
 .summary-box{width:260px}
 .s-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}
 .s-row.disc{color:#dc2626}
 .s-row.tax{color:#2563eb}
-.s-row.total{font-weight:700;font-size:15px;border-top:3px double #ea580c;padding-top:8px;margin-top:4px}
-.s-row.total .amt{color:#ea580c}
+.s-row.total{font-weight:700;font-size:15px;border-top:3px double #2563eb;padding-top:8px;margin-top:4px}
+.s-row.total .amt{color:#2563eb}
 .note-section{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 12px;font-size:10px;color:#555;margin-bottom:10px}
 .note-section strong{color:#333}
-.validity-bar{background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:8px 12px;text-align:center;font-size:10.5px;color:#92400e;font-weight:600;margin-bottom:10px}
+.validity-bar{background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 12px;text-align:center;font-size:10.5px;color:#92400e;font-weight:600;margin-bottom:10px}
 .sig-section{display:flex;justify-content:space-around;margin-top:24px;padding-top:12px;border-top:1px solid #e0e0e0}
 .sig-block{text-align:center;width:150px}
 .sig-line{border-bottom:1px dotted #999;height:40px;margin-bottom:4px}
 .sig-label{font-size:10px;font-weight:600;color:#333}
 .sig-sub{font-size:8.5px;color:#999;margin-top:1px}
 .footer{text-align:center;margin-top:12px;padding-top:8px;border-top:1px solid #eee}
-.footer-thanks{font-size:12px;font-weight:600;color:#ea580c}
+.footer-thanks{font-size:12px;font-weight:600;color:#2563eb}
 .footer-sub{font-size:9px;color:#aaa;margin-top:2px}
 </style>
 </head><body>
@@ -540,7 +540,7 @@ async function uploadPdfToCloudinary(pdfBuffer: Buffer, filename: string, asPdf 
   if (!cloudName || !apiKey || !apiSecret) throw new Error("Cloudinary ยังไม่ได้ตั้งค่า");
 
   const timestamp = Math.round(Date.now() / 1000).toString();
-  const folder = "documents";
+  const folder = "arinyadapos/documents";
   // Signing string: sorted params alphabetically, appended with api_secret
   const paramsToSign = `access_mode=public&folder=${folder}&timestamp=${timestamp}${apiSecret}`;
   const signature = crypto.createHash("sha1").update(paramsToSign).digest("hex");

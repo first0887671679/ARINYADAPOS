@@ -365,8 +365,8 @@ export default function QuotationsPage() {
             <span style="border:1px solid #666;padding:2px 8px;border-radius:4px;">${label}</span>
             <span style="margin-left:8px;color:#888;font-size:10px;">(${idx+1}/3)</span>
           </div>
-          <div style="text-align:center;border-bottom:2px solid #ea580c;padding-bottom:12px;margin-bottom:12px;">
-            <div style="font-size:18px;font-weight:bold;color:#ea580c;">${convertedSale.isTaxInvoice ? "ใบกำกับภาษี" : "ใบเสร็จรับเงิน"}</div>
+          <div style="text-align:center;border-bottom:2px solid #2563eb;padding-bottom:12px;margin-bottom:12px;">
+            <div style="font-size:18px;font-weight:bold;color:#2563eb;">${convertedSale.isTaxInvoice ? "ใบกำกับภาษี" : "ใบเสร็จรับเงิน"}</div>
             <div style="font-size:14px;font-weight:600;margin-top:4px;">${store.storeName || "ร้านแบตเตอรี่"}</div>
             ${store.branchName ? `<div style="font-size:11px;color:#666;">${store.branchName}</div>` : ""}
             ${store.address ? `<div style="font-size:11px;color:#666;">ที่อยู่: ${store.address}</div>` : ""}
@@ -401,7 +401,7 @@ export default function QuotationsPage() {
               <div style="display:flex;justify-content:space-between;"><span>มูลค่าก่อนภาษี</span><span>${formatCurrency(parseFloat(convertedSale.total) - parseFloat(convertedSale.taxAmount || "0"))}</span></div>
               <div style="display:flex;justify-content:space-between;color:#2563eb;"><span>ภาษีมูลค่าเพิ่ม ${convertedSale.vatType === "vat_in" ? "(รวมในราคา)" : ""} ${convertedSale.taxRate}%</span><span>${formatCurrency(parseFloat(convertedSale.taxAmount || "0"))}</span></div>
             ` : ""}
-            <div style="display:flex;justify-content:space-between;font-weight:bold;font-size:16px;padding-top:8px;border-top:2px solid #999;margin-top:8px;"><span>จำนวนเงินรวมทั้งสิ้น</span><span style="color:#ea580c;">${formatCurrency(parseFloat(convertedSale.total))}</span></div>
+            <div style="display:flex;justify-content:space-between;font-weight:bold;font-size:16px;padding-top:8px;border-top:2px solid #999;margin-top:8px;"><span>จำนวนเงินรวมทั้งสิ้น</span><span style="color:#2563eb;">${formatCurrency(parseFloat(convertedSale.total))}</span></div>
           </div>
           <div style="border-bottom:1px dashed #ccc;padding-bottom:8px;margin-bottom:8px;">
             <div style="display:flex;justify-content:space-between;"><span>วิธีชำระ:</span><span style="font-weight:600;">${payLabel}</span></div>
@@ -588,7 +588,7 @@ body{font-family:'Sarabun',sans-serif}
 .copy-label{text-align:right;margin-bottom:8px;font-size:10px}
 .copy-tag{border:1px solid #666;padding:2px 10px;border-radius:4px;font-weight:700;font-size:11px}
 .copy-num{margin-left:6px;color:#888}
-.header-bar{background:linear-gradient(135deg,#ea580c,#f97316);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
+.header-bar{background:linear-gradient(135deg,#2563eb,#2563eb);color:#fff;padding:14px 18px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
 .logo-box{width:72px;height:72px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 .logo-box img{width:100%;height:100%;object-fit:contain}
 .logo-ph{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.3)}
@@ -603,25 +603,25 @@ body{font-family:'Sarabun',sans-serif}
 .info-val{font-weight:600;color:#1a1a1a}
 .info-row{margin-bottom:4px}
 .buyer-section{border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;margin-bottom:10px;font-size:10.5px;background:#fefefe}
-.buyer-title{font-weight:700;font-size:11px;color:#ea580c;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
+.buyer-title{font-weight:700;font-size:11px;color:#2563eb;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0f0}
 .buyer-grid{display:flex;flex-wrap:wrap;gap:4px 20px}
 .buyer-item{min-width:45%}
 .buyer-item .bl{color:#888;font-size:9.5px}
 table.items{width:100%;border-collapse:collapse;margin-bottom:10px}
-table.items th{background:#fff7ed;border-top:2px solid #ea580c;border-bottom:2px solid #ea580c;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:.3px}
+table.items th{background:#eff6ff;border-top:2px solid #2563eb;border-bottom:2px solid #2563eb;padding:6px 5px;font-weight:700;font-size:9.5px;text-transform:uppercase;color:#92400e;letter-spacing:.3px}
 table.items td{padding:5px;border-bottom:1px solid #f0f0f0;font-size:10.5px}
 table.items .tc{text-align:center}
 table.items .tr{text-align:right}
 table.items tr.svc td{color:#b45309;font-style:italic}
-table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
+table.items tbody tr:last-child td{border-bottom:2px solid #2563eb}
 .summary-section{display:flex;justify-content:flex-end;margin-bottom:10px}
 .summary-box{width:260px}
 .s-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}
 .s-row.disc{color:#dc2626}
 .s-row.tax{color:#2563eb}
-.s-row.total{font-weight:700;font-size:15px;border-top:3px double #ea580c;padding-top:8px;margin-top:4px}
-.s-row.total .amt{color:#ea580c}
-.validity-bar{background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:8px 12px;text-align:center;font-size:10.5px;color:#92400e;font-weight:600;margin-bottom:10px}
+.s-row.total{font-weight:700;font-size:15px;border-top:3px double #2563eb;padding-top:8px;margin-top:4px}
+.s-row.total .amt{color:#2563eb}
+.validity-bar{background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 12px;text-align:center;font-size:10.5px;color:#92400e;font-weight:600;margin-bottom:10px}
 .note-section{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 12px;font-size:10px;color:#555;margin-bottom:10px}
 .note-section strong{color:#333}
 .sig-section{display:flex;justify-content:space-around;margin-top:24px;padding-top:12px;border-top:1px solid #e0e0e0}
@@ -630,7 +630,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 .sig-label{font-size:10px;font-weight:600;color:#333}
 .sig-sub{font-size:8.5px;color:#999;margin-top:1px}
 .footer{text-align:center;margin-top:12px;padding-top:8px;border-top:1px solid #eee}
-.footer-thanks{font-size:12px;font-weight:600;color:#ea580c}
+.footer-thanks{font-size:12px;font-weight:600;color:#2563eb}
 .footer-sub{font-size:9px;color:#aaa;margin-top:2px}
 @media print{body{margin:0;padding:0}.header-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}table.items th{-webkit-print-color-adjust:exact;print-color-adjust:exact}.validity-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style></head><body>${allPages}</body></html>`);
@@ -674,10 +674,10 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
           )}
           <Button variant="outline" size="sm" onClick={async () => {
             const { exportQuotationsExcel } = await loadExportExcel(); exportQuotationsExcel(filtered, storeSettings?.storeName || "ร้านแบตเตอรี่");
-          }} className="h-8 text-xs border-orange-200 hover:bg-orange-50 text-orange-700 gap-1 rounded-lg">
+          }} className="h-8 text-xs border-blue-200 hover:bg-blue-50 text-blue-700 gap-1 rounded-lg">
             <Download className="h-3.5 w-3.5" /> Excel
           </Button>
-          <Button className="gap-2 gradient-orange text-white rounded-xl shadow-luxury" onClick={openCreateModal}>
+          <Button className="gap-2 gradient-blue text-white rounded-xl shadow-luxury" onClick={openCreateModal}>
             <Plus className="h-4 w-4" /> สร้างใบเสนอราคา
           </Button>
         </div>
@@ -685,7 +685,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
 
       <div className="relative max-w-sm">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input placeholder="ค้นหาเลขที่ใบเสนอราคา, ชื่อลูกค้า..." value={searchQ} onChange={(e) => setSearchQ(e.target.value)} className="pl-10 rounded-xl border-orange-200" />
+        <Input placeholder="ค้นหาเลขที่ใบเสนอราคา, ชื่อลูกค้า..." value={searchQ} onChange={(e) => setSearchQ(e.target.value)} className="pl-10 rounded-xl border-blue-200" />
       </div>
 
       {/* List */}
@@ -713,7 +713,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
           const isExpanded = expandedId === qt.id;
           const isSelected = selectedIds.includes(qt.id);
           return (
-            <div key={qt.id} className={`rounded-xl border shadow-sm cursor-pointer transition-all ${isSelected ? "bg-red-50/50 border-red-200" : "bg-white border-orange-100/60 hover:shadow-luxury"}`}>
+            <div key={qt.id} className={`rounded-xl border shadow-sm cursor-pointer transition-all ${isSelected ? "bg-red-50/50 border-red-200" : "bg-white border-blue-100/60 hover:shadow-luxury"}`}>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 gap-3">
                 <div className="flex items-center gap-2 sm:gap-3 flex-1">
                   <button
@@ -734,7 +734,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 </div>
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3 justify-between sm:justify-end">
                   <div className="text-left sm:text-right">
-                    <div className="font-bold text-orange-600 text-sm sm:text-base">{formatCurrency(parseFloat(qt.total))}</div>
+                    <div className="font-bold text-blue-600 text-sm sm:text-base">{formatCurrency(parseFloat(qt.total))}</div>
                     <div className="text-xs text-muted-foreground truncate max-w-[120px] sm:max-w-none">{cust?.name || qt.buyerName || "-"}</div>
                   </div>
                   <div className="flex items-center gap-1 flex-wrap">
@@ -766,7 +766,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 </div>
               </div>
               {isExpanded && (
-                <div className="border-t border-orange-100 p-4 bg-orange-50/20">
+                <div className="border-t border-blue-100 p-4 bg-blue-50/20">
                   <table className="w-full text-xs mb-3">
                     <thead><tr className="text-muted-foreground"><th className="text-left py-1 font-medium">#</th><th className="text-left py-1 font-medium">รายการ</th><th className="text-center py-1 font-medium w-16">จำนวน</th><th className="text-right py-1 font-medium w-20">หน่วยละ</th><th className="text-right py-1 font-medium w-20">รวม</th></tr></thead>
                     <tbody>
@@ -786,7 +786,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                     {parseFloat(qt.serviceFee) > 0 && <div className="flex justify-between text-amber-700"><span>ค่าบริการ: {qt.serviceDescription || "-"}</span><span>{formatCurrency(parseFloat(qt.serviceFee))}</span></div>}
                     {parseFloat(qt.discount) > 0 && <div className="flex justify-between text-red-600"><span>ส่วนลด</span><span>-{formatCurrency(parseFloat(qt.discount))}</span></div>}
                     {qt.includeVat && <div className="flex justify-between text-blue-600"><span>ภาษี {qt.taxRate}%</span><span>{formatCurrency(parseFloat(qt.taxAmount || "0"))}</span></div>}
-                    <div className="flex justify-between font-bold text-sm pt-1 border-t"><span>ยอดรวม</span><span className="text-orange-600">{formatCurrency(parseFloat(qt.total))}</span></div>
+                    <div className="flex justify-between font-bold text-sm pt-1 border-t"><span>ยอดรวม</span><span className="text-blue-600">{formatCurrency(parseFloat(qt.total))}</span></div>
                   </div>
                   {qt.note && <div className="mt-2 text-xs text-muted-foreground">หมายเหตุ: {qt.note}</div>}
                   <div className="mt-2 text-xs text-muted-foreground">
@@ -803,7 +803,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
       {/* Create/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 backdrop-blur-sm overflow-auto py-2 sm:py-8">
-          <div className="w-full sm:max-w-2xl bg-white rounded-none sm:rounded-2xl shadow-luxury-lg border-0 sm:border border-orange-100 p-4 sm:p-6 sm:mx-4 min-h-screen sm:min-h-0">
+          <div className="w-full sm:max-w-2xl bg-white rounded-none sm:rounded-2xl shadow-luxury-lg border-0 sm:border border-blue-100 p-4 sm:p-6 sm:mx-4 min-h-screen sm:min-h-0">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base sm:text-lg font-bold">{editId ? "แก้ไขใบเสนอราคา" : "สร้างใบเสนอราคาใหม่"}</h2>
               <Button variant="ghost" size="icon" onClick={() => { setShowModal(false); resetForm(); }}><X className="h-5 w-5" /></Button>
@@ -866,7 +866,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                 <div className="flex items-center justify-between mb-2">
                   <Label className="text-sm font-semibold">รายการสินค้า/บริการ</Label>
                   <div className="flex gap-2">
-                    <Button type="button" variant="default" size="sm" className="text-xs h-8 gap-1.5 gradient-orange text-white shadow-sm" onClick={openProductBrowser}>
+                    <Button type="button" variant="default" size="sm" className="text-xs h-8 gap-1.5 gradient-blue text-white shadow-sm" onClick={openProductBrowser}>
                       <Package className="h-3.5 w-3.5" /> เลือกสินค้า
                     </Button>
                     <Button variant="outline" size="sm" className="text-xs h-8 gap-1" onClick={addCustomItem}><Plus className="h-3 w-3" /> เพิ่มรายการเอง</Button>
@@ -879,13 +879,13 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                   {productResults.length > 0 && (
                     <div className="absolute z-20 w-full mt-1 bg-white border rounded-lg shadow-lg max-h-48 overflow-auto">
                       {productResults.map((p: any) => (
-                        <div key={p.id} className="px-3 py-2 hover:bg-orange-50 cursor-pointer flex justify-between items-center text-xs border-b last:border-0" onClick={() => addProduct(p)}>
+                        <div key={p.id} className="px-3 py-2 hover:bg-blue-50 cursor-pointer flex justify-between items-center text-xs border-b last:border-0" onClick={() => addProduct(p)}>
                           <div>
                             <div className="font-medium">{p.name}</div>
                             {p.brand && <div className="text-muted-foreground text-[10px]">{p.brand} {p.model}</div>}
                           </div>
                           <div className="text-right">
-                            <div className="text-orange-600 font-semibold">{formatCurrency(parseFloat(p.sellPrice))}</div>
+                            <div className="text-blue-600 font-semibold">{formatCurrency(parseFloat(p.sellPrice))}</div>
                             <div className="text-[10px] text-muted-foreground">คงเหลือ {p.stock}</div>
                           </div>
                         </div>
@@ -903,7 +903,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                           <div className="w-16"><Input className="h-7 text-xs text-center" type="number" min={1} value={item.quantity} onChange={(e) => updateItem(idx, "quantity", parseInt(e.target.value) || 1)} /></div>
                           <div className="w-24"><Input className="h-7 text-xs text-right" placeholder="ราคา" value={item.unitPrice} onChange={(e) => updateItem(idx, "unitPrice", e.target.value)} /></div>
                           <div className="w-20"><Input className="h-7 text-xs text-right" placeholder="ส่วนลด" value={item.discount} onChange={(e) => updateItem(idx, "discount", e.target.value)} /></div>
-                          <div className="text-xs font-semibold text-right pt-1.5 w-24 text-orange-600">
+                          <div className="text-xs font-semibold text-right pt-1.5 w-24 text-blue-600">
                             {formatCurrency(parseFloat(item.unitPrice || "0") * item.quantity - parseFloat(item.discount || "0"))}
                           </div>
                         </div>
@@ -943,18 +943,18 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
               <div><Label className="text-xs">หมายเหตุ</Label><Input className="h-9" value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} /></div>
 
               {/* Summary */}
-              <div className="bg-orange-50 rounded-xl p-3 space-y-1 text-sm">
+              <div className="bg-blue-50 rounded-xl p-3 space-y-1 text-sm">
                 <div className="flex justify-between"><span>รวมสินค้า</span><span>{formatCurrency(subtotal)}</span></div>
                 {sfee > 0 && <div className="flex justify-between text-amber-700"><span>ค่าบริการ</span><span>{formatCurrency(sfee)}</span></div>}
                 {disc > 0 && <div className="flex justify-between text-red-600"><span>ส่วนลด</span><span>-{formatCurrency(disc)}</span></div>}
                 {form.includeVat && <div className="flex justify-between text-blue-600"><span>ภาษี {form.taxRate}%</span><span>{formatCurrency(tax)}</span></div>}
-                <div className="flex justify-between font-bold text-lg pt-1 border-t border-orange-200"><span>ยอดรวมสุทธิ</span><span className="text-orange-600">{formatCurrency(total)}</span></div>
+                <div className="flex justify-between font-bold text-lg pt-1 border-t border-blue-200"><span>ยอดรวมสุทธิ</span><span className="text-blue-600">{formatCurrency(total)}</span></div>
               </div>
             </div>
 
             {/* Actions */}
             <div className="flex gap-3 mt-4">
-              <Button className="flex-1 gradient-orange text-white rounded-xl h-10" disabled={saving || formItems.length === 0} onClick={handleSave}>
+              <Button className="flex-1 gradient-blue text-white rounded-xl h-10" disabled={saving || formItems.length === 0} onClick={handleSave}>
                 {saving ? "กำลังบันทึก..." : editId ? "บันทึกการแก้ไข" : "สร้างใบเสนอราคา"}
               </Button>
               <Button variant="outline" className="rounded-xl h-10" onClick={() => { setShowModal(false); resetForm(); }}>ยกเลิก</Button>
@@ -966,11 +966,11 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
       {/* Product Browser Modal */}
       {showProductBrowser && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="w-full sm:max-w-4xl max-h-[90vh] sm:max-h-[85vh] bg-white rounded-none sm:rounded-2xl shadow-luxury-lg border-0 sm:border border-orange-100 flex flex-col sm:mx-4">
+          <div className="w-full sm:max-w-4xl max-h-[90vh] sm:max-h-[85vh] bg-white rounded-none sm:rounded-2xl shadow-luxury-lg border-0 sm:border border-blue-100 flex flex-col sm:mx-4">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-orange">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-blue">
                   <Package className="h-5 w-5 text-white" />
                 </div>
                 <div>
@@ -1021,12 +1021,12 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                           onClick={() => addProductFromBrowser(row)}
                           className={`relative p-3 rounded-xl border cursor-pointer transition-all hover:shadow-md ${
                             alreadyAdded
-                              ? "border-orange-400 bg-orange-50 ring-2 ring-orange-200"
-                              : "border-gray-200 bg-white hover:border-orange-300 hover:bg-orange-50/50"
+                              ? "border-blue-400 bg-blue-50 ring-2 ring-blue-200"
+                              : "border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50/50"
                           }`}
                         >
                           {alreadyAdded && (
-                            <div className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold shadow">
+                            <div className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-blue-500 text-white flex items-center justify-center text-[10px] font-bold shadow">
                               {formItems.filter(i => i.productId === p.id).reduce((sum, i) => sum + i.quantity, 0)}
                             </div>
                           )}
@@ -1043,7 +1043,7 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
                             <div className="text-[10px] text-muted-foreground mb-1">{p.brand} {p.model}</div>
                           )}
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-bold text-orange-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
+                            <span className="text-sm font-bold text-blue-600">{formatCurrency(parseFloat(p.sellPrice))}</span>
                             <span className="text-[10px] text-muted-foreground">คงเหลือ {p.stock}</span>
                           </div>
                           {cat && (
@@ -1060,12 +1060,12 @@ table.items tbody tr:last-child td{border-bottom:2px solid #ea580c}
             {/* Footer */}
             <div className="flex items-center justify-between p-4 border-t border-gray-100 bg-gray-50/50">
               <div className="text-sm text-muted-foreground">
-                เลือกแล้ว <span className="font-semibold text-orange-600">{formItems.length}</span> รายการ
+                เลือกแล้ว <span className="font-semibold text-blue-600">{formItems.length}</span> รายการ
                 {formItems.length > 0 && (
                   <span> • รวม <span className="font-semibold">{formatCurrency(formItems.reduce((sum, item) => sum + parseFloat(item.unitPrice || "0") * item.quantity - parseFloat(item.discount || "0"), 0))}</span></span>
                 )}
               </div>
-              <Button className="gradient-orange text-white rounded-xl" onClick={() => setShowProductBrowser(false)}>
+              <Button className="gradient-blue text-white rounded-xl" onClick={() => setShowProductBrowser(false)}>
                 เสร็จสิ้น
               </Button>
             </div>

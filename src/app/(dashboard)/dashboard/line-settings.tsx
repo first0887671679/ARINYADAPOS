@@ -258,16 +258,16 @@ export default function LineSettings({ initialSettings }: { initialSettings: any
         </div>
 
         {/* Schedule Time */}
-        <div className="bg-orange-50 rounded-xl p-4 space-y-3">
+        <div className="bg-blue-50 rounded-xl p-4 space-y-3">
           <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-            <Clock className="h-4 w-4 text-orange-600" />
+            <Clock className="h-4 w-4 text-blue-600" />
             กำหนดเวลาส่งสรุปอัตโนมัติ
           </div>
           <label className="flex items-center gap-2 cursor-pointer text-sm">
             <Checkbox
               checked={autoSend}
               onCheckedChange={(v: boolean | "indeterminate") => setAutoSend(!!v)}
-              className="border-orange-400 data-[state=checked]:bg-orange-500"
+              className="border-blue-400 data-[state=checked]:bg-blue-500"
             />
             <span>เปิดใช้งานส่งอัตโนมัติ</span>
           </label>
@@ -276,7 +276,7 @@ export default function LineSettings({ initialSettings }: { initialSettings: any
           <div className="space-y-2">
             {reportTimes.map((t, i) => (
               <div key={i} className="flex items-center gap-2">
-                <span className="text-sm text-orange-600 w-16">เวลาที่ {i + 1}</span>
+                <span className="text-sm text-blue-600 w-16">เวลาที่ {i + 1}</span>
                 <Input
                   type="time"
                   value={t}
@@ -285,7 +285,7 @@ export default function LineSettings({ initialSettings }: { initialSettings: any
                     updated[i] = e.target.value;
                     setReportTimes(updated);
                   }}
-                  className="w-32 h-8 text-sm border-orange-200"
+                  className="w-32 h-8 text-sm border-blue-200"
                   disabled={!autoSend}
                 />
                 <span className="text-xs text-muted-foreground">น.</span>
@@ -311,7 +311,7 @@ export default function LineSettings({ initialSettings }: { initialSettings: any
             size="sm"
             disabled={!autoSend}
             onClick={() => setReportTimes([...reportTimes, "18:00"])}
-            className="h-8 text-xs border-orange-200 hover:bg-orange-100 text-orange-700 gap-1"
+            className="h-8 text-xs border-blue-200 hover:bg-blue-100 text-blue-700 gap-1"
           >
             <Plus className="h-3.5 w-3.5" />
             เพิ่มเวลาส่ง
@@ -346,7 +346,7 @@ export default function LineSettings({ initialSettings }: { initialSettings: any
             variant="outline"
             onClick={handleSendDaily}
             disabled={sending || !channelToken || !lineUserId}
-            className="gap-1.5 rounded-xl border-orange-200 hover:bg-orange-50 text-orange-700"
+            className="gap-1.5 rounded-xl border-blue-200 hover:bg-blue-50 text-blue-700"
           >
             {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             ส่งสรุปยอดขายวันนี้
@@ -369,7 +369,7 @@ export default function LineSettings({ initialSettings }: { initialSettings: any
             <span><strong>ทุกครั้งที่ขายสินค้า</strong> — แจ้งชื่อสินค้า จำนวน และยอดเงินทันที</span>
           </div>
           <div className="flex items-start gap-2">
-            <span className="text-orange-500 mt-0.5">●</span>
+            <span className="text-blue-500 mt-0.5">●</span>
             <span><strong>สรุปยอดขายรายวัน</strong> — กดปุ่ม "ส่งสรุปยอดขายวันนี้" หรือตั้งค่า Cron Job</span>
           </div>
         </div>

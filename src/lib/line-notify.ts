@@ -198,7 +198,7 @@ export async function sendLinePdfLink(
     bodyContents.push({ type: "separator", margin: "md" });
     bodyContents.push({ type: "box", layout: "horizontal", margin: "md", contents: [
       { type: "text", text: "ยอดรวมทั้งสิ้น", size: "md", color: "#333333", weight: "bold", flex: 5 },
-      { type: "text", text: `฿${doc.total}`, size: "lg", color: "#ea580c", weight: "bold", flex: 5, align: "end" },
+      { type: "text", text: `฿${doc.total}`, size: "lg", color: "#2563eb", weight: "bold", flex: 5, align: "end" },
     ]});
 
     // วิธีชำระ
@@ -231,20 +231,20 @@ export async function sendLinePdfLink(
               contents: [
                 { type: "image", url: doc.storeLogo, size: "xxs", aspectMode: "fit", flex: 0 },
                 { type: "box", layout: "vertical", flex: 4, contents: [
-                  { type: "text", text: doc.title, weight: "bold", size: "lg", color: "#ea580c" },
+                  { type: "text", text: doc.title, weight: "bold", size: "lg", color: "#2563eb" },
                   { type: "text", text: doc.storeName, size: "sm", color: "#666666", margin: "xs" },
                 ]},
               ],
               spacing: "md",
               alignItems: "center",
             }] : [
-              { type: "text", text: doc.title, weight: "bold", size: "xl", color: "#ea580c" },
+              { type: "text", text: doc.title, weight: "bold", size: "xl", color: "#2563eb" },
               { type: "text", text: doc.storeName, size: "sm", color: "#666666", margin: "sm" },
             ]),
             ...(doc.storeTaxId ? [{ type: "text", text: `เลขผู้เสียภาษี: ${doc.storeTaxId}`, size: "xxs", color: "#999999", margin: "xs" }] : []),
           ],
           paddingAll: "16px",
-          backgroundColor: "#FFF7ED",
+          backgroundColor: "#eff6ff",
         },
         body: {
           type: "box",
@@ -261,7 +261,7 @@ export async function sendLinePdfLink(
               type: "button",
               action: { type: "uri", label: "📄 ดาวน์โหลด PDF", uri: doc.pdfUrl },
               style: "primary",
-              color: "#ea580c",
+              color: "#2563eb",
               height: "sm",
             },
             ...(doc.imageUrl ? [{

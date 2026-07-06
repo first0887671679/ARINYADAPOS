@@ -55,7 +55,7 @@ export function getPaymentBadgeStyle(method: string): string {
     case "cash":
       return "bg-green-100 text-green-700 font-bold border border-green-300";
     case "transfer":
-      return "bg-orange-100 text-orange-600 border border-orange-200";
+      return "bg-blue-100 text-blue-600 border border-blue-200";
     case "credit":
       return "bg-red-100 text-red-700 border border-red-200";
     default:
